@@ -19,5 +19,14 @@
     "homepage": {
         "PopularNow": "當前熱門",
         "NewUploads": "最新上傳"
+    },
+    "tagsName": {
+        "Parodies": "同人:",
+        "Tags": "標籤:",
+        "Artists": "畫師:",
+        "Languages": "語言:",
+        "Categories": "分類:",
+        "Pages": "頁數:",
+        "Uploaded": "上傳時間:"
     }
 }

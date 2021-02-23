@@ -13,7 +13,7 @@
 
     // 語言
     const lang = 'zh_TW',
-          cdn = `//cdn.jsdelivr.net/gh/NekoChanTaiwan/Tampermonkey-Scripts@master/nHentai-Translator/lang/${lang}.json`
+          cdn = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json`
 
 
     // 引入 json
@@ -30,9 +30,15 @@
 
     // 網頁 class
     const className = {
+        container: '.container',
         menuLeft: '.menu.left',
         menuRight: '.menu.right',
-        popularNow: '.index-popular'
+        popularNow: '.index-popular',
+        tagsNameContainer: '.tag-container'
+    },
+    const idName = {
+        content: '#content',
+        tagsName: '#tags'
     }
 
     // 翻譯
@@ -51,8 +57,14 @@
         }
 
         // ========== 主頁 ==========
-        document.querySelector(`#content ${className.popularNow} > h2`).innerHTML = `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`
-        document.querySelector(`#content .container:nth-child(2) > h2`).innerHTML = `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`
+        document.querySelector(`${idName.content} ${className.popularNow} > h2`).innerHTML = `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`
+        document.querySelector(`${idName.content} ${className.container}:nth-child(3) > h2`).innerHTML = `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`
+
+        // ========== 本本 ==========
+        // document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}`)
+        for (let i = 1; i < Object.getOwnPropertyNames(json.tagsName).length + 1; i++) {
+            document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > a`).innerHTML = json.tagsName[Object.keys(json.tagsName).sort((a, b)=>a - b)[i - 1]]
+        }
     }
 
     // 固定 li 修改 a 標籤
