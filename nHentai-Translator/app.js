@@ -13,7 +13,7 @@
 
     // 語言
     const lang = 'zh_TW',
-          cdn = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json`
+          cdn = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`
 
 
     // 引入 json
