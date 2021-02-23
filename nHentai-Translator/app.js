@@ -35,7 +35,7 @@
         menuRight: '.menu.right',
         popularNow: '.index-popular',
         tagsNameContainer: '.tag-container'
-    },
+    }
     const idName = {
         content: '#content',
         tagsName: '#tags'
@@ -57,13 +57,14 @@
         }
 
         // ========== 主頁 ==========
-        document.querySelector(`${idName.content} ${className.popularNow} > h2`).innerHTML = `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`
-        document.querySelector(`${idName.content} ${className.container}:nth-child(3) > h2`).innerHTML = `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`
+        // document.querySelector(`${idName.content} ${className.popularNow} > h2`).innerHTML = `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`
+        // document.querySelector(`${idName.content} ${className.container}:nth-child(3) > h2`).innerHTML = `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`
 
         // ========== 本本 ==========
-        // document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}`)
-        for (let i = 1; i < Object.getOwnPropertyNames(json.tagsName).length + 1; i++) {
-            document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > a`).innerHTML = json.tagsName[Object.keys(json.tagsName).sort((a, b)=>a - b)[i - 1]]
+        for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.tagsName).length + 1; i++) {
+            // console.log(document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`))
+            span = document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`).innerHTML
+            document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).innerHTML = `${json.tagsName[Object.keys(json.tagsName).sort((a, b)=>a - b)[i - 1]]} <span class="tags">${span}</span>`
         }
     }
 
