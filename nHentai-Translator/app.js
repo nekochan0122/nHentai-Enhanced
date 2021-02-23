@@ -39,7 +39,8 @@
     // 網頁 id
     const idName = {
         content: '#content',
-        tagsName: '#tags'
+        tagsName: '#tags',
+        favorite: '#favorite'
     }
     // 偵測狀態
     let status = {
@@ -85,7 +86,10 @@
 
                 if (!status.login) {
                     let span = document.querySelector(`${className.buttons} > a:nth-child(1) > span > span`).outerHTML
-                    document.querySelector(`${className.buttons} > a:nth-child(1)`).innerHTML = `<i class="fas fa-heart"></i> <span>${json.book.buttons.Favroites}${span}</span><div class="top">${json.book.buttons1.top}<i></i></div>`
+                    document.querySelector(`${className.buttons} > a:nth-child(1)`).innerHTML = `<i class="fas fa-heart"></i> <span class="text">${json.book.buttons.Favorite}</span>&nbsp;${span}<div class="top">${json.book.buttons1.top}<i></i></div>`
+                } else {
+                    let span = document.querySelector(`${idName.favorite} > span:nth-child(3)`).outerHTML
+                    document.querySelector(idName.favorite).innerHTML = `<i class="fas fa-heart"></i> <span class="text">${json.book.buttons.Favorite}</span>&nbsp;${span}`
                 }
             }
         }
