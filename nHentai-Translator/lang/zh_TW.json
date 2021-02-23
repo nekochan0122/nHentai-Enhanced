@@ -33,7 +33,8 @@
             "Uploaded": "上傳時間:"
         },
         "buttons": {
-            "Favorite": "最愛",
+            "Favorite": "加入最愛",
+            "UnFavorite": "移除最愛",
             "Download": "下載"
         },
         "buttons1":{

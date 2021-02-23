@@ -14,7 +14,6 @@
     const lang = 'zh_TW',
           cdn = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`
 
-
     // 引入 json
     let json = null,
         request = new XMLHttpRequest()
@@ -40,7 +39,6 @@
     const idName = {
         content: '#content',
         tagsName: '#tags',
-        favorite: '#favorite'
     }
     // 偵測狀態
     let status = {
@@ -85,11 +83,9 @@
                 }
 
                 if (!status.login) {
-                    let span = document.querySelector(`${className.buttons} > a:nth-child(1) > span > span`).outerHTML
-                    document.querySelector(`${className.buttons} > a:nth-child(1)`).innerHTML = `<i class="fas fa-heart"></i> <span class="text">${json.book.buttons.Favorite}</span>&nbsp;${span}<div class="top">${json.book.buttons1.top}<i></i></div>`
+
                 } else {
-                    let span = document.querySelector(`${idName.favorite} > span:nth-child(3)`).outerHTML
-                    document.querySelector(idName.favorite).innerHTML = `<i class="fas fa-heart"></i> <span class="text">${json.book.buttons.Favorite}</span>&nbsp;${span}`
+
                 }
             }
         }
