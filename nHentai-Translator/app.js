@@ -50,7 +50,9 @@
         // ========== 導航 ==========
         if (document.querySelector(className.menuLeft) && document.querySelector(className.menuRight)) {
             // 左側
-            li(className.menuLeft, json.menuLeft)
+            for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
+                document.querySelector(`${className.menuLeft} li:nth-child(${i}) > a`).innerHTML = json.menuLeft[Object.keys(json.menuLeft).sort((a, b)=>a - b)[i - 1]]
+            }
 
             // 右側
             //  - 檢測是否有登入
@@ -90,12 +92,5 @@
             }
         }
 
-    }
-
-    // 固定 li 修改 a 標籤
-    function li (className, obj) {
-        for (let i = 1; i < Object.getOwnPropertyNames(obj).length + 1; i++) {
-            document.querySelector(`${className} li:nth-child(${i}) > a`).innerHTML = obj[Object.keys(obj).sort((a, b)=>a - b)[i - 1]]
-        }
     }
 })()
