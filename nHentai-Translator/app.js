@@ -62,7 +62,6 @@
 
         // ========== 本本 ==========
         for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.tagsName).length + 1; i++) {
-            // console.log(document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`))
             span = document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`).innerHTML
             document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).innerHTML = `${json.tagsName[Object.keys(json.tagsName).sort((a, b)=>a - b)[i - 1]]} <span class="tags">${span}</span>`
         }
