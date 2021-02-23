@@ -31,7 +31,8 @@
     // 網頁 class
     const className = {
         menuLeft: '.menu.left',
-        menuRight: '.menu.right'
+        menuRight: '.menu.right',
+        popularNow: '.index-popular'
     }
 
     // 翻譯
@@ -43,12 +44,15 @@
         // 右側
         //  - 檢測是否有登入
         if(!/Sign in/.test(document.querySelector(`${className.menuRight} li:nth-child(1) >a`).innerHTML)) {
-            document.querySelector(`${className.menuRight} li:nth-child(1) > a`).innerHTML = json.menuRight2.Favroites
-            document.querySelector(`${className.menuRight} li:nth-child(3) > a`).innerHTML = json.menuRight2.LogOut
+            document.querySelector(`${className.menuRight} li:nth-child(1) > a`).innerHTML = `<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`
+            document.querySelector(`${className.menuRight} li:nth-child(3) > a`).innerHTML = `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`
         } else {
             li(className.menuRight, json.menuRight1)
         }
 
+        // ========== 主頁 ==========
+        document.querySelector(`#content ${className.popularNow} > h2`).innerHTML = `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`
+        document.querySelector(`#content .container:nth-child(2) > h2`).innerHTML = `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`
     }
 
     // 固定 li 修改 a 標籤

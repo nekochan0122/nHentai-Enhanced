@@ -15,5 +15,9 @@
     "menuRight2": {
         "Favroites": "最愛",
         "LogOut": "登出"
+    },
+    "homepage": {
+        "PopularNow": "當前熱門",
+        "NewUploads": "最新上傳"
     }
 }
