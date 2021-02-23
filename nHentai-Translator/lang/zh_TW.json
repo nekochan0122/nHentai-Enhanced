@@ -32,6 +32,10 @@
             "Pages": "頁數:",
             "Uploaded": "上傳時間:"
         },
+        "buttons": {
+            "Favorite": "最愛",
+            "Download": "下載"
+        },
         "buttons1":{
             "top": "你必須登入才可以加到最愛"
         }

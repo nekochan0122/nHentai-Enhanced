@@ -34,7 +34,7 @@
         menuRight: '.menu.right',
         popularNow: '.index-popular',
         tagsNameContainer: '.tag-container',
-        buttons: 'buttons'
+        buttons: '.buttons'
     }
     // 網頁 id
     const idName = {
@@ -83,10 +83,9 @@
                     document.querySelector(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).innerHTML = `${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`
                 }
 
-                if (status.login) {
-                    let top = document.querySelector(`${className.buttons} > a:nth-child(1) > .top`).outerHTML
+                if (!status.login) {
                     let span = document.querySelector(`${className.buttons} > a:nth-child(1) > span > span`).outerHTML
-                    document.querySelector(`${className.buttons} > a:nth-child(1)`).innerHTML = `<i class="fas fa-heart"></i> <span>${json.book.buttons1.top}${span}</span>${top}`
+                    document.querySelector(`${className.buttons} > a:nth-child(1)`).innerHTML = `<i class="fas fa-heart"></i> <span>${json.book.buttons.Favroites}${span}</span><div class="top">${json.book.buttons1.top}<i></i></div>`
                 }
             }
         }
