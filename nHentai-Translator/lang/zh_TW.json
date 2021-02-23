@@ -1,0 +1,19 @@
+{
+    "menuLeft": {
+        "Random": "隨機",
+        "Tags": "標籤",
+        "Artists": "畫師",
+        "Characters": "角色",
+        "Parodies": "同人",
+        "Groups": "群組",
+        "Info": "資訊"
+    },
+    "menuRight1": {
+        "SignIn": "登入",
+        "Register": "註冊"
+    },
+    "menuRight2": {
+        "Favroites": "最愛",
+        "LogOut": "登出"
+    }
+}
