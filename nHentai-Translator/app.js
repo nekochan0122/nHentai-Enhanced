@@ -50,14 +50,13 @@ $(() => {
         login: false
     }
 
-    // 翻譯
     function main() {
         // ========== 導航 ==========
         if ($(className.menuLeft)[0] && $(className.menuRight)[0]) {
             console.log('偵測到導航欄')
             // 左側
             for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
-                $(`${className.menuLeft} li:nth-child(${i}) > a`).html(json.menuLeft[Object.keys(json.menuLeft).sort((a, b)=>a - b)[i - 1]])
+                $(`${className.menuLeft} li:nth-child(${i}) > a`).html(json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
             }
 
             // 右側
@@ -74,46 +73,44 @@ $(() => {
                 content()
             }
         }
+    }
 
-        // 主要內容
-        function content() {
-            // ========== 主頁 ==========
-            if ($(`${idName.content} ${className.popularNow}`)[0]) {
-                console.log('偵測到主頁')
-                $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
-                $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
-            }
-
-            // ========== 本本頁面 ==========
-            if ($(`${idName.tagsName}`)[0]) {
-                console.log('偵測到本本')
-
-                // 左側標籤名稱
-                for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
-                    span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
-                    $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
-                }
-
-                // 右側標籤列表
-                const tags = $("#tags > .tag-container .tags a .name")
-                for (let i = 0; i < tags.length; i++) {
-                    const tag = tags.eq(i)
-                    console.log(`發現標籤：${tag.html()}`)
-                    if (json.Tags.hasOwnProperty(tag.html())) {
-                        console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
-                        tag.html(json.Tags[tag.html()])
-                    }
-                }
-
-                // 更多類似的
-                $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
-
-
-                // if (!status.login) {
-                // } else {
-                // }
-            }
+    function content() {
+        // ========== 主頁 ==========
+        if ($(`${idName.content} ${className.popularNow}`)[0]) {
+            console.log('偵測到主頁')
+            $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
+            $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
         }
 
+        // ========== 本本頁面 ==========
+        if ($(`${idName.tagsName}`)[0]) {
+            console.log('偵測到本本')
+
+            // 左側標籤名稱
+            for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
+                span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
+                $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
+            }
+
+            // 右側標籤列表
+            const tags = $("#tags > .tag-container .tags a .name")
+            for (let i = 0; i < tags.length; i++) {
+                const tag = tags.eq(i)
+                console.log(`發現標籤：${tag.html()}`)
+                if (json.Tags.hasOwnProperty(tag.html())) {
+                    console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
+                    tag.html(json.Tags[tag.html()])
+                }
+            }
+
+            // 更多類似的
+            $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
+
+
+            // if (!status.login) {
+            // } else {
+            // }
+        }
     }
 })
