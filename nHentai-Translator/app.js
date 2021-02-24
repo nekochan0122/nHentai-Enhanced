@@ -85,38 +85,30 @@ $(() => {
             // ========== 本本頁面 ==========
             if ($(`${idName.tagsName}`)[0]) {
                 console.log('偵測到本本')
+
+                // 左側標籤名稱
                 for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
                     span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
                     $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
                 }
 
-                $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
-
+                // 右側標籤列表
                 const tags = $("#tags > .tag-container .tags a .name")
-                // console.log(tags)
-                // console.log(tags.length)
-                // console.log(tags[4].innerHTML)
-
                 for (let i = 0; i < tags.length; i++) {
-                    // console.log(tags[i].innerHTML)
-
-                    // if (tags[i].innerHTML) {
-
-                    // }
+                    const tag = tags.eq(i)
+                    console.log(`發現標籤：${tag.html()}`)
+                    if (json.Tags.hasOwnProperty(tag.html())) {
+                        console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
+                        tag.html(json.Tags[tag.html()])
+                    }
                 }
 
-                // for (let key in json.book.Tags) {
-                //     console.log(key, json.book.Tags[key])
-                // }
+                // 更多類似的
+                $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
 
-                // Object.getOwnPropertyNames(json.book.Tags).forEach(key => {
-                //     console.log(key, json.book.Tags[key])
-                // })
 
                 // if (!status.login) {
-
                 // } else {
-
                 // }
             }
         }
