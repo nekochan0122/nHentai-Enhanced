@@ -51,8 +51,11 @@ $(() => {
     request.send(null)
     request.onload = () => {
         if (request.status === 200) {
+            console.log('json成功獲取')
             json = JSON.parse(request.responseText)
             nav()
+        } else {
+            console.log('json獲取失敗')
         }
     }
 })
