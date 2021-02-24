@@ -1,4 +1,4 @@
-// 開發中
+// ========== 開發中 ==========
 
 // ==UserScript==
 // @name         nHentai 翻譯
@@ -91,6 +91,7 @@ function content() {
     // ========== 主頁 ==========
     if ($(`${idName.content} ${className.popularNow}`)[0]) {
         console.log('偵測到主頁')
+
         $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
         $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
     }
