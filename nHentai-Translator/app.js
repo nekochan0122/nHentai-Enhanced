@@ -8,6 +8,8 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 // ==/UserScript==
 
+// 開發中
+
 const $ = window.$
 
 $(() => {
