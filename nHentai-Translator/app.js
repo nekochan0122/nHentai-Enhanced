@@ -26,7 +26,7 @@ $(() => {
     request.onload = () => {
         if (request.status === 200) {
             json = JSON.parse(request.responseText)
-            main()
+            nav()
         }
     }
 
@@ -50,7 +50,10 @@ $(() => {
         login: false
     }
 
-    function main() {
+    /**
+     * nav 導航區
+     */
+    function nav() {
         // ========== 導航 ==========
         if ($(className.menuLeft)[0] && $(className.menuRight)[0]) {
             console.log('偵測到導航欄')
@@ -75,6 +78,9 @@ $(() => {
         }
     }
 
+    /**
+     * content 內容區
+     */
     function content() {
         // ========== 主頁 ==========
         if ($(`${idName.content} ${className.popularNow}`)[0]) {
@@ -94,15 +100,7 @@ $(() => {
             }
 
             // 右側標籤列表
-            const tags = $("#tags > .tag-container .tags a .name")
-            for (let i = 0; i < tags.length; i++) {
-                const tag = tags.eq(i)
-                console.log(`發現標籤：${tag.html()}`)
-                if (json.Tags.hasOwnProperty(tag.html())) {
-                    console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
-                    tag.html(json.Tags[tag.html()])
-                }
-            }
+            tagsTranslator($("#tags > .tag-container .tags a .name"))
 
             // 更多類似的
             $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
@@ -111,6 +109,21 @@ $(() => {
             // if (!status.login) {
             // } else {
             // }
+        }
+    }
+
+    /**
+     * 翻譯標籤
+     * @param {Object} tags jQuery DOM
+     */
+    function tagsTranslator (tags) {
+        for (let i = 0; i < tags.length; i++) {
+            const tag = tags.eq(i)
+            console.log(`發現標籤：${tag.html()}`)
+            if (json.Tags.hasOwnProperty(tag.html())) {
+                console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
+                tag.html(json.Tags[tag.html()])
+            }
         }
     }
 })
