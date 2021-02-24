@@ -92,6 +92,27 @@ $(() => {
 
                 $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
 
+                const tags = $("#tags > .tag-container .tags a .name")
+                // console.log(tags)
+                // console.log(tags.length)
+                // console.log(tags[4].innerHTML)
+
+                for (let i = 0; i < tags.length; i++) {
+                    // console.log(tags[i].innerHTML)
+
+                    // if (tags[i].innerHTML) {
+
+                    // }
+                }
+
+                // for (let key in json.book.Tags) {
+                //     console.log(key, json.book.Tags[key])
+                // }
+
+                // Object.getOwnPropertyNames(json.book.Tags).forEach(key => {
+                //     console.log(key, json.book.Tags[key])
+                // })
+
                 // if (!status.login) {
 
                 // } else {
