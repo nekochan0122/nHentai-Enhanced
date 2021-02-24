@@ -10,7 +10,7 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 // ==/UserScript==
 
-// 定義 jQuery 變量，防止 Tampermonkey 出現錯誤提示
+// jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
 
 // 設定
