@@ -44,6 +44,7 @@ let json = null,
     login: false
 }
 
+// 網頁讀取完畢
 $(() => {
     // 引入 json
     request.open('get', data)
