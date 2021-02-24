@@ -74,14 +74,13 @@ function nav() {
         if(!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
             $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
             $(`${className.menuRight} li:nth-child(3) > a`).html(`<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
-            status.login = true
-            content()
+            status.login = true // 已登入
         } else {
             $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
             $(`${className.menuRight} li:nth-child(2) > a`).html(`<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
-            status.login = false
-            content()
+            status.login = false // 未登入
         }
+        content()
     }
 }
 
