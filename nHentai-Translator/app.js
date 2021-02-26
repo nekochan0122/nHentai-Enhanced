@@ -81,21 +81,23 @@ $(() => {
 /**
  * nav 導航
  */
-function nav() {
+function nav () {
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
-        $(`${className.menuLeft} li:nth-child(${i}) > a`).html(json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
+        $H(`${className.menuLeft} li:nth-child(${i}) > a`, json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
     }
 
     // 右側
     //  - 檢測是否有登入
-    if(!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
-        $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
-        $(`${className.menuRight} li:nth-child(3) > a`).html(`<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
+    if (!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
+        $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
+        $H(`${className.menuRight} li:nth-child(3) > a`, `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
+
         status.login = true // 已登入
     } else {
-        $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
-        $(`${className.menuRight} li:nth-child(2) > a`).html(`<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
+        $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
+        $H(`${className.menuRight} li:nth-child(2) > a`, `<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
+
         status.login = false // 未登入
     }
 }
@@ -103,28 +105,36 @@ function nav() {
 /**
  * homepage 主頁
  */
-function homepage() {
+function homepage () {
     // 當前熱門
-    $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
+    $H(`${idName.content} ${className.popularNow} > h2`, `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
+
     // 最新上傳
-    $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
+    $H(`${idName.content} ${className.container}:nth-child(3) > h2`, `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
 }
 
 /**
  * book 本本
  */
-function book() {
-    // 左側標籤名稱
+function book () {
+    // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
         span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
-        $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
+        $H(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`, `${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
     }
 
     // 右側標籤列表
     tagsTranslator($("#tags > .tag-container .tags a .name"))
 
     // 更多類似的
-    $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
+    $H(`${idName.relatedContainer} > h2`, json.book.MoreLikeThis)
+}
+
+/**
+ * $(selector).html(string) 語法糖
+ */
+function $H (selector, string) {
+    $(selector).html(string)
 }
 
 /**
