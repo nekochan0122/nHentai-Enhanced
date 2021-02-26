@@ -54,29 +54,37 @@ $(() => {
             console.log('JSON讀取成功')
             json = JSON.parse(request.responseText)
 
-            // 導航欄
-            if ($('nav[role="navigation"]')[0]) {
-                console.log('偵測到導航欄')
-                nav()
-
-                // 主頁
-                if ($(`${idName.content} ${className.popularNow}`)[0]) {
-                    console.log('偵測到主頁')
-                    homepage()
-
-                // 本本
-                } else if ($(`${idName.tagsName}`)[0]) {
-                    console.log('偵測到本本')
-                    book()
-                }
-
-            }
-
+            init() // 初始化
         } else {
             console.log('JSON讀取失敗')
         }
     }
 })
+
+/**
+ * init 初始化
+ * 偵測元素是否存在。
+ */
+function init () {
+    // 導航欄
+    if ($('nav[role="navigation"]')[0]) {
+        console.log('偵測到導航欄')
+        nav()
+
+        // 主頁
+        if ($(`${idName.content} ${className.popularNow}`)[0]) {
+            console.log('偵測到主頁')
+            homepage()
+
+        // 本本
+        } else if ($(`${idName.tagsName}`)[0]) {
+            console.log('偵測到本本')
+            book()
+        }
+
+    }
+}
+
 
 /**
  * nav 導航
