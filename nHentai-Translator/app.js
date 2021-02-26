@@ -35,7 +35,7 @@ idName = {
     relatedContainer: '#related-container'
 },
 
-// 引入 json 用的請求變量
+// 引入 JSON 用的請求變量
 request = new XMLHttpRequest()
 
 // 預先定義變量
@@ -46,80 +46,85 @@ let json = null,
 
 // 網頁讀取完畢
 $(() => {
-    // 引入 json
+    // 引入 JSON
     request.open('get', data)
     request.send(null)
     request.onload = () => {
         if (request.status === 200) {
-            console.log('json成功獲取')
+            console.log('JSON讀取成功')
             json = JSON.parse(request.responseText)
-            nav()
+
+            // 導航欄
+            if ($('nav[role="navigation"]')[0]) {
+                console.log('偵測到導航欄')
+                nav()
+
+                // 主頁
+                if ($(`${idName.content} ${className.popularNow}`)[0]) {
+                    console.log('偵測到主頁')
+                    homepage()
+
+                // 本本
+                } else if ($(`${idName.tagsName}`)[0]) {
+                    console.log('偵測到本本')
+                    book()
+                }
+
+            }
+
         } else {
-            console.log('json獲取失敗')
+            console.log('JSON讀取失敗')
         }
     }
 })
 
 /**
- * nav 導航區
+ * nav 導航
  */
 function nav() {
-    // ========== 導航 ==========
-    if ($(className.menuLeft)[0] && $(className.menuRight)[0]) {
-        console.log('偵測到導航欄')
-        // 左側
-        for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
-            $(`${className.menuLeft} li:nth-child(${i}) > a`).html(json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
-        }
+    // 左側
+    for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
+        $(`${className.menuLeft} li:nth-child(${i}) > a`).html(json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
+    }
 
-        // 右側
-        //  - 檢測是否有登入
-        if(!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
-            $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
-            $(`${className.menuRight} li:nth-child(3) > a`).html(`<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
-            status.login = true // 已登入
-        } else {
-            $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
-            $(`${className.menuRight} li:nth-child(2) > a`).html(`<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
-            status.login = false // 未登入
-        }
-        content()
+    // 右側
+    //  - 檢測是否有登入
+    if(!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
+        $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
+        $(`${className.menuRight} li:nth-child(3) > a`).html(`<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
+        status.login = true // 已登入
+    } else {
+        $(`${className.menuRight} li:nth-child(1) > a`).html(`<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
+        $(`${className.menuRight} li:nth-child(2) > a`).html(`<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
+        status.login = false // 未登入
     }
 }
 
 /**
- * content 內容區
+ * homepage 主頁
  */
-function content() {
-    // ========== 主頁 ==========
-    if ($(`${idName.content} ${className.popularNow}`)[0]) {
-        console.log('偵測到主頁')
+function homepage() {
+    // 當前熱門
+    $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
+    // 最新上傳
+    $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
+}
 
-        $(`${idName.content} ${className.popularNow} > h2`).html(`<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
-        $(`${idName.content} ${className.container}:nth-child(3) > h2`).html(`<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
+/**
+ * book 本本
+ */
+function book() {
+    // 左側標籤名稱
+    for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
+        span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
+        $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
     }
 
-    // ========== 本本頁面 ==========
-    if ($(`${idName.tagsName}`)[0]) {
-        console.log('偵測到本本')
+    // 右側標籤列表
+    tagsTranslator($("#tags > .tag-container .tags a .name"))
 
-        // 左側標籤名稱
-        for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
-            span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
-            $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`).html(`${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
-        }
-
-        // 右側標籤列表
-        tagsTranslator($("#tags > .tag-container .tags a .name"))
-
-        // 更多類似的
-        $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
-
-
-        // if (!status.login) {
-        // } else {
-        // }
-    }
+    // 更多類似的
+    $(`${idName.relatedContainer} > h2`).html(json.book.MoreLikeThis)
 }
 
 /**
