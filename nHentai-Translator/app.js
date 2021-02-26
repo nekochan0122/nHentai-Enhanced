@@ -16,7 +16,7 @@ const $ = window.$,
 // 設定
 lang = 'zh_TW',
 data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`,
-debug = false,
+debug = true,
 
 // 元素 class
 className = {
@@ -32,7 +32,8 @@ className = {
 idName = {
     content: '#content',
     tagsName: '#tags',
-    relatedContainer: '#related-container'
+    relatedContainer: '#related-container',
+    showMoreImagesButton: '#show-more-images-button'
 },
 
 // 引入 JSON 用的請求變量
@@ -51,12 +52,12 @@ $(() => {
     request.send(null)
     request.onload = () => {
         if (request.status === 200) {
-            console.log('JSON讀取成功')
+            debug ? console.log('JSON讀取成功') : null
             json = JSON.parse(request.responseText)
 
             init() // 初始化
         } else {
-            console.log('JSON讀取失敗')
+            debug ? console.log('JSON讀取失敗') : null
         }
     }
 })
@@ -68,20 +69,22 @@ $(() => {
 function init () {
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
-        console.log('偵測到導航欄')
+        debug ? console.log('偵測到導航欄') : null
         nav()
 
         // 主頁
         if ($(`${idName.content} ${className.popularNow}`)[0]) {
-            console.log('偵測到主頁')
+            debug ? console.log('偵測到主頁') : null
             homepage()
 
         // 本本
         } else if ($(`${idName.tagsName}`)[0]) {
-            console.log('偵測到本本')
+            debug ? console.log('偵測到本本') : null
             book()
         }
 
+    } else {
+        debug ? console.log('初始化失敗，找不到指定的元素：nav[role="navigation"]') : null
     }
 }
 
@@ -134,6 +137,9 @@ function book () {
     // 右側標籤列表
     tagsTranslator($("#tags > .tag-container .tags a .name"))
 
+    // 顯示更多
+    $H(`${idName.showMoreImagesButton}`, `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowMoreImagesButton}</span>`)
+
     // 更多類似的
     $H(`${idName.relatedContainer} > h2`, json.book.MoreLikeThis)
 }
@@ -152,9 +158,9 @@ function $H (selector, string) {
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
         const tag = tags.eq(i)
-        console.log(`發現標籤：${tag.html()}`)
+        debug ? console.log(`發現標籤：${tag.html()}`) : null
         if (json.Tags.hasOwnProperty(tag.html())) {
-            console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
+            debug ? console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`) : null
             tag.html(json.Tags[tag.html()])
         }
     }
