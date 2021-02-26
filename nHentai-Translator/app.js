@@ -33,7 +33,8 @@ idName = {
     content: '#content',
     tagsName: '#tags',
     relatedContainer: '#related-container',
-    showMoreImagesButton: '#show-more-images-button'
+    showMoreImagesButton: '#show-more-images-button',
+    showAllImagesButton: 'show-all-images-button'
 },
 
 // 引入 JSON 用的請求變量
@@ -139,6 +140,9 @@ function book () {
 
     // 顯示更多
     $H(`${idName.showMoreImagesButton}`, `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowMoreImagesButton}</span>`)
+
+    // 顯示全部
+    $H(`${idName.showAllImagesButton}`, `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowAllImagesButton}</span>`)
 
     // 更多類似的
     $H(`${idName.relatedContainer} > h2`, json.book.MoreLikeThis)
