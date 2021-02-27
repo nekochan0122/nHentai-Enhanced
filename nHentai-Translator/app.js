@@ -154,7 +154,14 @@ function book () {
     }
 
     // 時間
-    timeTranslator()
+    $H('time', timeTranslator($('time').html()))
+    $("time").bind('DOMNodeInserted', function() {
+        let time = timeTranslator(this.innerHTML)
+        if (this.innerHTML !== time) {
+            console.log(`偵測到時間發生變化：${this.innerHTML}`)
+            this.innerHTML = time
+        }
+    })
 }
 
 /**
@@ -187,9 +194,12 @@ function tagsTranslator (tags) {
     }
 }
 
-function timeTranslator () {
-    for (let i = 0, text = ''; i < $('time').length; i++) {
-        text = $('time').eq(i).html()
+/**
+ * 翻譯時間
+ * @param {Object} string 時間字符串
+ */
+function timeTranslator (string) {
+    return string
         .replace('years', json.book.Time.Years)
         .replace('year', json.book.Time.Year)
         .replace('months', json.book.Time.Months)
@@ -203,7 +213,4 @@ function timeTranslator () {
         .replace('seconds', json.book.Time.Seconds)
         .replace('second', json.book.Time.Second)
         .replace('ago', json.book.Time.Ago)
-
-        $('time').eq(i).html(text)
-    }
 }
