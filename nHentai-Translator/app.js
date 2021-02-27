@@ -18,25 +18,6 @@ lang = 'zh_TW',
 data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`,
 debug = true,
 
-// 元素 class
-className = {
-    container: '.container',
-    menuLeft: '.menu.left',
-    menuRight: '.menu.right',
-    popularNow: '.index-popular',
-    tagsNameContainer: '.tag-container',
-    buttons: '.buttons'
-},
-
-// 元素 id
-idName = {
-    content: '#content',
-    tagsName: '#tags',
-    relatedContainer: '#related-container',
-    showMoreImagesButton: '#show-more-images-button',
-    showAllImagesButton: 'show-all-images-button'
-},
-
 // 引入 JSON 用的請求變量
 request = new XMLHttpRequest()
 
@@ -74,12 +55,12 @@ function init () {
         nav()
 
         // 主頁
-        if ($(`${idName.content} ${className.popularNow}`)[0]) {
+        if ($('#content .index-popular')[0]) {
             debugConsole('偵測到主頁')
             homepage()
 
         // 本本
-        } else if ($(`${idName.tagsName}`)[0]) {
+        } else if ($('#tags')[0]) {
             debugConsole('偵測到本本')
             book()
         }
@@ -96,23 +77,23 @@ function init () {
 function nav () {
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
-        $H(`${className.menuLeft} li:nth-child(${i}) > a`, json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
+        $H(`.menu.left li:nth-child(${i}) > a`, json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
     }
 
     // 右側
     //  - 檢測是否有登入
-    if (!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
+    if (!/Sign in/.test($('.menu.right li:nth-child(1) >a').html())) {
         // 最愛
-        $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
+        $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
         // 登出
-        $H(`${className.menuRight} li:nth-child(3) > a`, `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
+        $H('.menu.right li:nth-child(3) > a', `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
 
         status.login = true // 已登入
     } else {
         // 登入
-        $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
+        $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
         // 註冊
-        $H(`${className.menuRight} li:nth-child(2) > a`, `<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
+        $H('.menu.right li:nth-child(2) > a', `<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
 
         status.login = false // 未登入
     }
@@ -123,10 +104,10 @@ function nav () {
  */
 function homepage () {
     // 當前熱門
-    $H(`${idName.content} ${className.popularNow} > h2`, `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
+    $H('#content .index-popular > h2', `<i class="fa fa-fire color-icon"></i> ${json.homepage.PopularNow}`)
 
     // 最新上傳
-    $H(`${idName.content} ${className.container}:nth-child(3) > h2`, `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
+    $H('#content .container:nth-child(3) > h2', `<i class="fa fa-box-tissue color-icon"></i> ${json.homepage.NewUploads}`)
 }
 
 /**
@@ -135,23 +116,38 @@ function homepage () {
 function book () {
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.book.tagsName).length + 1; i++) {
-        span = $(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i}) > span`)[0].outerHTML
-        $H(`${idName.tagsName} > ${className.tagsNameContainer}:nth-child(${i})`, `${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
+        span = $(`#tags > .tag-container:nth-child(${i}) > span`)[0].outerHTML
+        $H(`#tags > .tag-container:nth-child(${i})`, `${json.book.tagsName[Object.keys(json.book.tagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
     }
 
     // 右側標籤列表
     tagsTranslator($("#tags > .tag-container .tags a .name"))
 
-    // 顯示更多
-    $H(`${idName.showMoreImagesButton}`, `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowMoreImagesButton}</span>`)
+    // 偵測頁數 & 按紐
+    const page = $('.thumb-container').length
+    debugConsole(`目前頁數：${page}`)
+    if (page > 75) {
+        debugConsole(`頁數：${page}，確定大於 75 `)
 
-    // 顯示全部
-    $H(`${idName.showAllImagesButton}`, `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowAllImagesButton}</span>`)
+        // 顯示更多
+        $H('#show-more-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowMoreImagesButton}</span>`)
+
+        // 顯示全部
+        $H('#show-all-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowAllImagesButton}</span>`)
+    }
+
 
     // 更多類似的
-    $H(`${idName.relatedContainer} > h2`, json.book.MoreLikeThis)
+    $H('#related-container > h2', json.book.MoreLikeThis)
 }
 
+
+/**
+ * $(selector).html(string) 語法糖
+ */
+function $H (selector, string) {
+    $(selector)[0] ? $(selector).html(string) : debugConsole(`翻譯失敗，選擇器：${selector}`)
+}
 
 /**
  * debug ? console.log(string) 語法糖
@@ -159,13 +155,6 @@ function book () {
  */
 function debugConsole (string) {
     debug ? console.log(string) : null
-}
-
-/**
- * $(selector).html(string) 語法糖
- */
-function $H (selector, string) {
-    $(selector).html(string)
 }
 
 /**
