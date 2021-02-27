@@ -43,6 +43,21 @@
             "Or": "或",
             "Register": "註冊",
             "ToPostAComment": "和其他基友一起討論。"
+        },
+        "Time": {
+            "Year": "年",
+            "Years": "年",
+            "Month": "月",
+            "Months": "月",
+            "Day": "日",
+            "Days": "日",
+            "Hour": "時",
+            "Hours": "時",
+            "Minute": "分",
+            "Minutes": "分",
+            "Second": "秒",
+            "Seconds": "秒",
+            "Ago": "前"
         }
     },
     "Tags": {

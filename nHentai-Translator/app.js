@@ -152,8 +152,10 @@ function book () {
         // 登入或 註冊 和其他基友一起討論。
         $H('#comment-post-container > div > p', `<a class="login-comment" href="/login/">${json.book.NoLogin.Login}</a> ${json.book.NoLogin.Or} <a class="login-comment" href="/register/">${json.book.NoLogin.Register}</a> ${json.book.NoLogin.ToPostAComment}`)
     }
-}
 
+    // 時間
+    timeTranslator()
+}
 
 /**
  * $(selector).html(string) 語法糖
@@ -183,4 +185,8 @@ function tagsTranslator (tags) {
             tag.html(json.Tags[tag.html()])
         }
     }
+}
+
+function timeTranslator () {
+    console.log($(time))
 }
