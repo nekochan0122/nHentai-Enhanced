@@ -64,6 +64,7 @@ function init () {
             }
         }
 
+        // 確保在執行 ready function 之前，獲取登入狀態
         nav(ready)
 
     } else {
@@ -74,6 +75,7 @@ function init () {
 
 /**
  * nav 導航
+ * @param {callback} callback - 執行完 nav 後要執行的 function
  */
 function nav (callback) {
     // 左側
@@ -166,22 +168,24 @@ function book () {
 
 /**
  * $(selector).html(string) 語法糖
+ * @param {string} selector - 選擇器
+ * @param {string} text - 更改的內容
  */
-function $H (selector, string) {
-    $(selector)[0] ? $(selector).html(string) : debugConsole(`翻譯失敗，選擇器：${selector}`)
+function $H (selector, text) {
+    $(selector)[0] ? $(selector).html(text) : debugConsole(`翻譯失敗，選擇器：${selector}`)
 }
 
 /**
  * debug ? console.log(string) 語法糖
- * @param {*} string 要顯示的提示
+ * @param {string} text - 顯示的文字
  */
-function debugConsole (string) {
-    debug ? console.log(string) : null
+function debugConsole (text) {
+    debug ? console.log(text) : null
 }
 
 /**
  * 翻譯標籤
- * @param {Object} tags jQuery DOM
+ * @param {object} tags - jQuery DOM
  */
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
@@ -196,10 +200,10 @@ function tagsTranslator (tags) {
 
 /**
  * 翻譯時間
- * @param {Object} string 時間字符串
+ * @param {string} time - 時間字符串
  */
-function timeTranslator (string) {
-    return string
+function timeTranslator (time) {
+    return time
         .replace('years', json.book.Time.Years)
         .replace('year', json.book.Time.Year)
         .replace('months', json.book.Time.Months)
