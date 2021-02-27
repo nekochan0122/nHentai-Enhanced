@@ -189,7 +189,7 @@ function tagsTranslator (tags) {
 
 function timeTranslator () {
     for (let i = 0, text = ''; i < $('time').length; i++) {
-        text = $('time')[i].innerHTML
+        text = $('time').eq(i).html()
         .replace('years', json.book.Time.Years)
         .replace('year', json.book.Time.Year)
         .replace('months', json.book.Time.Months)
@@ -204,6 +204,6 @@ function timeTranslator () {
         .replace('second', json.book.Time.Second)
         .replace('ago', json.book.Time.Ago)
 
-        $('time')[i].innerHTML = text
+        $('time').eq(i).html(text)
     }
 }
