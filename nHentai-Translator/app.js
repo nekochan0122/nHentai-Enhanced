@@ -1,7 +1,7 @@
 // ========== 開發中 ==========
 
 // ==UserScript==
-// @name         nHentai 翻譯
+// @name         nHentai-Translator
 // @namespace    https://github.com/NekoChanTaiwan
 // @version      0.1
 // @description  如題
@@ -148,7 +148,10 @@ function book () {
         $('#comment_form > textarea').attr('placeholder',`${json.book.CommentFormPlaceHolder}`)
         // 發送
         $H('#comment_form > div > button', `<i class="fa fa-comment"></i> ${json.book.Comment}`)
-    } else {}
+    } else {
+        // 登入或 註冊 和其他基友一起討論。
+        $H('#comment-post-container > div > p', `<a class="login-comment" href="/login/">${json.book.NoLogin.Login}</a> ${json.book.NoLogin.Or} <a class="login-comment" href="/register/">${json.book.NoLogin.Register}</a> ${json.book.NoLogin.ToPostAComment}`)
+    }
 }
 
 
