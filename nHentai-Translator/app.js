@@ -188,5 +188,5 @@ function tagsTranslator (tags) {
 }
 
 function timeTranslator () {
-    console.log($(time))
+    console.log($('time'))
 }
