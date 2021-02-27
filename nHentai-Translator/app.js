@@ -158,8 +158,8 @@ function book () {
     $("time").bind('DOMNodeInserted', function() {
         let time = timeTranslator(this.innerHTML)
         if (this.innerHTML !== time) {
-            console.log(`偵測到時間發生變化：${this.innerHTML}`)
             this.innerHTML = time
+            debugConsole(`偵測到時間發生變化：${this.innerHTML}`)
         }
     })
 }
