@@ -53,12 +53,12 @@ $(() => {
     request.send(null)
     request.onload = () => {
         if (request.status === 200) {
-            debug ? console.log('JSON讀取成功') : null
+            debugConsole('JSON讀取成功')
             json = JSON.parse(request.responseText)
 
             init() // 初始化
         } else {
-            debug ? console.log('JSON讀取失敗') : null
+            debugConsole('JSON讀取失敗')
         }
     }
 })
@@ -70,22 +70,22 @@ $(() => {
 function init () {
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
-        debug ? console.log('偵測到導航欄') : null
+        debugConsole('偵測到導航欄')
         nav()
 
         // 主頁
         if ($(`${idName.content} ${className.popularNow}`)[0]) {
-            debug ? console.log('偵測到主頁') : null
+            debugConsole('偵測到主頁')
             homepage()
 
         // 本本
         } else if ($(`${idName.tagsName}`)[0]) {
-            debug ? console.log('偵測到本本') : null
+            debugConsole('偵測到本本')
             book()
         }
 
     } else {
-        debug ? console.log('初始化失敗，找不到指定的元素：nav[role="navigation"]') : null
+        debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
     }
 }
 
@@ -102,12 +102,16 @@ function nav () {
     // 右側
     //  - 檢測是否有登入
     if (!/Sign in/.test($(`${className.menuRight} li:nth-child(1) >a`).html())) {
+        // 最愛
         $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-heart color-icon"></i> ${json.menuRight2.Favroites}`)
+        // 登出
         $H(`${className.menuRight} li:nth-child(3) > a`, `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
 
         status.login = true // 已登入
     } else {
+        // 登入
         $H(`${className.menuRight} li:nth-child(1) > a`, `<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
+        // 註冊
         $H(`${className.menuRight} li:nth-child(2) > a`, `<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
 
         status.login = false // 未登入
@@ -148,6 +152,15 @@ function book () {
     $H(`${idName.relatedContainer} > h2`, json.book.MoreLikeThis)
 }
 
+
+/**
+ * debug ? console.log(string) 語法糖
+ * @param {*} string 要顯示的提示
+ */
+function debugConsole (string) {
+    debug ? console.log(string) : null
+}
+
 /**
  * $(selector).html(string) 語法糖
  */
@@ -162,9 +175,9 @@ function $H (selector, string) {
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
         const tag = tags.eq(i)
-        debug ? console.log(`發現標籤：${tag.html()}`) : null
+        debugConsole(`發現標籤：${tag.html()}`)
         if (json.Tags.hasOwnProperty(tag.html())) {
-            debug ? console.log(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`) : null
+            debugConsole(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
             tag.html(json.Tags[tag.html()])
         }
     }
