@@ -34,7 +34,10 @@
         },
         "ShowMoreImagesButton": "顯示更多",
         "ShowAllImagesButton": "顯示全部",
-        "MoreLikeThis": "更多類似的"
+        "MoreLikeThis": "更多類似的",
+        "PostAComment": "留言",
+        "CommentFormPlaceHolder": "如果你詢問是否有翻譯，你將會死亡。",
+        "Comment": "發送"
     },
     "Tags": {
         "abortion": "墮胎",

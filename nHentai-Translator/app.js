@@ -23,9 +23,7 @@ request = new XMLHttpRequest()
 
 // 預先定義變量
 let json = null,
-    status = {
-    login: false
-}
+    login = false
 
 // 網頁讀取完畢
 $(() => {
@@ -52,18 +50,21 @@ function init () {
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
         debugConsole('偵測到導航欄')
-        nav()
 
-        // 主頁
-        if ($('#content .index-popular')[0]) {
-            debugConsole('偵測到主頁')
-            homepage()
+        function ready () {
+            // 主頁
+            if ($('#content .index-popular')[0]) {
+                debugConsole('偵測到主頁')
+                homepage()
 
-        // 本本
-        } else if ($('#tags')[0]) {
-            debugConsole('偵測到本本')
-            book()
+            // 本本
+            } else if ($('#tags')[0]) {
+                debugConsole('偵測到本本')
+                book()
+            }
         }
+
+        nav(ready)
 
     } else {
         debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
@@ -74,7 +75,7 @@ function init () {
 /**
  * nav 導航
  */
-function nav () {
+function nav (callback) {
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.menuLeft).length + 1; i++) {
         $H(`.menu.left li:nth-child(${i}) > a`, json.menuLeft[Object.keys(json.menuLeft).sort((a, b)　=>　a - b)[i - 1]])
@@ -88,15 +89,16 @@ function nav () {
         // 登出
         $H('.menu.right li:nth-child(3) > a', `<i class="fa fa-sign-out-alt"></i> ${json.menuRight2.LogOut}`)
 
-        status.login = true // 已登入
+        login = true // 已登入
     } else {
         // 登入
         $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-sign-in-alt"></i> ${json.menuRight1.SignIn}`)
         // 註冊
         $H('.menu.right li:nth-child(2) > a', `<i class="fa fa-edit"></i> ${json.menuRight1.Register}`)
 
-        status.login = false // 未登入
+        login = false // 未登入
     }
+    callback()
 }
 
 /**
@@ -136,9 +138,17 @@ function book () {
         $H('#show-all-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.book.ShowAllImagesButton}</span>`)
     }
 
-
     // 更多類似的
     $H('#related-container > h2', json.book.MoreLikeThis)
+
+    // 留言
+    $H('#comment-post-container > h3', `<i class="fa fa-comments color-icon"></i> ${json.book.PostAComment}`)
+    if (login) {
+        // 如果你詢問是否有翻譯，你將會死亡。
+        $('#comment_form > textarea').attr('placeholder',`${json.book.CommentFormPlaceHolder}`)
+        // 發送
+        $H('#comment_form > div > button', `<i class="fa fa-comment"></i> ${json.book.Comment}`)
+    } else {}
 }
 
 
