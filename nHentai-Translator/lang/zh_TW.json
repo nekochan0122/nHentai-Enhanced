@@ -45,18 +45,18 @@
             "ToPostAComment": "和其他基友一起討論。"
         },
         "Time": {
-            "Year": "年",
             "Years": "年",
-            "Month": "月",
+            "Year": "年",
             "Months": "月",
-            "Day": "日",
-            "Days": "日",
-            "Hour": "時",
-            "Hours": "時",
-            "Minute": "分",
-            "Minutes": "分",
-            "Second": "秒",
-            "Seconds": "秒",
+            "Month": "月",
+            "Days": "天",
+            "Day": "天",
+            "Hours": "小時",
+            "Hour": "小時",
+            "Minutes": "分鐘",
+            "Minute": "分鐘",
+            "Seconds": "秒鐘",
+            "Second": "秒鐘",
             "Ago": "前"
         }
     },

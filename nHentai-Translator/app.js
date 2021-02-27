@@ -188,5 +188,22 @@ function tagsTranslator (tags) {
 }
 
 function timeTranslator () {
-    console.log($('time'))
+    for (let i = 0, text = ''; i < $('time').length; i++) {
+        text = $('time')[i].innerHTML
+        .replace('years', json.book.Time.Years)
+        .replace('year', json.book.Time.Year)
+        .replace('months', json.book.Time.Months)
+        .replace('month', json.book.Time.Month)
+        .replace('day', json.book.Time.Day)
+        .replace('days', json.book.Time.Days)
+        .replace('hours', json.book.Time.Hours)
+        .replace('hour', json.book.Time.Hour)
+        .replace('minutes', json.book.Time.Minutes)
+        .replace('minute', json.book.Time.Minute)
+        .replace('seconds', json.book.Time.Seconds)
+        .replace('second', json.book.Time.Second)
+        .replace('ago', json.book.Time.Ago)
+
+        $('time')[i].innerHTML = text
+    }
 }
