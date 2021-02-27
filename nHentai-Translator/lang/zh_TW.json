@@ -1,5 +1,5 @@
 {
-    "menuLeft": {
+    "MenuLeft": {
         "Random": "隨機",
         "Tags": "標籤",
         "Artists": "畫師",
@@ -8,20 +8,20 @@
         "Groups": "群組",
         "Info": "資訊"
     },
-    "menuRight1": {
+    "MenuRight1": {
         "SignIn": "登入",
         "Register": "註冊"
     },
-    "menuRight2": {
+    "MenuRight2": {
         "Favroites": "最愛",
         "LogOut": "登出"
     },
-    "homepage": {
+    "Homepage": {
         "PopularNow": "當前熱門",
         "NewUploads": "最新上傳"
     },
-    "book": {
-        "tagsName": {
+    "Book": {
+        "TagsName": {
             "Parodies": "同人:",
             "Characters":"角色:",
             "Tags": "標籤:",
