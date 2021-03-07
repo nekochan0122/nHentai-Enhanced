@@ -228,12 +228,16 @@ function discordChat () {
 
     // 提示圖標 #discordChatIcon
     $('body')
-    .append(`<div id="discordChatIcon" style="position:fixed;left:20px;bottom:1%;z-index:99999;"></div>`)
+        .append(`
+            <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
+                <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
+                     height="${window.innerHeight / 12}">
+            </div>`)
 
     // 主要聊天室元素 #discordChat
     $('body')
         .append(`
-        <div id="discordChat" style="position:fixed;left:20px;bottom:5%;z-index:99999;">
+        <div id="discordChat" style="position:fixed;left:20px;bottom:10%;z-index:99999;">
             <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
                     height="${window.innerHeight / 1.2}"
                     width="${window.innerWidth / 5.5}"
