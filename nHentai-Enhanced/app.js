@@ -4,7 +4,7 @@
 // @name         nHentai-Enhanced
 // @namespace    https://github.com/NekoChanTaiwan
 // @version      0.1
-// @description  nHentai-增強版
+// @description  nHentai-Enhanced
 // @author       NekoChan
 // @match        *://nhentai.net/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
@@ -219,11 +219,10 @@ function discordChatFunc (DC) {
     // 獲取用戶名
     if (login) {
         username = $('.menu.right li:nth-child(2) a')
-        .contents()
-        .filter(function () {
-            return this.nodeType == Node.TEXT_NODE
-        }).text().trim()
-        // console.log(content)
+            .contents()
+            .filter(function () {
+                return this.nodeType == Node.TEXT_NODE
+            }).text().trim()
     }
 
     // 提示圖標 #discordChatIcon
