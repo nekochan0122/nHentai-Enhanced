@@ -16,7 +16,9 @@ const $ = window.$,
 // 設定
 lang = 'zh_TW',
 data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
+hideBlackList = true,
 discordChat = true,
+blockAds = true,
 debug = true,
 
 // 自定內容
@@ -54,12 +56,12 @@ $(() => {
     request.send(null)
     request.onload = () => {
         if (request.status === 200) {
-            debugConsole('JSON讀取成功')
+            debugConsole('JSON 讀取成功')
             json = JSON.parse(request.responseText)
 
             init() // 初始化
         } else {
-            debugConsole('JSON讀取失敗')
+            debugConsole('JSON 讀取失敗')
         }
     }
 })
@@ -85,8 +87,14 @@ function init () {
                 book()
             }
 
+            // 隱藏黑名單
+            login ? hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉') : null
+
             // Discord 聊天室
-            discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室已關閉')
+            discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
+
+            // 阻擋廣告
+            blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
@@ -212,12 +220,20 @@ function book () {
     })
 }
 
+/**
+ *  隱藏黑名單
+ */
+function hideBlackListFunc () {
+    debugConsole('隱藏黑名單 已開啟')
+
+    $('.blacklisted').remove()
+}
 
 /**
  * Discord 聊天室
  */
 function discordChatFunc (DC) {
-    debugConsole('Discord 聊天室已開啟')
+    debugConsole('Discord 聊天室 已開啟')
 
     // 獲取用戶名
     if (login) {
@@ -255,7 +271,15 @@ function discordChatFunc (DC) {
     $('#discordChatIcon').click(() => {
         $('#discordChat').toggle('fast')
     })
+}
 
+/**
+ * 阻擋廣告
+ */
+function blockAdsFunc () {
+    debugConsole('阻擋廣告 已開啟')
+
+    $('.advertisement').remove()
 }
 
 /**
