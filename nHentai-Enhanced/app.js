@@ -1,7 +1,7 @@
 // ========== 開發中 ==========
 
 // ==UserScript==
-// @name         nHentai-Translator
+// @name         nHentai-Enhanced
 // @namespace    https://github.com/NekoChanTaiwan
 // @version      0.1
 // @description  如題
@@ -15,7 +15,7 @@ const $ = window.$,
 
 // 設定
 lang = 'zh_TW',
-data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`,
+data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 debug = true,
 
 // 自定內容
