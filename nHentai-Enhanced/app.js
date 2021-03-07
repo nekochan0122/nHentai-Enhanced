@@ -4,7 +4,7 @@
 // @name         nHentai-Enhanced
 // @namespace    https://github.com/NekoChanTaiwan
 // @version      0.1
-// @description  如題
+// @description  nHentai-增強版
 // @author       NekoChan
 // @match        *://nhentai.net/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
