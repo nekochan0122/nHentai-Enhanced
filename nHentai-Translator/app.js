@@ -75,6 +75,9 @@ function init () {
                 debugConsole('偵測到本本')
                 book()
             }
+
+            // Discord 聊天室
+            discordChat(custom.discordChat)
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
@@ -84,8 +87,6 @@ function init () {
         debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
     }
 
-    // Discord 聊天室
-    discordChat(custom.discordChat)
 }
 
 
