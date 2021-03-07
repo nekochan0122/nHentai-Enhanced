@@ -214,7 +214,7 @@ function discordChat (link) {
             .filter(function () {
                 return this.nodeType == Node.TEXT_NODE
             }).text().trim()
-        console.log(content)
+        // console.log(content)
 
         $('body').append(`<div id="discordChat" style="position:fixed;left:20px;bottom:0;z-index:99999;"><iframe src="${link}&username=${username}" height="600" width="${window.innerWidth / 6}" frameborder="0"></iframe></div>`)
     } else {
