@@ -28,6 +28,7 @@ custom = {
         // { 英文: '/language/english/' },
         { 裏番: 'https://hanime1.me/' },
     ],
+
     // Discord 聊天室 - TitanEmbeds：https://titanembeds.com/
     discordChat: {
         url: 'https://titanembeds.com/embed/817948191122653195',
@@ -130,6 +131,8 @@ function nav (callback) {
 
         login = false // 未登入
     }
+
+    $('.menu.right').prepend(`<li class="desktop "><a href="https://discord.gg/ekbWahg52h"><i class="fab fa-discord"></i> &nbsp Discord - nHentai-Enhanced</a></li>`)
 
     callback()
     customMenu(custom.menu)
