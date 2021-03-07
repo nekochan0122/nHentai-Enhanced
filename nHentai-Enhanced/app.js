@@ -227,16 +227,16 @@ function discordChat () {
     }
 
     // 提示圖標 #discordChatIcon
-    $('body')
-        .append(`
-            <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
+    $('body').append(`
+        <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
+            <a href="javascript:;">
                 <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
-                     height="${window.innerHeight / 12}">
-            </div>`)
+                    height="${window.innerHeight / 12}">
+            </a>
+        </div>`)
 
     // 主要聊天室元素 #discordChat
-    $('body')
-        .append(`
+    $('body').append(`
         <div id="discordChat" style="position:fixed;left:20px;bottom:10%;z-index:99999;">
             <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
                     height="${window.innerHeight / 1.2}"
@@ -245,7 +245,15 @@ function discordChat () {
             </iframe>
         </div>`)
 
+
+    // 默認隱藏聊天室
     // $('#discordChat').hide()
+
+    // 圖標事件
+    $('#discordChatIcon').click(() => {
+        $('#discordChat').toggle('fast')
+    })
+
 }
 
 /**
