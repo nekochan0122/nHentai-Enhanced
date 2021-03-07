@@ -18,6 +18,12 @@ lang = 'zh_TW',
 data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Translator/lang/${lang}.json?flush_cache=True`,
 debug = true,
 
+// 自定內容
+custom = {
+    // 選單 - 鍵名：名稱, 鍵值：連結
+    menu: [{中文: '/language/chinese/'},{日文: '/language/japanese/'},{英文: '/language/english/'}]
+},
+
 // 引入 JSON 用的請求變量
 request = new XMLHttpRequest()
 
@@ -100,7 +106,20 @@ function nav (callback) {
 
         login = false // 未登入
     }
+
     callback()
+    customMenu(custom.menu)
+}
+
+/**
+ * 自定選單
+ * @param {array} menu
+ */
+function customMenu (menu) {
+    for (let i = 0; i < menu.length; i++) {
+        debugConsole(`新增自定選單：${Object.keys(menu[i])[0]} 連結：${Object.values(menu[i])[0]}`)
+        $('.menu.left').append(`<li class="desktop "><a href="${Object.values(menu[i])[0]}">${Object.keys(menu[i])[0]}</a></li>`)
+    }
 }
 
 /**
@@ -167,20 +186,20 @@ function book () {
 }
 
 /**
- * $(selector).html(string) 語法糖
+ * debug ? console.log(string)
+ * @param {string} text - 顯示的文字
+ */
+function debugConsole (text) {
+    debug ? console.log(text) : null
+}
+
+/**
+ * $(selector).html(string)
  * @param {string} selector - 選擇器
  * @param {string} text - 更改的內容
  */
 function $H (selector, text) {
     $(selector)[0] ? $(selector).html(text) : debugConsole(`翻譯失敗，選擇器：${selector}`)
-}
-
-/**
- * debug ? console.log(string) 語法糖
- * @param {string} text - 顯示的文字
- */
-function debugConsole (text) {
-    debug ? console.log(text) : null
 }
 
 /**
