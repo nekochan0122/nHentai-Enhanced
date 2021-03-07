@@ -21,7 +21,14 @@ debug = true,
 // 自定內容
 custom = {
     // 選單 - 鍵名：名稱, 鍵值：連結
-    menu: [{中文: '/language/chinese/'},{日文: '/language/japanese/'},{英文: '/language/english/'}]
+    menu: [
+        { 中文: '/language/chinese/' },
+        // { 日文: '/language/japanese/' },
+        // { 英文: '/language/english/' },
+        { 裏番: 'https://hanime1.me/' },
+    ],
+    // Discord 聊天室 - TitanEmbeds：https://titanembeds.com/
+    discordChat: 'https://titanembeds.com/embed/817948191122653195?defaultchannel=817948191856394242&lang=zh_Hant_TW&noscroll=true&lockscrollbar=false&theme=DiscordDark',
 },
 
 // 引入 JSON 用的請求變量
@@ -76,6 +83,9 @@ function init () {
     } else {
         debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
     }
+
+    // Discord 聊天室
+    discordChat(custom.discordChat)
 }
 
 
@@ -87,6 +97,11 @@ function nav (callback) {
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.MenuLeft).length + 1; i++) {
         $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
+
+        // 隱藏 資訊
+        if (i === 7) {
+            $(`.menu.left li:nth-child(${i})`).hide()
+        }
     }
 
     // 右側
@@ -183,6 +198,29 @@ function book () {
             debugConsole(`偵測到時間發生變化：${this.innerHTML}`)
         }
     })
+}
+
+
+/**
+ * Discord 聊天室
+ * @param {string} link - TitanEmbeds iframe 連結
+ */
+function discordChat (link) {
+    // 主要聊天室元素 #discordChat
+    if (login) {
+        const username = $('.menu.right li:nth-child(2) a')
+            .contents()
+            .filter(function () {
+                return this.nodeType == Node.TEXT_NODE
+            }).text().trim()
+        console.log(content)
+
+        $('body').append(`<div id="discordChat" style="position:fixed;left:20px;bottom:0;z-index:99999;"><iframe src="${link}&username=${username}" height="600" width="${window.innerWidth / 6}" frameborder="0"></iframe></div>`)
+    } else {
+        $('body').append(`<div id="discordChat" style="position:fixed;left:20px;bottom:0;z-index:99999;"><iframe src="${link}" height="600" width="${window.innerWidth / 6}"" frameborder="0"></iframe></div>`)
+    }
+
+    // $('#discordChat').hide()
 }
 
 /**
