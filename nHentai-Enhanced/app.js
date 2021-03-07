@@ -16,6 +16,7 @@ const $ = window.$,
 // 設定
 lang = 'zh_TW',
 data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
+discordChat = true,
 debug = true,
 
 // 自定內容
@@ -35,7 +36,6 @@ custom = {
         scrollbartheme: 'dark-3',
         other: 'userscalable=false'
     },
-    // discordChat: 'https://titanembeds.com/embed/817948191122653195?lang=zh_Hant_TW&theme=DiscordDark&scrollbartheme=dark-3',
 },
 
 // 引入 JSON 用的請求變量
@@ -85,7 +85,7 @@ function init () {
             }
 
             // Discord 聊天室
-            discordChat(custom.discordChat)
+            discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室已關閉')
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
@@ -213,8 +213,8 @@ function book () {
 /**
  * Discord 聊天室
  */
-function discordChat () {
-    const DC = custom.discordChat
+function discordChatFunc (DC) {
+    debugConsole('Discord 聊天室已開啟')
 
     // 獲取用戶名
     if (login) {
@@ -231,7 +231,7 @@ function discordChat () {
         <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
             <a href="javascript:;">
                 <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
-                    height="${window.innerHeight / 12}">
+                    height="${window.innerHeight / 13}">
             </a>
         </div>`)
 
