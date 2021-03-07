@@ -13,33 +13,40 @@
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
 
-// 設定
-lang = 'zh_TW',
-data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
-hideBlackList = true,
-discordChat = true,
-blockAds = true,
-debug = true,
+    // 語言設定
+    lang = 'zh_TW',
+    data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 
-// 自定內容
-custom = {
-    // 選單 - 鍵名：名稱, 鍵值：連結
-    menu: [
-        { 中文: '/language/chinese/' },
-        // { 日文: '/language/japanese/' },
-        // { 英文: '/language/english/' },
-        { 裏番: 'https://hanime1.me/' },
-    ],
+    // 隱藏黑名單
+    hideBlackList = true,
 
-    // Discord 聊天室 - TitanEmbeds：https://titanembeds.com/
-    discordChat: {
-        url: 'https://titanembeds.com/embed/817948191122653195',
-        lang: 'zh_Hant_TW',
-        theme: 'DiscordDark',
-        scrollbartheme: 'dark-3',
-        other: 'userscalable=false'
+    // Discord 聊天室
+    discordChat = true,
+
+    // 阻擋廣告
+    blockAds = true,
+
+    // 開發模式
+    debug = true,
+
+    custom = {
+        // 選單 - 鍵名：名稱, 鍵值：連結
+        menu: [
+            { 中文: '/language/chinese/' },
+            { 日文: '/language/japanese/' },
+            { 英文: '/language/english/' },
+            { 裏番: 'https://hanime1.me/' },
+        ],
+
+        // TitanEmbeds：https://titanembeds.com/
+        discordChat: {
+            url: 'https://titanembeds.com/embed/817948191122653195',
+            lang: 'zh_Hant_TW',
+            theme: 'DiscordDark',
+            scrollbartheme: 'dark-3',
+            other: 'userscalable=false'
+        },
     },
-},
 
 // 引入 JSON 用的請求變量
 request = new XMLHttpRequest()
