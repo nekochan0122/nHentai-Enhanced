@@ -49,6 +49,8 @@ let json = null,
     login = false,
     username = ''
 
+$('body').hide()
+
 // 網頁讀取完畢
 $(() => {
     // 引入 JSON
@@ -71,6 +73,9 @@ $(() => {
  * 偵測元素是否存在。
  */
 function init () {
+    // 網頁名稱
+    $('title').text('nHentai-Enhanced')
+
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
         debugConsole('偵測到導航欄')
@@ -95,21 +100,24 @@ function init () {
 
             // 阻擋廣告
             blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
+
+            setTimeout(() => {
+                $('body').show()
+            }, 350)
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
         nav(ready)
-
     } else {
         debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
+        $('body').show()
     }
-
 }
 
 
 /**
  * nav 導航
- * @param {callback} callback - 執行完 nav 後要執行的 function
+ * @param {callback} callback
  */
 function nav (callback) {
     // 左側
@@ -249,15 +257,15 @@ function discordChatFunc (DC) {
         <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
             <a href="javascript:;">
                 <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
-                    height="${window.innerHeight / 13}">
+                    height="${window.innerHeight / 15}">
             </a>
         </div>`)
 
     // 主要聊天室元素 #discordChat
     $('body').append(`
-        <div id="discordChat" style="position:fixed;left:20px;bottom:10%;z-index:99999;">
+        <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
             <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
-                    height="${window.innerHeight / 1.2}"
+                    height="${window.innerHeight / 1.3}"
                     width="${window.innerWidth / 5.5}"
                     frameborder="0">
             </iframe>
