@@ -28,7 +28,14 @@ custom = {
         { 裏番: 'https://hanime1.me/' },
     ],
     // Discord 聊天室 - TitanEmbeds：https://titanembeds.com/
-    discordChat: 'https://titanembeds.com/embed/817948191122653195?defaultchannel=817948191856394242&lang=zh_Hant_TW&noscroll=true&lockscrollbar=false&theme=DiscordDark',
+    discordChat: {
+        url: 'https://titanembeds.com/embed/817948191122653195',
+        lang: 'zh_Hant_TW',
+        theme: 'DiscordDark',
+        scrollbartheme: 'dark-3',
+        other: 'userscalable=false'
+    },
+    // discordChat: 'https://titanembeds.com/embed/817948191122653195?lang=zh_Hant_TW&theme=DiscordDark&scrollbartheme=dark-3',
 },
 
 // 引入 JSON 用的請求變量
@@ -36,7 +43,8 @@ request = new XMLHttpRequest()
 
 // 預先定義變量
 let json = null,
-    login = false
+    login = false,
+    username = ''
 
 // 網頁讀取完畢
 $(() => {
@@ -204,22 +212,34 @@ function book () {
 
 /**
  * Discord 聊天室
- * @param {string} link - TitanEmbeds iframe 連結
  */
-function discordChat (link) {
-    // 主要聊天室元素 #discordChat
-    if (login) {
-        const username = $('.menu.right li:nth-child(2) a')
-            .contents()
-            .filter(function () {
-                return this.nodeType == Node.TEXT_NODE
-            }).text().trim()
-        // console.log(content)
+function discordChat () {
+    const DC = custom.discordChat
 
-        $('body').append(`<div id="discordChat" style="position:fixed;left:20px;bottom:0;z-index:99999;"><iframe src="${link}&username=${username}" height="600" width="${window.innerWidth / 6}" frameborder="0"></iframe></div>`)
-    } else {
-        $('body').append(`<div id="discordChat" style="position:fixed;left:20px;bottom:0;z-index:99999;"><iframe src="${link}" height="600" width="${window.innerWidth / 6}"" frameborder="0"></iframe></div>`)
+    // 獲取用戶名
+    if (login) {
+        username = $('.menu.right li:nth-child(2) a')
+        .contents()
+        .filter(function () {
+            return this.nodeType == Node.TEXT_NODE
+        }).text().trim()
+        // console.log(content)
     }
+
+    // 提示圖標 #discordChatIcon
+    $('body')
+    .append(`<div id="discordChatIcon" style="position:fixed;left:20px;bottom:1%;z-index:99999;"></div>`)
+
+    // 主要聊天室元素 #discordChat
+    $('body')
+        .append(`
+        <div id="discordChat" style="position:fixed;left:20px;bottom:5%;z-index:99999;">
+            <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
+                    height="${window.innerHeight / 1.2}"
+                    width="${window.innerWidth / 5.5}"
+                    frameborder="0">
+            </iframe>
+        </div>`)
 
     // $('#discordChat').hide()
 }
