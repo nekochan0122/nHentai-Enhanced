@@ -44,12 +44,12 @@ const $ = window.$,
             lang: 'zh_Hant_TW',
             theme: 'DiscordDark',
             scrollbartheme: 'dark-3',
-            other: 'userscalable=false'
+            other: 'defaultchannel=817948191856394242&userscalable=false'
         },
     },
 
-// 引入 JSON 用的請求變量
-request = new XMLHttpRequest()
+    // 引入 JSON 用的請求變量
+    request = new XMLHttpRequest()
 
 // 預先定義變量
 let json = null,
@@ -252,7 +252,7 @@ function discordChatFunc (DC) {
 
     // 獲取用戶名
     if (login) {
-        username = $('.menu.right li:nth-child(2) a')
+        username = $('.menu.right li:nth-child(3) a')
             .contents()
             .filter(function () {
                 return this.nodeType == Node.TEXT_NODE
@@ -273,7 +273,7 @@ function discordChatFunc (DC) {
         <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
             <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
                     height="${window.innerHeight / 1.3}"
-                    width="${window.innerWidth / 5.5}"
+                    width="${window.innerWidth / 5}"
                     frameborder="0">
             </iframe>
         </div>`)
