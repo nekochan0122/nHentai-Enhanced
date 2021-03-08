@@ -278,14 +278,26 @@ function discordChatFunc (DC) {
             </iframe>
         </div>`)
 
-
     // 默認隱藏聊天室
-    // $('#discordChat').hide()
+    $('#discordChat').hide()
 
     // 圖標事件
     $('#discordChatIcon').click(() => {
         $('#discordChat').toggle('fast')
     })
+
+    // WidgetBot V2 注：該版本許多問題，讀取非常慢。等待 V3釋出後在考慮使用
+    // const crateScript = document.createElement('script')
+    // crateScript.defer = true
+    // crateScript.async = true
+    // crateScript.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/crate@3'
+    // crateScript.text = `
+    //     new Crate({
+    //         server: '817948191122653195',
+    //         channel: '817948191856394242'
+    //     })
+    //     `
+    // document.head.appendChild(crateScript)
 }
 
 /**
