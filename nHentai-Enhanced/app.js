@@ -250,54 +250,60 @@ function hideBlackListFunc () {
 function discordChatFunc (DC) {
     debugConsole('Discord 聊天室 已開啟')
 
-    // 獲取用戶名
-    if (login) {
-        username = $('.menu.right li:nth-child(3) a')
-            .contents()
-            .filter(function () {
-                return this.nodeType == Node.TEXT_NODE
-            }).text().trim()
+    function titanEmbeds () {
+        // 獲取用戶名
+        if (login) {
+            username = $('.menu.right li:nth-child(3) a')
+                .contents()
+                .filter(function () {
+                    return this.nodeType == Node.TEXT_NODE
+                }).text().trim()
+        }
+
+        // 提示圖標 #discordChatIcon
+        $('body').append(`
+            <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
+                <a href="javascript:;">
+                    <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
+                        height="${window.innerHeight / 15}">
+                </a>
+            </div>`)
+
+        // 主要聊天室元素 #discordChat
+        $('body').append(`
+            <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
+                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
+                        height="${window.innerHeight / 1.3}"
+                        width="${window.innerWidth / 5}"
+                        frameborder="0">
+                </iframe>
+            </div>`)
+
+        // 默認隱藏聊天室
+        $('#discordChat').hide()
+
+        // 圖標事件
+        $('#discordChatIcon').click(() => {
+            $('#discordChat').toggle('fast')
+        })
     }
 
-    // 提示圖標 #discordChatIcon
-    $('body').append(`
-        <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
-            <a href="javascript:;">
-                <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
-                    height="${window.innerHeight / 15}">
-            </a>
-        </div>`)
-
-    // 主要聊天室元素 #discordChat
-    $('body').append(`
-        <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
-            <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
-                    height="${window.innerHeight / 1.3}"
-                    width="${window.innerWidth / 5}"
-                    frameborder="0">
-            </iframe>
-        </div>`)
-
-    // 默認隱藏聊天室
-    $('#discordChat').hide()
-
-    // 圖標事件
-    $('#discordChatIcon').click(() => {
-        $('#discordChat').toggle('fast')
-    })
-
     // WidgetBot V2 注：該版本許多問題，讀取非常慢。等待 V3釋出後在考慮使用
-    // const crateScript = document.createElement('script')
-    // crateScript.defer = true
-    // crateScript.async = true
-    // crateScript.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/crate@3'
-    // crateScript.text = `
-    //     new Crate({
-    //         server: '817948191122653195',
-    //         channel: '817948191856394242'
-    //     })
-    //     `
-    // document.head.appendChild(crateScript)
+    function widgetBot () {
+        const crateScript = document.createElement('script')
+        crateScript.defer = true
+        crateScript.async = true
+        crateScript.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/crate@3'
+        crateScript.text = `
+            new Crate({
+                server: '817948191122653195',
+                channel: '817948191856394242'
+            })
+            `
+        document.head.appendChild(crateScript)
+    }
+
+    widgetBot()
 }
 
 /**
