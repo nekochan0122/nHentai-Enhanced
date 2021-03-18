@@ -24,7 +24,7 @@ const $ = window.$,
     // Discord 聊天室
     // discordChat = true,
     enableTitanEmbeds = false,
-    enableWidgetBot = false,
+    enableWidgetBot = true,
 
     // 阻擋廣告
     blockAds = true,
@@ -56,8 +56,7 @@ const $ = window.$,
 
 // 預先定義變量
 let json = null,
-    login = false,
-    userName = ''
+    login = false
 
 $('body').hide()
 
@@ -189,6 +188,12 @@ function homepage () {
  * book 本本
  */
 function book () {
+    // 預先定義變數
+    let link = ''
+
+    // 相關訊息
+    const enTitlePretty = $('#info .title:nth-child(1) > .pretty').text()
+
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
         span = $(`#tags > .tag-container:nth-child(${i}) > span`)[0].outerHTML
@@ -197,6 +202,18 @@ function book () {
 
     // 右側標籤列表
     tagsTranslator($("#tags > .tag-container .tags a .name"))
+
+    // 標籤下方按紐區
+    // TODO: JSON 翻譯
+    // 按鈕 - 下載
+    $H('#download', '<i class="fa fa-download"></i> BT 下載')
+    // 按鈕 - 搜尋相關本本
+    if (/\s+/.test(enTitlePretty)) {
+        link = `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'`
+    } else {
+        link = `/search/?q=${enTitlePretty}`
+    }
+    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> 搜尋相關本本</a>`)
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
@@ -222,7 +239,7 @@ function book () {
         // 發送
         $H('#comment_form > div > button', `<i class="fa fa-comment"></i> ${json.Book.Comment}`)
     } else {
-        // 登入或 註冊 和其他基友一起討論。
+        // 登入 或 註冊 和其他基友一起討論。
         $H('#comment-post-container > div > p', `<a class="login-comment" href="/login/">${json.Book.NoLogin.Login}</a> ${json.Book.NoLogin.Or} <a class="login-comment" href="/register/">${json.Book.NoLogin.Register}</a> ${json.Book.NoLogin.ToPostAComment}`)
     }
 
@@ -268,9 +285,6 @@ function discordChatFunc (DC) {
     debugConsole('Discord 聊天室 已開啟')
 
     function titanEmbeds () {
-        // 獲取用戶名
-        userName = getUserName()
-
         // 提示圖標 #discordChatIcon
         $('body').append(`
             <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
@@ -283,7 +297,7 @@ function discordChatFunc (DC) {
         // 主要聊天室元素 #discordChat
         $('body').append(`
             <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
-                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${userName}&${DC.other}"
+                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${getUserName()}&${DC.other}"
                         height="${window.innerHeight / 1.3}"
                         width="${window.innerWidth / 5}"
                         frameborder="0">
