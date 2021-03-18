@@ -211,15 +211,18 @@ function book () {
     tagsTranslator($("#tags > .tag-container .tags a .name"))
 
     // 標籤下方按紐區
-    // TODO: JSON 翻譯
+    // TODO: Favorite
+
     // 按鈕 - 下載
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
-    // 按鈕 - 搜尋相關本本
+
+    // 新增按鈕 - 搜尋相關本本
     if (/\s+/.test(enTitlePretty)) {
         link = `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'`
     } else {
         link = `/search/?q=${enTitlePretty}`
     }
+
     $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBookk}</a>`)
 
     // 偵測頁數 & 按紐
