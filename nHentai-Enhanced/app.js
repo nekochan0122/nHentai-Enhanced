@@ -28,7 +28,7 @@ const $ = window.$,
     // Discord 聊天室
     // discordChat = true,
     enableTitanEmbeds = false,
-    enableWidgetBot = false,
+    enableWidgetBot = true,
 
     // 阻擋廣告
     blockAds = true,
@@ -271,14 +271,7 @@ function hideBlackListFunc () {
  * @returns 已登入用戶名，若未登入返回空字符串
  */
 function getUserName () {
-    let userName = ''
-    if (login) {
-        userName = $('.menu.right li:nth-child(3) a').contents()
-                .filter(function () {
-                    return this.nodeType == Node.TEXT_NODE
-                }).text().trim()
-    }
-    return userName
+    return login ? $('.menu.right li:nth-child(3) a').contents().filter(function () {return this.nodeType == Node.TEXT_NODE}).text().trim() : ''
 }
 
 /**
