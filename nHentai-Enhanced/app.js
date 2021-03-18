@@ -195,9 +195,6 @@ function homepage () {
  * book 本本
  */
 function book () {
-    // 預先定義變數
-    let link = ''
-
     // 相關訊息
     const enTitlePretty = $('#info .title:nth-child(1) > .pretty').text()
 
@@ -217,11 +214,7 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    if (/\s+/.test(enTitlePretty)) {
-        link = `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'`
-    } else {
-        link = `/search/?q=${enTitlePretty}`
-    }
+    let link = /\s+/.test(enTitlePretty) ? `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'` : `/search/?q=${enTitlePretty}`
 
     $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBookk}</a>`)
 
