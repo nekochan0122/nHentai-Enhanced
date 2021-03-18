@@ -14,6 +14,7 @@
 const $ = window.$,
 
     // 語言設定
+    translater = true,
     lang = 'zh_TW',
     data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 
@@ -21,7 +22,9 @@ const $ = window.$,
     hideBlackList = true,
 
     // Discord 聊天室
-    discordChat = true,
+    // discordChat = true,
+    enableTitanEmbeds = false,
+    enableWidgetBot = false,
 
     // 阻擋廣告
     blockAds = true,
@@ -54,7 +57,7 @@ const $ = window.$,
 // 預先定義變量
 let json = null,
     login = false,
-    username = ''
+    userName = ''
 
 $('body').hide()
 
@@ -103,14 +106,13 @@ function init () {
             login ? hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉') : null
 
             // Discord 聊天室
-            discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
+            // discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
+            enableTitanEmbeds || enableWidgetBot ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
 
             // 阻擋廣告
             blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
 
-            setTimeout(() => {
-                $('body').show()
-            }, 350)
+            $('body').show()
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
@@ -245,6 +247,21 @@ function hideBlackListFunc () {
 }
 
 /**
+ * 獲取用戶名
+ * @returns 已登入用戶名，若未登入返回空字符串
+ */
+function getUserName () {
+    let userName = ''
+    if (login) {
+        userName = $('.menu.right li:nth-child(3) a').contents()
+                .filter(function () {
+                    return this.nodeType == Node.TEXT_NODE
+                }).text().trim()
+    }
+    return userName
+}
+
+/**
  * Discord 聊天室
  */
 function discordChatFunc (DC) {
@@ -252,13 +269,7 @@ function discordChatFunc (DC) {
 
     function titanEmbeds () {
         // 獲取用戶名
-        if (login) {
-            username = $('.menu.right li:nth-child(3) a')
-                .contents()
-                .filter(function () {
-                    return this.nodeType == Node.TEXT_NODE
-                }).text().trim()
-        }
+        userName = getUserName()
 
         // 提示圖標 #discordChatIcon
         $('body').append(`
@@ -272,7 +283,7 @@ function discordChatFunc (DC) {
         // 主要聊天室元素 #discordChat
         $('body').append(`
             <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
-                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${username}&${DC.other}"
+                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${userName}&${DC.other}"
                         height="${window.innerHeight / 1.3}"
                         width="${window.innerWidth / 5}"
                         frameborder="0">
@@ -303,16 +314,8 @@ function discordChatFunc (DC) {
         document.head.appendChild(crateScript)
     }
 
-    widgetBot()
-}
-
-/**
- * 阻擋廣告
- */
-function blockAdsFunc () {
-    debugConsole('阻擋廣告 已開啟')
-
-    $('.advertisement').remove()
+    enableTitanEmbeds ? titanEmbeds() : null
+    enableWidgetBot ? widgetBot() : null
 }
 
 /**
@@ -333,16 +336,25 @@ function $H (selector, text) {
 }
 
 /**
+ * 阻擋廣告
+ */
+function blockAdsFunc () {
+    debugConsole('阻擋廣告 已開啟')
+
+    $('.advertisement').remove()
+}
+
+/**
  * 翻譯標籤
  * @param {object} tags - jQuery DOM
  */
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
-        const tag = tags.eq(i)
-        debugConsole(`發現標籤：${tag.html()}`)
-        if (json.Tags.hasOwnProperty(tag.html())) {
-            debugConsole(`偵測到：${tag.html()}，更改為：${json.Tags[tag.html()]}`)
-            tag.html(json.Tags[tag.html()])
+        const tagE = tags.eq(i), tagName = tagE.html()
+        debugConsole(`發現標籤：${tagName}`)
+        if (json.Tags.hasOwnProperty(tagName)) {
+            debugConsole(`偵測到：${tagName}，更改為：${json.Tags[tagName]}`)
+            tagE.html(json.Tags[tagName]).parent().attr('title', tagName)
         }
     }
 }
