@@ -10,6 +10,10 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 // ==/UserScript==
 
+// ========= 協助名單 =========
+//     redblaze - 標籤爬蟲
+// ===========================
+
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
 
@@ -24,7 +28,7 @@ const $ = window.$,
     // Discord 聊天室
     // discordChat = true,
     enableTitanEmbeds = false,
-    enableWidgetBot = true,
+    enableWidgetBot = false,
 
     // 阻擋廣告
     blockAds = true,
@@ -58,6 +62,8 @@ const $ = window.$,
 let json = null,
     login = false
 
+
+// 初始化前隱藏頁面
 $('body').hide()
 
 // 網頁讀取完畢
@@ -111,6 +117,7 @@ function init () {
             // 阻擋廣告
             blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
 
+            // 顯示頁面
             $('body').show()
         }
 
@@ -206,14 +213,14 @@ function book () {
     // 標籤下方按紐區
     // TODO: JSON 翻譯
     // 按鈕 - 下載
-    $H('#download', '<i class="fa fa-download"></i> BT 下載')
+    $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
     // 按鈕 - 搜尋相關本本
     if (/\s+/.test(enTitlePretty)) {
         link = `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'`
     } else {
         link = `/search/?q=${enTitlePretty}`
     }
-    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> 搜尋相關本本</a>`)
+    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBookk}</a>`)
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
