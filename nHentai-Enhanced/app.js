@@ -14,8 +14,8 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
-// TODO: [BUG] 搜尋列表不支援 Ajax 讀取
 // TODO: [優化] 將 首頁 和 頁面列表 的頁數選單移至上方
+// TODO: [優化] 將更多頁面支援 Ajax 讀取
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
@@ -109,12 +109,12 @@ function init () {
                 homepage()
 
             // 第二頁開始的頁面列表
-            } else if ($('.index-container')[0]) {
+            } else if (/\?page=/.test(window.location.href)) {
                 debugConsole('偵測到頁面列表')
                 page()
 
             // 本本
-            } else if ($('#tags')[0]) {
+            } else if (/\/g\//.test(window.location.href)) {
                 debugConsole('偵測到本本')
                 book()
 
