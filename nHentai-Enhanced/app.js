@@ -119,7 +119,8 @@ function init () {
                 debugConsole('未知頁面')
             }
 
-            // TODO: 這個功能應該寫在首頁和其他頁數
+            // TODO: 黑名單不應該完全隱藏，游標移動至元素上時移除黑名單 class，顯示封面。
+            // TODO: 對於直接點進黑名單的本本頁面，應該出現提示標註該本含有哪些黑名單標籤，且頁面不顯示。
             // 隱藏黑名單
             hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
