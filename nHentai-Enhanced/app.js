@@ -55,7 +55,6 @@ const $ = window.$,
         },
     },
 
-    // 引入 JSON 用的請求變量
     requestJSON = new XMLHttpRequest(),
     requestNext = new XMLHttpRequest()
 
