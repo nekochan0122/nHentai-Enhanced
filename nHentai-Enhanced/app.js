@@ -14,6 +14,8 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
+// TODO: [優先] 將 首頁 和 頁面列表 的頁數選單移至上方
+
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
 
