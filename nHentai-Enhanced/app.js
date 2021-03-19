@@ -22,6 +22,9 @@ const $ = window.$,
     lang = 'zh_TW',
     data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 
+    // Ajax 自動翻頁
+    ajaxPage = true,
+
     // 隱藏黑名單
     hideBlackList = true,
 
@@ -60,7 +63,8 @@ const $ = window.$,
 
 // 預先定義變量
 let json = null,
-    login = false
+    login = false,
+    currentPageNum = 0
 
 
 // 初始化前隱藏頁面
@@ -74,14 +78,14 @@ $(() => {
         url: data,
         dataType: "json",
         success: data => {
-            debugConsole('JSON 讀取成功')
+            debugConsole('JSON 獲取成功')
             json = data
-            console.log(data)
+            // console.log(data)
 
             init() // 初始化
         },
         error: () => {
-            debugConsole('JSON 讀取失敗')
+            debugConsole('JSON 獲取失敗')
         }
     })
 })
@@ -91,19 +95,6 @@ $(() => {
  * 偵測元素是否存在。
  */
 function init () {
-    $.ajax({
-        type: "GET",
-        url: "/?page=2",
-        dataType: "html",
-        success: data => {
-            let newHtml = $('<div></div>')
-            newHtml.html(data)
-            console.log(newHtml.find('.gallery > a > .lazyload')[0])
-            console.log(newHtml.find('.gallery > a > .lazyload').attr('data-src'))
-            $('.index-container:nth-child(2)').append(newHtml.find('.gallery'))
-        }
-    })
-
     // 網頁名稱
     $('title').text('nHentai-Enhanced')
 
@@ -117,6 +108,10 @@ function init () {
                 debugConsole('偵測到首頁')
                 homepage()
 
+            // 第二頁開始的頁面列表
+            } else if ($('.index-container')) {
+                page()
+
             // 本本
             } else if ($('#tags')[0]) {
                 debugConsole('偵測到本本')
@@ -126,8 +121,9 @@ function init () {
                 debugConsole('未知頁面')
             }
 
+            // TODO: 這個功能應該寫在首頁和其他頁數
             // 隱藏黑名單
-            login ? hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉') : null
+            hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
             // Discord 聊天室
             // discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
@@ -208,6 +204,43 @@ function homepage () {
 
     // 最新上傳
     $H('#content .container:nth-child(3) > h2', `<i class="fa fa-box-tissue color-icon"></i> ${json.Homepage.NewUploads}`)
+
+    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+
+    function ajaxPageFunc () {
+        debugConsole('自動翻頁 已開啟')
+
+        // 當前頁數
+        currentPageNum = 1
+
+        // 滾動事件
+        $(window).scroll(() => {
+
+            // 滾動條到底 觸發 nextPage
+            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage(homepage) : null
+        })
+    }
+}
+
+/**
+ * page 頁面列表
+ */
+function page () {
+    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+
+    function ajaxPageFunc () {
+        debugConsole('自動翻頁 已開啟')
+
+        // 當前頁數
+        currentPageNum = window.location.href.replace('https://nhentai.net/?page=', '')
+
+        // 滾動事件
+        $(window).scroll(() => {
+
+            // 滾動條到底 觸發 nextPage
+            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage(page) : null
+        })
+    }
 }
 
 /**
@@ -277,12 +310,48 @@ function book () {
 }
 
 /**
+ * Ajax 獲取下一頁資料 並插入至容器
+ * @param {function} mode 偵測 homepage 或 page
+ */
+function nextPage (mode) {
+    currentPageNum++
+
+    // 判斷當前模式 選擇正確的元素
+    const selector = mode === homepage ? '.index-container:nth-child(2)' :
+                     mode === page ? '.index-container' : null
+
+    // 發送 ajax 請求
+    $.ajax({
+        type: "GET",
+        url: `/?page=${currentPageNum}`,
+        dataType: "html",
+        success: data => {
+            debugConsole(`第${currentPageNum}頁 獲取成功`)
+
+            // 創建元素
+            let newHtml = $('<div></div>')
+            // 格式化 HTML字符串 成 DOM 註：取代 data-src 成 src，解決 lazyload 問題
+            newHtml.html(data.replaceAll('data-src', 'src'))
+            // 插入 DOM
+            $(selector).append(newHtml.find('.gallery'))
+        },
+        error: () => {
+            debugConsole(`第${currentPageNum}頁 獲取失敗`)
+        }
+    })
+}
+
+/**
  *  隱藏黑名單
  */
 function hideBlackListFunc () {
-    debugConsole('隱藏黑名單 已開啟')
+    if (login) {
+        debugConsole('隱藏黑名單 已開啟')
 
-    $('.blacklisted').remove()
+        $('.blacklisted').remove()
+    } else {
+        debugConsole('用戶未登入 隱藏黑名單 已關閉')
+    }
 }
 
 /**
