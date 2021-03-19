@@ -107,6 +107,7 @@ function init () {
 
             // 第二頁開始的頁面列表
             } else if ($('.index-container')[0]) {
+                debugConsole('偵測到頁面列表')
                 page()
 
             // 本本
