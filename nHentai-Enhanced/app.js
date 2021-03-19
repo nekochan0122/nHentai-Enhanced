@@ -28,7 +28,7 @@ const $ = window.$,
     // Discord 聊天室
     // discordChat = true,
     enableTitanEmbeds = false,
-    enableWidgetBot = true,
+    enableWidgetBot = false,
 
     // 阻擋廣告
     blockAds = true,
@@ -56,7 +56,8 @@ const $ = window.$,
     },
 
     // 引入 JSON 用的請求變量
-    request = new XMLHttpRequest()
+    requestJSON = new XMLHttpRequest(),
+    requestNext = new XMLHttpRequest()
 
 // 預先定義變量
 let json = null,
@@ -69,18 +70,21 @@ $('body').hide()
 // 網頁讀取完畢
 $(() => {
     // 引入 JSON
-    request.open('get', data)
-    request.send(null)
-    request.onload = () => {
-        if (request.status === 200) {
+    $.ajax({
+        type: "GET",
+        url: data,
+        dataType: "json",
+        success: data => {
             debugConsole('JSON 讀取成功')
-            json = JSON.parse(request.responseText)
+            json = data
+            console.log(data)
 
             init() // 初始化
-        } else {
+        },
+        error: () => {
             debugConsole('JSON 讀取失敗')
         }
-    }
+    })
 })
 
 /**
@@ -88,6 +92,19 @@ $(() => {
  * 偵測元素是否存在。
  */
 function init () {
+    $.ajax({
+        type: "GET",
+        url: "/?page=2",
+        dataType: "html",
+        success: data => {
+            let newHtml = $('<div></div>')
+            newHtml.html(data)
+            console.log(newHtml.find('.gallery > a > .lazyload')[0])
+            console.log(newHtml.find('.gallery > a > .lazyload').attr('data-src'))
+            $('.index-container:nth-child(2)').append(newHtml.find('.gallery'))
+        }
+    })
+
     // 網頁名稱
     $('title').text('nHentai-Enhanced')
 
@@ -96,15 +113,18 @@ function init () {
         debugConsole('偵測到導航欄')
 
         function ready () {
-            // 主頁
+            // 首頁
             if ($('#content .index-popular')[0]) {
-                debugConsole('偵測到主頁')
+                debugConsole('偵測到首頁')
                 homepage()
 
             // 本本
             } else if ($('#tags')[0]) {
                 debugConsole('偵測到本本')
                 book()
+
+            } else {
+                debugConsole('未知頁面')
             }
 
             // 隱藏黑名單
@@ -181,7 +201,7 @@ function customMenu (menu) {
 }
 
 /**
- * homepage 主頁
+ * homepage 首頁
  */
 function homepage () {
     // 當前熱門
@@ -196,7 +216,7 @@ function homepage () {
  */
 function book () {
     // 相關訊息
-    const enTitlePretty = $('#info .title:nth-child(1) > .pretty').text()
+    const title2pretty = $('#info .title:nth-child(2) > .pretty').text()
 
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
@@ -214,7 +234,7 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    let link = /\s+/.test(enTitlePretty) ? `/search/?q=\'${enTitlePretty.replaceAll(' ', '+')}\'` : `/search/?q=${enTitlePretty}`
+    let link = /\s+/.test(title2pretty) ? `/search/?q=\'${title2pretty.replaceAll(' ', '+')}\'` : `/search/?q=${title2pretty}`
 
     $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBookk}</a>`)
 
