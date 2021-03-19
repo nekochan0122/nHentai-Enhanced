@@ -56,10 +56,7 @@ const $ = window.$,
             scrollbartheme: 'dark-3',
             other: 'defaultchannel=817948191856394242&userscalable=false'
         },
-    },
-
-    requestJSON = new XMLHttpRequest(),
-    requestNext = new XMLHttpRequest()
+    }
 
 // 預先定義變量
 let json = null,
@@ -109,7 +106,7 @@ function init () {
                 homepage()
 
             // 第二頁開始的頁面列表
-            } else if ($('.index-container')) {
+            } else if ($('.index-container')[0]) {
                 page()
 
             // 本本
@@ -205,6 +202,9 @@ function homepage () {
     // 最新上傳
     $H('#content .container:nth-child(3) > h2', `<i class="fa fa-box-tissue color-icon"></i> ${json.Homepage.NewUploads}`)
 
+    // 將目前項目連結 改為新分頁開啟
+    galleryBlank()
+
     ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
@@ -226,6 +226,9 @@ function homepage () {
  * page 頁面列表
  */
 function page () {
+    // 將目前項目連結 改為新分頁開啟
+    galleryBlank()
+
     ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
@@ -286,6 +289,9 @@ function book () {
     // 更多類似的
     $H('#related-container > h2', json.Book.MoreLikeThis)
 
+    // 將目前項目連結 改為新分頁開啟
+    galleryBlank()
+
     // 留言
     $H('#comment-post-container > h3', `<i class="fa fa-comments color-icon"></i> ${json.Book.PostAComment}`)
     if (login) {
@@ -334,11 +340,21 @@ function nextPage (mode) {
             newHtml.html(data.replaceAll('data-src', 'src'))
             // 插入 DOM
             $(selector).append(newHtml.find('.gallery'))
+
+            // 將目前項目連結 改為新分頁開啟
+            galleryBlank()
         },
         error: () => {
             debugConsole(`第${currentPageNum}頁 獲取失敗`)
         }
     })
+}
+
+/**
+ * 將目前項目連結 改為新分頁開啟
+ */
+function galleryBlank () {
+    $('.gallery > a').attr('target', '_blank')
 }
 
 /**
