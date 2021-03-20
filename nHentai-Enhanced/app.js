@@ -263,6 +263,9 @@ function book () {
     // 相關訊息
     const title2pretty = $('#info .title:nth-child(2) > .pretty').text()
 
+    // 神的語言
+    $($(`<h2 class="title"><span class="before">神的語言：</span><a id="book_id" href="javascript:;">${$('#gallery_id').hide().text().replace('#', '')}</a></h2>`)).insertAfter('#info > h2')
+
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
         span = $(`#tags > .tag-container:nth-child(${i}) > span`)[0].outerHTML
