@@ -14,8 +14,8 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
-// TODO: [優化] 將 首頁 和 頁面列表 的頁數選單移至上方
-// TODO: [優化] 將更多頁面支援 Ajax 讀取
+// TODO: [優化] 將 更多頁面 支援 頁數選單 移至上方
+// TODO: [優化] 將 更多頁面 支援 Ajax 讀取
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
@@ -114,7 +114,7 @@ function init () {
                 page()
 
             // 本本
-            } else if (/\/g\//.test(window.location.href)) {
+            } else if ($('#tags')[0]) {
                 debugConsole('偵測到本本')
                 book()
 
@@ -210,6 +210,9 @@ function homepage () {
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
+    // 移動頁數位置
+    changeNumPosition('homepage')
+
     ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
@@ -222,7 +225,7 @@ function homepage () {
         $(window).scroll(() => {
 
             // 滾動條到底 觸發 nextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage(homepage) : null
+            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage('homepage') : null
         })
     }
 }
@@ -233,6 +236,9 @@ function homepage () {
 function page () {
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
+
+    // 移動頁數位置
+    changeNumPosition('page')
 
     ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
@@ -246,7 +252,7 @@ function page () {
         $(window).scroll(() => {
 
             // 滾動條到底 觸發 nextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage(page) : null
+            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage('page') : null
         })
     }
 }
@@ -322,14 +328,14 @@ function book () {
 
 /**
  * Ajax 獲取下一頁資料 並插入至容器
- * @param {function} mode 偵測 homepage 或 page
+ * @param {string} mode "homepage", "page"
  */
 function nextPage (mode) {
     currentPageNum++
 
     // 判斷當前模式 選擇正確的元素
-    const selector = mode === homepage ? '.index-container:nth-child(2)' :
-                     mode === page ? '.index-container' : null
+    const selector = mode === 'homepage' ? '#content > div:nth-child(3)' :
+                     mode === 'page' ? '.index-container' : null
 
     // 發送 ajax 請求
     $.ajax({
@@ -360,6 +366,17 @@ function nextPage (mode) {
  */
 function galleryBlank () {
     $('.gallery > a').attr('target', '_blank')
+}
+
+function changeNumPosition (mode) {
+
+    // 判斷當前模式 選擇正確的元素
+    const selector = mode === "homepage" ? '#content > div.container.index-container.index-popular' :
+                     mode === "page" ? '#content > div' : null
+
+    $('#content > section').insertBefore(selector)
+    // 移除不必要的元素
+    $('#content > section > div').remove()
 }
 
 /**
