@@ -212,9 +212,9 @@ function homepage () {
     // 移動頁數位置
     changeNumPosition('homepage')
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    ajaxPage ? pageFunc() : debugConsole('自動翻頁 已關閉')
 
-    function ajaxPageFunc () {
+    function pageFunc () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
@@ -223,8 +223,8 @@ function homepage () {
         // 滾動事件
         $(window).scroll(() => {
 
-            // 滾動條到底 觸發 nextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage('homepage') : null
+            // 滾動條到底 觸發 ajaxNextPage
+            $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('homepage') : null
         })
     }
 }
@@ -239,9 +239,9 @@ function page () {
     // 移動頁數位置
     changeNumPosition('page')
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    ajaxPage ? pageFunc() : debugConsole('自動翻頁 已關閉')
 
-    function ajaxPageFunc () {
+    function pageFunc () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
@@ -250,8 +250,8 @@ function page () {
         // 滾動事件
         $(window).scroll(() => {
 
-            // 滾動條到底 觸發 nextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? nextPage('page') : null
+            // 滾動條到底 觸發 ajaxNextPage
+            $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('page') : null
         })
     }
 }
@@ -329,7 +329,7 @@ function book () {
  * Ajax 獲取下一頁資料 並插入至容器
  * @param {string} mode "homepage", "page"
  */
-function nextPage (mode) {
+function ajaxNextPage (mode) {
     currentPageNum++
 
     // 判斷當前模式 選擇正確的元素
