@@ -260,9 +260,6 @@ function page () {
  * book 本本
  */
 function book () {
-    // 相關訊息
-    const title2pretty = $('#info .title:nth-child(2) > .pretty').text()
-
     // 神的語言
     $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" href="javascript:;">${$('#gallery_id').hide().text().replace('#', '')}</a></h3>`)).insertAfter('#gallery_id')
 
@@ -282,9 +279,11 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    let link = /\s+/.test(title2pretty) ? `/search/?q=\'${title2pretty.replaceAll(' ', '+')}\'` : `/search/?q=${title2pretty}`
+    const title = $('#info .title').length === 2 ? $('#info .title:nth-child(1) > .pretty').text() :
+                  $('#info .title').length === 3 ? $('#info .title:nth-child(2) > .pretty').text() : null
+    let link = /\s+/.test(title) ? `/search/?q=\'${title.replaceAll(' ', '+')}\'` : `/search/?q=${title}`
 
-    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBookk}</a>`)
+    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook}</a>`)
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
@@ -330,7 +329,7 @@ function book () {
 
 /**
  * Ajax 獲取下一頁資料 並插入至容器
- * @param {string} mode "homepage", "page"
+ * @param {string} mode - "homepage", "page"
  */
 function ajaxNextPage (mode) {
     currentPageNum++
@@ -363,6 +362,10 @@ function ajaxNextPage (mode) {
     })
 }
 
+function ajaxSerachRelatedBook () {
+    
+}
+
 /**
  * 將目前項目連結 改為新分頁開啟
  */
@@ -370,6 +373,10 @@ function galleryBlank () {
     $('.gallery > a').attr('target', '_blank')
 }
 
+/**
+ * 更改 頁數選單 位置
+ * @param {string} mode - "homepage", "page"
+ */
 function changeNumPosition (mode) {
 
     // 判斷當前模式 選擇正確的元素
@@ -377,6 +384,7 @@ function changeNumPosition (mode) {
                      mode === "page" ? '#content > div' : null
 
     $('#content > section').insertBefore(selector)
+
     // 移除不必要的元素
     $('#content > section > div').remove()
 }
