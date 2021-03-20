@@ -279,11 +279,17 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    const title = $('#info .title').length === 2 ? $('#info .title:nth-child(1) > .pretty').text() :
-                  $('#info .title').length === 3 ? $('#info .title:nth-child(2) > .pretty').text() : null
-    let link = /\s+/.test(title) ? `/search/?q=\'${title.replaceAll(' ', '+')}\'` : `/search/?q=${title}`
-
-    $('#info > .buttons').append(`<a href="${link}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook}</a>`)
+    let searchText = $('#info .title').length === 2 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` :
+                     $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(2) > .pretty').text()}\'` : null,
+    // 格式化搜尋內容
+    filter = [' ', '「', '」']
+    for (let i = 0, len = filter.length; i < len; i++) {
+        searchText = searchText.replaceAll(filter[i], '+')
+    }
+    // 插入按鈕元素
+    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" id="serachRelatedBook" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">讀取中...</span>)</a>`)
+    // 獲取搜尋結果數量
+    ajaxSerachRelatedBook(searchText)
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
@@ -338,7 +344,6 @@ function ajaxNextPage (mode) {
     const selector = mode === 'homepage' ? '#content > div:nth-child(3)' :
                      mode === 'page' ? '.index-container' : null
 
-    // 發送 ajax 請求
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
@@ -362,8 +367,29 @@ function ajaxNextPage (mode) {
     })
 }
 
-function ajaxSerachRelatedBook () {
-    
+/**
+ * 搜尋相關本本的結果
+ * @param {string} searchText - 搜尋的內容
+ */
+function ajaxSerachRelatedBook (searchText) {
+    $.ajax({
+        type: "GET",
+        url: `/search/?q=${searchText}`,
+        dataType: "html",
+        success: data => {
+            debugConsole(`搜尋 ${searchText} 獲取成功`)
+
+            let newHtml = $('<div></div>'),
+                resultNum = newHtml.html(data).find('#content > h1').text().replace('results', '')
+
+            $H('#resultNum', resultNum)
+
+            resultNum === 0 ? $('#serachRelatedBook').hide() : null
+        },
+        error: () => {
+            debugConsole(`搜尋 ${searchText} 獲取失敗`)
+        }
+    })
 }
 
 /**
