@@ -14,6 +14,7 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
+// TODO: [BUG] Ajax 讀取 對於網路不穩定的有時無法正常運作
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
@@ -63,7 +64,8 @@ const $ = window.$,
 // 預先定義變量
 let json = null,
     login = false,
-    currentPageNum = 0
+    currentPageNum = 0,
+    loadingPage = false
 
 
 // 初始化前隱藏頁面
@@ -222,9 +224,11 @@ function homepage () {
 
         // 滾動事件
         $(window).scroll(() => {
-
-            // 滾動條到底 觸發 ajaxNextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('homepage') : null
+            // 滾動條到 75% 觸發 ajaxNextPage
+            // $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('homepage') : null
+            if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
+                ajaxNextPage('homepage')
+            }
         })
     }
 }
@@ -250,8 +254,11 @@ function page () {
         // 滾動事件
         $(window).scroll(() => {
 
-            // 滾動條到底 觸發 ajaxNextPage
-            $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('page') : null
+            // 滾動條到 75% 觸發 ajaxNextPage
+            // $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('page') : null
+            if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
+                ajaxNextPage('page')
+            }
         })
     }
 }
@@ -361,6 +368,9 @@ function ajaxNextPage (mode) {
     const selector = mode === 'homepage' ? '#content > div:nth-child(3)' :
                      mode === 'page' ? '.index-container' : null
 
+    loadingPage = true
+
+    debugConsole(`第${currentPageNum}頁 獲取中`)
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
@@ -377,9 +387,13 @@ function ajaxNextPage (mode) {
 
             // 將目前項目連結 改為新分頁開啟
             galleryBlank()
+
+            loadingPage = false
         },
         error: () => {
             debugConsole(`第${currentPageNum}頁 獲取失敗`)
+
+            loadingPage = false
         }
     })
 }
