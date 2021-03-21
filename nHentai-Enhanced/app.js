@@ -66,7 +66,6 @@ let json = null,
     currentPageNum = 0,
     loadingPage = false
 
-
 // 初始化前隱藏頁面
 $('body').hide()
 
@@ -136,6 +135,12 @@ function init () {
 
             // 顯示頁面
             $('body').show()
+
+            // 重置滾動條位置，防止觸發 Ajax 自動翻頁
+            window.scrollTo({
+                top: 0,
+                behavior: 'instant'
+            })
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
