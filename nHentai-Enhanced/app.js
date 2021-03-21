@@ -79,7 +79,6 @@ $(() => {
         success: data => {
             debugConsole('JSON 獲取成功')
             json = data
-            // console.log(data)
 
             init() // 初始化
         },
@@ -229,7 +228,6 @@ function homepage () {
         // 滾動事件
         $(window).scroll(() => {
             // 滾動條到 75% 觸發 ajaxNextPage
-            // $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('homepage') : null
             if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
                 ajaxNextPage('homepage')
             }
@@ -259,7 +257,6 @@ function page () {
         $(window).scroll(() => {
 
             // 滾動條到 75% 觸發 ajaxNextPage
-            // $(window).scrollTop() + $(window).height() == $(document).height() ? ajaxNextPage('page') : null
             if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
                 ajaxNextPage('page')
             }
