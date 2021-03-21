@@ -136,10 +136,10 @@ function init () {
             $('body').show()
 
             // 重置滾動條位置，防止觸發 Ajax 自動翻頁
-            window.scrollTo({
-                top: 0,
-                behavior: 'instant'
-            })
+            // window.scrollTo({
+            //     top: 0,
+            //     behavior: 'instant'
+            // })
         }
 
         // 確保在執行 ready function 之前，獲取登入狀態
