@@ -88,6 +88,7 @@ $(() => {
             debugConsole('JSON 獲取失敗')
         }
     })
+
 })
 
 /**
@@ -296,21 +297,34 @@ function book () {
         searchText2 = $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` : null,
         serachTimes = 0,
 
-    // 格式化搜尋內容
-    filter = [' ', '「', '」']
+    // 格式化文字
+    filter = [' ', '「', '」'],
+
+    // 移除文字
+    remove = ['Ch.', '第', '話', '券', '-']
 
     // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
 
-    function search(searchText) {
+    function search (searchText) {
         if (serachTimes > 2) return
 
         // 搜尋次數
         serachTimes++
 
+        // 移除數字
+        searchText = searchText.replace(/[0-9]+/g, '')
+
+        // 移除文字
+        forLoop(remove)
+
         // 格式化文字
-        for (let i = 0, len = filter.length; i < len; i++) {
-            searchText = searchText.replaceAll(filter[i], '+')
+        forLoop(filter, '+')
+
+        function forLoop (array, string = '') {
+            for (let i = 0, len = array.length; i < len; i++) {
+                searchText = searchText.replaceAll(array[i], string)
+            }
         }
 
         debugConsole(`搜尋 第 ${serachTimes} 次 開始`)
