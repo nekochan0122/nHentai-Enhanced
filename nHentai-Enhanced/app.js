@@ -144,8 +144,10 @@ function init () {
 
         // 確保在執行 ready function 之前，獲取登入狀態
         nav(ready)
+
     } else {
         debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
+
         $('body').show()
     }
 }
