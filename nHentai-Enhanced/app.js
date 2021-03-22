@@ -306,6 +306,10 @@ function book () {
     // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
 
+    /**
+     * 搜尋相關本本
+     * @param {string} searchText - 要搜尋的字符串
+     */
     function search (searchText) {
         if (serachTimes > 2) return
 
@@ -321,9 +325,14 @@ function book () {
         // 格式化文字
         forLoop(filter, '+')
 
-        function forLoop (array, string = '') {
-            for (let i = 0, len = array.length; i < len; i++) {
-                searchText = searchText.replaceAll(array[i], string)
+        /**
+         * for 循環 replaceAll 迴圈
+         * @param {array} target - 搜尋字串
+         * @param {string} replace - 取代內容
+         */
+        function forLoop (target, replace = '') {
+            for (let i = 0, len = target.length; i < len; i++) {
+                searchText = searchText.replaceAll(target[i], replace)
             }
         }
 
