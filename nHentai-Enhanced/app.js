@@ -299,7 +299,7 @@ function book () {
     search(searchText1)
 
     function search(searchText) {
-        if (serachTimes === 2) return
+        if (serachTimes > 2) return
 
         // 搜尋次數
         serachTimes++
