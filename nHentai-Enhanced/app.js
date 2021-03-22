@@ -162,6 +162,9 @@ function init () {
  * @param {callback} callback
  */
 function nav (callback) {
+    // Sticky Navbar
+    $('nav').css({'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'})
+
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.MenuLeft).length + 1; i++) {
         $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
@@ -223,9 +226,9 @@ function homepage () {
     // 移動頁數位置
     changeNumPosition('homepage')
 
-    ajaxPage ? pageFunc() : debugConsole('自動翻頁 已關閉')
+    ajaxPage ? ajaxPageEvent() : debugConsole('自動翻頁 已關閉')
 
-    function pageFunc () {
+    function ajaxPageEvent () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
@@ -239,6 +242,15 @@ function homepage () {
             }
         })
     }
+
+    // $('.blacklisted').hover(
+    //     function () {
+    //         $(this).removeClass('blacklisted')
+    //     },
+    //     function () {
+    //         $(this).addClass('blacklisted')
+    //     }
+    // )
 }
 
 /**
@@ -251,9 +263,9 @@ function page () {
     // 移動頁數位置
     changeNumPosition('page')
 
-    ajaxPage ? pageFunc() : debugConsole('自動翻頁 已關閉')
+    ajaxPage ? ajaxPageEvent() : debugConsole('自動翻頁 已關閉')
 
-    function pageFunc () {
+    function ajaxPageEvent () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
