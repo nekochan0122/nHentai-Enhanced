@@ -573,16 +573,11 @@ function tagsTranslator (tags) {
  */
 function timeTranslator (time) {
     const jsonTime = json.Book.Time,
-          engTime = ['years', 'year', 'months', 'month', 'weeks', 'days', 'day', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second', 'ago'],
+          engTime = ['years', 'year', 'months', 'month', 'weeks', 'days', 'day', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second', 'ago']
 
-    for (let i = 0; i < jsonTime.length; i++) {
+    for (let i = 0; i < engTime.length; i++) {
         time = time.replace(engTime[i], jsonTime[engTime[i]])
     }
 
     return time
 }
-
-// function eval (fn) {
-//     const Fn = Function
-//     return new Fn(`return ${fn}`)()
-// }
