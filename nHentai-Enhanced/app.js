@@ -1,10 +1,10 @@
 // ========== 開發中 ==========
 
 // ==UserScript==
-// @name         nHentai-Enhanced
+// @name         nHentai Enhanced
 // @namespace    https://github.com/NekoChanTaiwan
 // @version      0.1
-// @description  nHentai-Enhanced
+// @description  nHentai Enhanced
 // @author       NekoChan
 // @match        *://nhentai.net/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
@@ -94,7 +94,7 @@ $(() => {
  */
 function init () {
     // 網頁名稱
-    $('title').text('nHentai-Enhanced')
+    $('title').text('nHentai Enhanced')
 
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
