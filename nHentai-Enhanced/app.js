@@ -162,8 +162,18 @@ function init () {
  * @param {callback} callback
  */
 function nav (callback) {
-    // Sticky Navbar
-    $('nav').css({'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'})
+
+    // 滾動事件
+    $(window).scroll(() => {
+        // Sticky Navbar
+        $('nav').css({'position': 'static', 'top': '0', 'width': '100%', 'z-index': '999999'})
+        if ($(window).scrollTop() === 0) {
+            $('nav').css({'position': 'static'})
+        }
+        else if (window.pageYOffset >= $('nav')[0].offsetTop) {
+            $('nav').css({'position': 'fixed'})
+        }
+    })
 
     // 左側
     for (let i = 1; i < Object.getOwnPropertyNames(json.MenuLeft).length + 1; i++) {
@@ -314,7 +324,7 @@ function book () {
     filter = [' ', '「', '」'],
 
     // 移除文字
-    remove = ['Ch.', '第', '話', '券', '-']
+    remove = ['Ch.', 'Ep.', '第', '話', '券', '-']
 
     // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
@@ -324,7 +334,7 @@ function book () {
      * @param {string} searchText - 要搜尋的字符串
      */
     function search (searchText) {
-        if (serachTimes > 2) return
+        if (serachTimes > 1) return
 
         // 搜尋次數
         serachTimes++
@@ -353,7 +363,7 @@ function book () {
 
         $.ajax({
             type: "GET",
-            url: `/search/?q=%27${searchText}%27`,
+            url: `/search/?q=\"${searchText}\"`,
             cache: false,
             dataType: "html",
             success: data => {
@@ -367,17 +377,44 @@ function book () {
                       // 搜尋結果是否含有 searchText2
                       perfect = /pBTJud4CQuaD6wNA/.test(data.replace(searchText2, 'pBTJud4CQuaD6wNA'))
 
+                debugConsole(`搜尋 結果數量：${resultNum}`)
+
                 if (resultNum > 0 && perfect) {
-                    debugConsole(`搜尋 結果數量：${resultNum} 大於 0`)
+                    debugConsole('搜尋進入判斷一')
 
-                    // 插入按鈕元素
-                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">${resultNum}</span>)</a>`)
+                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
-                } else if ($('#info .title').length === 3) {
-                    debugConsole(`搜尋 結果數量：${resultNum} 小於 0`)
+                } else if (resultNum > 0 && serachTimes == 2) {
+                    debugConsole('搜尋進入判斷二')
 
-                    // 搜尋 searchText2
+                    appendButton(searchText)
+
+                } else if ($('#info .title').length === 3 && serachTimes < 2) {
+                    debugConsole('搜尋進入判斷三')
+
                     search(searchText2)
+
+                } else if (resultNum == 0) {
+                    debugConsole('搜尋進入判斷四')
+
+                    const array = searchText1.split(' '),
+                          length = array.length
+
+                    let searchText = ''
+
+                    for(let i = 0; i < length - 1; i++) {
+                        searchText += `${array[i]}+`
+                    }
+
+                    appendButton(searchText)
+
+                } else {
+                    debugConsole('搜尋進入判斷五')
+
+                }
+
+                function appendButton (searchText, resultNumSpan = '') {
+                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook}${resultNumSpan}</a>`)
                 }
 
             },
