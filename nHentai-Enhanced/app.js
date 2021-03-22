@@ -14,6 +14,7 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
+// TODO: [BUG] Ajax 不支援 黑名單
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
@@ -28,7 +29,7 @@ const $ = window.$,
     ajaxPage = true,
 
     // 隱藏黑名單
-    hideBlackList = true,
+    hideBlackList = false,
 
     // Discord 聊天室
     // discordChat = true,
@@ -75,6 +76,7 @@ $(() => {
     $.ajax({
         type: "GET",
         url: data,
+        cache: false,
         dataType: "json",
         success: data => {
             debugConsole('JSON 獲取成功')
@@ -316,6 +318,7 @@ function book () {
         $.ajax({
             type: "GET",
             url: `/search/?q=${searchText}`,
+            cache: false,
             dataType: "html",
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
@@ -328,7 +331,7 @@ function book () {
                     debugConsole(`搜尋 結果數量：${resultNum} 大於 0`)
 
                     // 插入按鈕元素
-                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" id="serachRelatedBook" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">${resultNum}</span>)</a>`)
+                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">${resultNum}</span>)</a>`)
 
                 } else if ($('#info .title').length === 3) {
                     debugConsole(`搜尋 結果數量：${resultNum} 小於 0`)
@@ -337,7 +340,6 @@ function book () {
                     search(searchText2)
                 }
 
-                resultNum === 0 ? $('#serachRelatedBook').hide() : null
             },
             error: () => {
                 debugConsole(`搜尋 ${searchText} 獲取失敗`)
@@ -404,6 +406,7 @@ function ajaxNextPage (mode) {
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
+        cache: false,
         dataType: "html",
         success: data => {
             debugConsole(`第${currentPageNum}頁 獲取成功`)
