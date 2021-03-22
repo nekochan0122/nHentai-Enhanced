@@ -16,6 +16,8 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
+'use strict'
+
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
@@ -334,7 +336,7 @@ function book () {
      * @param {string} searchText - 要搜尋的字符串
      */
     function search (searchText) {
-        if (serachTimes > 1) return
+        if (serachTimes == 2) return
 
         // 搜尋次數
         serachTimes++
@@ -363,19 +365,21 @@ function book () {
 
         $.ajax({
             type: "GET",
-            url: `/search/?q=\"${searchText}\"`,
+            url: `/search/?q=${searchText}`,
             cache: false,
             dataType: "html",
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
 
-                const newHtml = $('<div></div>'),
+                console.log(data)
 
-                      // 獲取搜尋結果數量
-                      resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
+                let newHtml = $('<div></div>'),
 
-                      // 搜尋結果是否含有 searchText2
-                      perfect = /pBTJud4CQuaD6wNA/.test(data.replace(searchText2, 'pBTJud4CQuaD6wNA'))
+                    // 獲取搜尋結果數量
+                    resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
+
+                    // 搜尋結果是否含有 searchText2
+                    perfect = /pBTJud4CQuaD6wNA/.test(data.replace(searchText2, 'pBTJud4CQuaD6wNA'))
 
                 debugConsole(`搜尋 結果數量：${resultNum}`)
 
@@ -387,7 +391,7 @@ function book () {
                 } else if (resultNum > 0 && serachTimes == 2) {
                     debugConsole('搜尋進入判斷二')
 
-                    appendButton(searchText)
+                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
                 } else if ($('#info .title').length === 3 && serachTimes < 2) {
                     debugConsole('搜尋進入判斷三')
@@ -408,9 +412,12 @@ function book () {
 
                     appendButton(searchText)
 
-                } else {
+                } else if (resultNum > 0){
                     debugConsole('搜尋進入判斷五')
 
+                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
+                } else {
+                    debugConsole('搜尋進入判斷六')
                 }
 
                 function appendButton (searchText, resultNumSpan = '') {
@@ -630,7 +637,7 @@ function debugConsole (text) {
  * @param {string} text - 更改的內容
  */
 function $H (selector, text) {
-    $(selector)[0] ? $(selector).html(text) : debugConsole(`翻譯失敗，選擇器：${selector}`)
+    $(selector)[0] ? $(selector).html(text) : debugConsole(`修改 HTML 失敗，選擇器：${selector}`)
 }
 
 /**
