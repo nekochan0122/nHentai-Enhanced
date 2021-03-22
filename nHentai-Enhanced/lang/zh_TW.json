@@ -49,21 +49,21 @@
             "ToPostAComment": "和其他基友一起討論。"
         },
         "Time": {
-            "Years": "年",
-            "Year": "年",
-            "Months": "月",
-            "Month": "月",
-            "Weeks": "週",
-            "Week": "週",
-            "Days": "天",
-            "Day": "天",
-            "Hours": "小時",
-            "Hour": "小時",
-            "Minutes": "分鐘",
-            "Minute": "分鐘",
-            "Seconds": "秒鐘",
-            "Second": "秒鐘",
-            "Ago": "前"
+            "years": "年",
+            "year": "年",
+            "months": "月",
+            "month": "月",
+            "weeks": "週",
+            "week": "週",
+            "days": "天",
+            "day": "天",
+            "hours": "小時",
+            "hour": "小時",
+            "minutes": "分鐘",
+            "minute": "分鐘",
+            "seconds": "秒鐘",
+            "second": "秒鐘",
+            "ago": "前"
         }
     },
     "Tags": {

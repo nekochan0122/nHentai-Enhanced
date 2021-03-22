@@ -557,9 +557,11 @@ function blockAdsFunc () {
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
         const tagE = tags.eq(i), tagName = tagE.html()
-        debugConsole(`發現標籤：${tagName}`)
+        // debugConsole(`發現標籤：${tagName}`)
+
         if (json.Tags.hasOwnProperty(tagName)) {
             debugConsole(`偵測到：${tagName}，更改為：${json.Tags[tagName]}`)
+
             tagE.html(json.Tags[tagName]).parent().attr('title', tagName)
         }
     }
@@ -570,20 +572,17 @@ function tagsTranslator (tags) {
  * @param {string} time - 時間字符串
  */
 function timeTranslator (time) {
+    const jsonTime = json.Book.Time,
+          engTime = ['years', 'year', 'months', 'month', 'weeks', 'days', 'day', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second', 'ago'],
+
+    for (let i = 0; i < jsonTime.length; i++) {
+        time = time.replace(engTime[i], jsonTime[engTime[i]])
+    }
+
     return time
-        .replace('years', json.Book.Time.Years)
-        .replace('year', json.Book.Time.Year)
-        .replace('months', json.Book.Time.Months)
-        .replace('month', json.Book.Time.Month)
-        .replace('weeks', json.Book.Time.Weeks)
-        .replace('week', json.Book.Time.Week)
-        .replace('days', json.Book.Time.Days)
-        .replace('day', json.Book.Time.Day)
-        .replace('hours', json.Book.Time.Hours)
-        .replace('hour', json.Book.Time.Hour)
-        .replace('minutes', json.Book.Time.Minutes)
-        .replace('minute', json.Book.Time.Minute)
-        .replace('seconds', json.Book.Time.Seconds)
-        .replace('second', json.Book.Time.Second)
-        .replace('ago', json.Book.Time.Ago)
 }
+
+// function eval (fn) {
+//     const Fn = Function
+//     return new Fn(`return ${fn}`)()
+// }
