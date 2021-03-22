@@ -8,9 +8,11 @@
 // @author       NekoChan
 // @match        *://nhentai.net/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
+// @grant none
 // ==/UserScript==
 
 // ========= 協助名單 =========
+//            Horis
 //     redblaze - 標籤爬蟲
 // ===========================
 
@@ -26,10 +28,10 @@ const $ = window.$,
     data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 
     // Ajax 自動翻頁
-    ajaxPage = true,
+    ajaxPage = false,
 
     // 隱藏黑名單
-    hideBlackList = false,
+    hideBlackList = true,
 
     // Discord 聊天室
     // discordChat = true,
@@ -447,6 +449,17 @@ function ajaxNextPage (mode) {
 
             // 將目前項目連結 改為新分頁開啟
             galleryBlank()
+
+            // 黑名單 class 加 blacklisted
+            // Code from：https://static.nhentai.net/js/scripts.8d76ecfad261.js
+            const t = window.n.options.blacklisted_tags
+            if (t && t.length)
+            for (let e = t.map((t => {
+                return ".tag-".concat(t, ',.gallery[data-tags~="').concat(t, '"]')
+            })).join(","), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add("blacklisted")
+
+            // 隱藏黑名單
+            hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
             loadingPage = false
         },
