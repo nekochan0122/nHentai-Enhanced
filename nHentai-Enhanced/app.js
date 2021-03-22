@@ -318,6 +318,7 @@ function book () {
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
 
+                // 創建元素
                 let newHtml = $('<div></div>'),
                     resultNum = newHtml.html(data).find('#content > h1').text().replace('results', '')
 
@@ -574,8 +575,10 @@ function timeTranslator (time) {
         .replace('year', json.Book.Time.Year)
         .replace('months', json.Book.Time.Months)
         .replace('month', json.Book.Time.Month)
-        .replace('day', json.Book.Time.Day)
+        .replace('weeks', json.Book.Time.Weeks)
+        .replace('week', json.Book.Time.Week)
         .replace('days', json.Book.Time.Days)
+        .replace('day', json.Book.Time.Day)
         .replace('hours', json.Book.Time.Hours)
         .replace('hour', json.Book.Time.Hour)
         .replace('minutes', json.Book.Time.Minutes)
