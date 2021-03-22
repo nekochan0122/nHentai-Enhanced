@@ -575,7 +575,7 @@ function timeTranslator (time) {
     const jsonTime = json.Book.Time,
           engTime = ['years', 'year', 'months', 'month', 'weeks', 'days', 'day', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second', 'ago']
 
-    for (let i = 0; i < engTime.length; i++) {
+    for (let i = 0, max = engTime.length; i < max; i++) {
         time = time.replace(engTime[i], jsonTime[engTime[i]])
     }
 
