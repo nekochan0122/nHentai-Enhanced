@@ -371,7 +371,7 @@ function book () {
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
 
-                console.log(data)
+                // console.log(data)
 
                 let newHtml = $('<div></div>'),
 
