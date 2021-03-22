@@ -27,10 +27,10 @@ const $ = window.$,
     data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
 
     // Ajax 自動翻頁
-    ajaxPage = false,
+    ajaxPage = true,
 
     // 隱藏黑名單
-    hideBlackList = true,
+    hideBlackList = false,
 
     // Discord 聊天室
     // discordChat = true,
