@@ -94,7 +94,7 @@ $(() => {
  */
 function init () {
     // 網頁名稱
-    $('title').text('nHentai Enhanced')
+    // $('title').text('nHentai Enhanced')
 
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
