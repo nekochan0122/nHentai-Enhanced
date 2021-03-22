@@ -287,34 +287,60 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    let searchText = $('#info .title').length === 2 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` :
+    let searchText1 = $('#info .title').length === 2 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` :
                      $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(2) > .pretty').text()}\'` : null,
+        searchText2 = $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` : null,
+        serachTimes = 0,
+
     // 格式化搜尋內容
     filter = [' ', '「', '」']
-    for (let i = 0, len = filter.length; i < len; i++) {
-        searchText = searchText.replaceAll(filter[i], '+')
-    }
-    // 插入按鈕元素
-    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" id="serachRelatedBook" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">讀取中...</span>)</a>`)
-    // 獲取搜尋結果數量並修改
-    $.ajax({
-        type: "GET",
-        url: `/search/?q=${searchText}`,
-        dataType: "html",
-        success: data => {
-            debugConsole(`搜尋 ${searchText} 獲取成功`)
 
-            let newHtml = $('<div></div>'),
-                resultNum = newHtml.html(data).find('#content > h1').text().replace('results', '')
+    // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
+    search(searchText1)
 
-            $H('#resultNum', resultNum)
+    function search(searchText) {
+        if (serachTimes === 2) return
 
-            resultNum === 0 ? $('#serachRelatedBook').hide() : null
-        },
-        error: () => {
-            debugConsole(`搜尋 ${searchText} 獲取失敗`)
+        // 搜尋次數
+        serachTimes++
+
+        // 格式化文字
+        for (let i = 0, len = filter.length; i < len; i++) {
+            searchText = searchText.replaceAll(filter[i], '+')
         }
-    })
+
+        debugConsole(`搜尋 第 ${serachTimes} 次 開始`)
+
+        $.ajax({
+            type: "GET",
+            url: `/search/?q=${searchText}`,
+            dataType: "html",
+            success: data => {
+                debugConsole(`搜尋 ${searchText} 獲取成功`)
+
+                let newHtml = $('<div></div>'),
+                    resultNum = newHtml.html(data).find('#content > h1').text().replace('results', '')
+
+                if (resultNum > 0) {
+                    debugConsole(`搜尋 結果數量：${resultNum} 大於 0`)
+
+                    // 插入按鈕元素
+                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" id="serachRelatedBook" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook} (<span id="resultNum">${resultNum}</span>)</a>`)
+
+                } else if ($('#info .title').length === 3) {
+                    debugConsole(`搜尋 結果數量：${resultNum} 小於 0`)
+
+                    // 搜尋 searchText2
+                    search(searchText2)
+                }
+
+                resultNum === 0 ? $('#serachRelatedBook').hide() : null
+            },
+            error: () => {
+                debugConsole(`搜尋 ${searchText} 獲取失敗`)
+            }
+        })
+    }
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
