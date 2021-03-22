@@ -292,9 +292,9 @@ function book () {
     $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
 
     // 新增按鈕 - 搜尋相關本本
-    let searchText1 = $('#info .title').length === 2 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` :
-                     $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(2) > .pretty').text()}\'` : null,
-        searchText2 = $('#info .title').length === 3 ? `\'${$('#info .title:nth-child(1) > .pretty').text()}\'` : null,
+    let searchText1 = $('#info .title').length === 2 ? `${$('#info .title:nth-child(1) > .pretty').text()}` :
+                     $('#info .title').length === 3 ? `${$('#info .title:nth-child(2) > .pretty').text()}` : null,
+        searchText2 = $('#info .title').length === 3 ? `${$('#info .title:nth-child(1) > .pretty').text()}` : null,
         serachTimes = 0,
 
     // 格式化文字
@@ -340,17 +340,21 @@ function book () {
 
         $.ajax({
             type: "GET",
-            url: `/search/?q=${searchText}`,
+            url: `/search/?q=%27${searchText}%27`,
             cache: false,
             dataType: "html",
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
 
-                // 創建元素
-                let newHtml = $('<div></div>'),
-                    resultNum = newHtml.html(data).find('#content > h1').text().replace('results', '')
+                const newHtml = $('<div></div>'),
 
-                if (resultNum > 0) {
+                      // 獲取搜尋結果數量
+                      resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
+
+                      // 搜尋結果是否含有 searchText2
+                      perfect = /pBTJud4CQuaD6wNA/.test(data.replace(searchText2, 'pBTJud4CQuaD6wNA'))
+
+                if (resultNum > 0 && perfect) {
                     debugConsole(`搜尋 結果數量：${resultNum} 大於 0`)
 
                     // 插入按鈕元素
