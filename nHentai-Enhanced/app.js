@@ -516,7 +516,7 @@ function readingBook () {
             cache: true,
             dataType: "html",
             success: data => {
-                debugConsole(`第 ${target} 獲取成功`)
+                debugConsole(`第 ${target} 張 獲取成功`)
 
                 // console.log(data)
 
@@ -533,11 +533,11 @@ function readingBook () {
                 }
 
                 // 讀取下一頁
-                nextImage(+target + 1)
+                nextImage(target + 1)
 
             },
             error: () => {
-                debugConsole(`第 ${target} 獲取失敗`)
+                debugConsole(`第 ${target} 張 獲取失敗`)
             }
         })
     }
