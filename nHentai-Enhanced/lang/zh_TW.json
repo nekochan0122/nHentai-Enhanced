@@ -32,9 +32,10 @@
             "Pages": "頁數:",
             "Uploaded": "上傳時間:"
         },
-        "btn": {
+        "Btns": {
+            "Read": "開始閱讀",
             "BTdownload": "BT 下載",
-            "serachRelatedBook": "搜尋相關本本"
+            "SerachRelatedBook": "搜尋相關本本"
         },
         "ShowMoreImagesButton": "顯示更多",
         "ShowAllImagesButton": "顯示全部",

@@ -303,8 +303,10 @@ function page () {
  * book 本本
  */
 function book () {
+    const book_id = $('#gallery_id').hide().text().replace('#', '')
+
     // 神的語言
-    $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" href="javascript:;">${$('#gallery_id').hide().text().replace('#', '')}</a></h3>`)).insertAfter('#gallery_id')
+    $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
 
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
@@ -319,7 +321,11 @@ function book () {
     // TODO: Favorite
 
     // 按鈕 - 下載
-    $H('#download', `<i class="fa fa-download"></i> ${json.Book.btn.BTdownload}`)
+    // $H('#download', `<i class="fa fa-download"></i> ${json.Book.Btns.BTdownload}`)
+    $('#download').hide()
+
+    // 新增按鈕 - 開始閱讀
+    $('#info > .buttons').prepend(`<a href="/g/${book_id}/1/" class="btn btn-primary"><i class="fas fa-book-open"></i> ${json.Book.Btns.Read}</a>`)
 
     // 新增按鈕 - 搜尋相關本本
     let searchText1 = $('#info .title').length === 2 ? `${$('#info .title:nth-child(1) > .pretty').text()}` :
@@ -400,7 +406,7 @@ function book () {
 
                 if (resultNum > 0 && perfect) {
                     debugConsole('完美搜尋結果')
-                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
+                    appendButton(searchText)
 
                 } else if (serachTimes < 2) {
                     if ($('#info .title').length === 3) {
@@ -415,7 +421,7 @@ function book () {
                 } else if (serachTimes == 2) {
                     if (resultNum > 0 && perfect) {
                         debugConsole('完美搜尋結果')
-                        appendButton(searchText, ` (<span>${resultNum}</span>)`)
+                        appendButton(searchText)
 
                     } else {
                         search(searchText3, false)
@@ -424,12 +430,12 @@ function book () {
 
                 } else if (serachTimes == 3) {
                     debugConsole('勉強搜尋結果')
-                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
+                    appendButton(searchText)
 
                 }
 
-                function appendButton (searchText, resultNumSpan = '') {
-                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.btn.serachRelatedBook}${resultNumSpan}</a>`)
+                function appendButton (searchText) {
+                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.Btns.SerachRelatedBook} (<span>${resultNum.replaceAll(' ', '')}</span>)</a>`)
                 }
 
             },
@@ -492,7 +498,7 @@ function readingBook () {
         id = cur[cur.length - 3]
 
     $('#image-container > a').remove()
-    // $('.reader-bar').remove()
+    $('.reader-bar').remove()
 
     if (imageContainer.hasClass('fit-both')) {
         imageContainer.removeClass('fit-both')
@@ -514,12 +520,10 @@ function readingBook () {
 
                 // console.log(data)
 
-                // 創建元素
                 let newHtml = $('<div></div>')
-                newHtml.html(data)
 
                 // 插入 元素
-                $('#image-container').append(newHtml.find('#image-container > a > img').attr('id', `page${target}`).css({'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'}))
+                $('#image-container').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`).css({'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'}))
 
                 // 滾動至當前頁數
                 if (target == curNum) {
