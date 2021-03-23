@@ -492,7 +492,7 @@ function readingBook () {
         id = cur[cur.length - 3]
 
     $('#image-container > a').remove()
-    $('.reader-bar').remove()
+    // $('.reader-bar').remove()
 
     if (imageContainer.hasClass('fit-both')) {
         imageContainer.removeClass('fit-both')
