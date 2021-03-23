@@ -335,11 +335,11 @@ function book () {
         searchText3 += `${sT1Array[i]}+`
     }
 
-    // 替換文字
-    filter = [' ', '「', '」'],
 
     // 移除文字
-    remove = ['Ch.', 'Ep.', '第', '話', '券', '-']
+    remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-']
+    // 替換文字
+    filter = [' ', '「', '」'],
 
     // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
