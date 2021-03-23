@@ -122,6 +122,11 @@ function init () {
                 debugConsole('偵測到本本')
                 book()
 
+            // 閱讀本本中
+            } else if ($('#image-container')[0]) {
+                debugConsole('偵測到閱讀本本中')
+                readingBook()
+
             } else {
                 debugConsole('未知頁面')
             }
@@ -366,7 +371,7 @@ function book () {
         $.ajax({
             type: "GET",
             url: `/search/?q=${searchText}`,
-            cache: false,
+            cache: true,
             dataType: "html",
             success: data => {
                 debugConsole(`搜尋 ${searchText} 獲取成功`)
@@ -383,22 +388,22 @@ function book () {
 
                 debugConsole(`搜尋 結果數量：${resultNum}`)
 
-                if (resultNum > 0 && perfect) {
+                if (resultNum > 0 && perfect) { // 每一次 的 "完美＂搜尋的結果
                     debugConsole('搜尋進入判斷一')
 
                     appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
-                } else if (resultNum > 0 && serachTimes == 2) {
+                } else if (resultNum > 0 && serachTimes == 2) { // 第二次 搜尋的結果
                     debugConsole('搜尋進入判斷二')
 
                     appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
-                } else if ($('#info .title').length === 3 && serachTimes < 2) {
+                } else if (serachTimes < 2 && $('#info .title').length === 3) { // 開始搜尋第二次
                     debugConsole('搜尋進入判斷三')
 
                     search(searchText2)
 
-                } else if (resultNum == 0) {
+                } else if (resultNum == 0) { //
                     debugConsole('搜尋進入判斷四')
 
                     const array = searchText1.split(' '),
@@ -474,6 +479,67 @@ function book () {
 }
 
 /**
+ * 閱讀本本中
+ */
+function readingBook () {
+    const imageContainer = $('#image-container')
+
+    let cur = window.location.href.split('/'),
+        curNum = cur[cur.length - 2],
+        maxNum = $('span.num-pages').html(),
+        id = cur[cur.length - 3]
+
+    $('#image-container > a').remove()
+    $('.reader-bar').remove()
+
+    if (imageContainer.hasClass('fit-both')) {
+        imageContainer.removeClass('fit-both')
+        imageContainer.addClass('fit-horizontal')
+    }
+
+    // 從第一張開始
+    nextImage(1)
+
+    function nextImage (target) {
+        if (target > maxNum) return
+
+        $.ajax({
+            type: "GET",
+            url: `/g/${id}/${target}/`,
+            cache: true,
+            dataType: "html",
+            success: data => {
+                debugConsole(`第 ${target} 獲取成功`)
+
+                // console.log(data)
+
+                // 創建元素
+                let newHtml = $('<div></div>')
+                newHtml.html(data)
+
+                // 插入 元素
+                $('#image-container').append(newHtml.find('#image-container > a > img').attr('id', `page${target}`).css({'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'}))
+
+                // 滾動至當前頁數
+                if (target == curNum) {
+                    $('html, body').animate({
+                        scrollTop: $(`#page${curNum}`).offset().top
+                    }, 300)
+                }
+
+                // 讀取下一頁
+                nextImage(+target + 1)
+
+            },
+            error: () => {
+                debugConsole(`第 ${target} 獲取失敗`)
+            }
+        })
+    }
+
+}
+
+/**
  * Ajax 獲取下一頁資料 並插入至容器
  * @param {string} mode - "homepage", "page"
  */
@@ -490,7 +556,7 @@ function ajaxNextPage (mode) {
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
-        cache: false,
+        cache: true,
         dataType: "html",
         success: data => {
             debugConsole(`第${currentPageNum}頁 獲取成功`)
@@ -499,7 +565,7 @@ function ajaxNextPage (mode) {
             let newHtml = $('<div></div>')
             // 格式化 HTML字符串 成 DOM 註：取代 data-src 成 src，解決 lazyload 問題
             newHtml.html(data.replaceAll('data-src', 'src'))
-            // 插入 DOM
+            // 插入 元素
             $(selector).append(newHtml.find('.gallery'))
 
             // 將目前項目連結 改為新分頁開啟
