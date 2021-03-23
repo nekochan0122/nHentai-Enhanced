@@ -490,20 +490,36 @@ function book () {
  * 閱讀本本中
  */
 function readingBook () {
-    const imageContainer = $('#image-container')
-
     let cur = window.location.href.split('/'),
         curNum = cur[cur.length - 2],
         maxNum = $('span.num-pages').html(),
         id = cur[cur.length - 3]
 
-    $('#image-container > a').remove()
-    $('.reader-bar').remove()
+    $('nav').remove()
+    $('#image-container').remove()
+    $('.reader-bar').eq(1).remove()
+    $('.reader-settings').remove()
 
-    if (imageContainer.hasClass('fit-both')) {
-        imageContainer.removeClass('fit-both')
-        imageContainer.addClass('fit-horizontal')
-    }
+    $('.reader-bar').eq(0).css({'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
+        function () {
+            $(this).animate({'opacity':'1.0'}, 100);
+        },
+        function () {
+            $(this).animate({'opacity':'0'}, 100);
+        }
+    ).animate({'opacity':'0'}, 100);
+
+    // 鍵盤事件
+    $(window).keyup(event => {
+        // console.log(event.code)
+
+        switch (event.code) {
+            case 'ArrowRight': // 下一張
+                break
+            case 'ArrowLeft': // 上一張
+                break
+        }
+    })
 
     nextImage(1)
 
@@ -523,7 +539,7 @@ function readingBook () {
                 let newHtml = $('<div></div>')
 
                 // 插入 元素
-                $('#image-container').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`).css({'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto'}))
+                $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`))
 
                 // 滾動至當前頁數
                 if (target == curNum) {
