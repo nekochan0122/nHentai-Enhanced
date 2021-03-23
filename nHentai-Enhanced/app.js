@@ -499,7 +499,6 @@ function readingBook () {
         imageContainer.addClass('fit-horizontal')
     }
 
-    // 從第一張開始
     nextImage(1)
 
     function nextImage (target) {
