@@ -84,8 +84,7 @@ $(() => {
         success: data => {
             debugConsole('JSON 獲取成功')
             json = data
-
-            init() // 初始化
+            init()
         },
         error: () => {
             debugConsole('JSON 獲取失敗')
@@ -129,6 +128,7 @@ function init () {
 
             } else {
                 debugConsole('未知頁面')
+
             }
 
             // TODO: 黑名單不應該完全隱藏，游標移動至元素上時移除黑名單 class，顯示封面。
@@ -187,9 +187,7 @@ function nav (callback) {
         $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
 
         // 隱藏 資訊
-        if (i === 7) {
-            $(`.menu.left li:nth-child(${i})`).hide()
-        }
+        if (i === 7) $(`.menu.left li:nth-child(${i})`).hide()
     }
 
     // 右側
@@ -201,6 +199,7 @@ function nav (callback) {
         $H('.menu.right li:nth-child(3) > a', `<i class="fa fa-sign-out-alt"></i> ${json.MenuRight2.LogOut}`)
 
         login = true // 已登入
+
     } else {
         // 登入
         $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-sign-in-alt"></i> ${json.MenuRight1.SignIn}`)
@@ -208,6 +207,7 @@ function nav (callback) {
         $H('.menu.right li:nth-child(2) > a', `<i class="fa fa-edit"></i> ${json.MenuRight1.Register}`)
 
         login = false // 未登入
+
     }
 
     $('.menu.right').prepend(`<li class="desktop "><a href="https://discord.gg/ekbWahg52h"><i class="fab fa-discord"></i> &nbsp Discord - nHentai-Enhanced</a></li>`)
@@ -325,9 +325,17 @@ function book () {
     let searchText1 = $('#info .title').length === 2 ? `${$('#info .title:nth-child(1) > .pretty').text()}` :
                      $('#info .title').length === 3 ? `${$('#info .title:nth-child(2) > .pretty').text()}` : null,
         searchText2 = $('#info .title').length === 3 ? `${$('#info .title:nth-child(1) > .pretty').text()}` : null,
+        searchText3 = '',
         serachTimes = 0,
 
-    // 格式化文字
+        sT1Array = searchText1.split(' '),
+        sT1Length = sT1Array.length === 1 ? sT1Array.length : sT1Array.length - 1
+
+    for (let i = 0; i < sT1Length; i++) {
+        searchText3 += `${sT1Array[i]}+`
+    }
+
+    // 替換文字
     filter = [' ', '「', '」'],
 
     // 移除文字
@@ -339,21 +347,25 @@ function book () {
     /**
      * 搜尋相關本本
      * @param {string} searchText - 要搜尋的字符串
+     * @param {boolean} fix - 格式化文字
      */
-    function search (searchText) {
-        if (serachTimes == 2) return
+    function search (searchText, fix = true) {
+        if (serachTimes == 3) return
 
         // 搜尋次數
         serachTimes++
 
-        // 移除數字
-        searchText = searchText.replace(/[0-9]+/g, '')
-
-        // 移除文字
-        forLoop(remove)
-
         // 格式化文字
-        forLoop(filter, '+')
+        if (fix) {
+            // 移除數字
+            searchText = searchText.replace(/[0-9]+/g, '')
+
+            // 移除文字
+            forLoop(remove)
+
+            // 替換文字
+            forLoop(filter, '+')
+        }
 
         /**
          * for 循環 replaceAll 迴圈
@@ -365,8 +377,6 @@ function book () {
                 searchText = searchText.replaceAll(target[i], replace)
             }
         }
-
-        debugConsole(`搜尋 第 ${serachTimes} 次 開始`)
 
         $.ajax({
             type: "GET",
@@ -388,41 +398,34 @@ function book () {
 
                 debugConsole(`搜尋 結果數量：${resultNum}`)
 
-                if (resultNum > 0 && perfect) { // 每一次 的 "完美＂搜尋的結果
-                    debugConsole('搜尋進入判斷一')
-
+                if (resultNum > 0 && perfect) {
+                    debugConsole('完美搜尋結果')
                     appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
-                } else if (resultNum > 0 && serachTimes == 2) { // 第二次 搜尋的結果
-                    debugConsole('搜尋進入判斷二')
+                } else if (serachTimes < 2) {
+                    if ($('#info .title').length === 3) {
+                        search(searchText2)
 
-                    appendButton(searchText, ` (<span>${resultNum}</span>)`)
+                    } else {
+                        debugConsole('跳過搜尋 searchText2 ，搜尋 searchText3')
+                        search(searchText3, false)
 
-                } else if (serachTimes < 2 && $('#info .title').length === 3) { // 開始搜尋第二次
-                    debugConsole('搜尋進入判斷三')
-
-                    search(searchText2)
-
-                } else if (resultNum == 0) { //
-                    debugConsole('搜尋進入判斷四')
-
-                    const array = searchText1.split(' '),
-                          length = array.length
-
-                    let searchText = ''
-
-                    for(let i = 0; i < length - 1; i++) {
-                        searchText += `${array[i]}+`
                     }
 
-                    appendButton(searchText)
+                } else if (serachTimes == 2) {
+                    if (resultNum > 0 && perfect) {
+                        debugConsole('完美搜尋結果')
+                        appendButton(searchText, ` (<span>${resultNum}</span>)`)
 
-                } else if (resultNum > 0){
-                    debugConsole('搜尋進入判斷五')
+                    } else {
+                        search(searchText3, false)
 
+                    }
+
+                } else if (serachTimes == 3) {
+                    debugConsole('勉強搜尋結果')
                     appendButton(searchText, ` (<span>${resultNum}</span>)`)
-                } else {
-                    debugConsole('搜尋進入判斷六')
+
                 }
 
                 function appendButton (searchText, resultNumSpan = '') {
@@ -438,9 +441,8 @@ function book () {
 
     // 偵測頁數 & 按紐
     const page = $('.thumb-container').length
-    debugConsole(`目前頁數：${page}`)
     if (page > 75) {
-        debugConsole(`頁數：${page}，確定大於 75 `)
+        debugConsole(`總共頁數：：${page}，確定大於 75 `)
 
         // 顯示更多
         $H('#show-more-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowMoreImagesButton}</span>`)
