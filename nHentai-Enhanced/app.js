@@ -599,9 +599,12 @@ function readingBook () {
             $(this).animate({'opacity':'0'}, "slow")
 
             // 滾動視口 至 ID
-            $('html, body').animate({
-                scrollTop: $(`#page${num}`).offset().top
-            }, "fast")
+
+            // $('html, body').animate({
+            //     scrollTop: $(`#page${num}`).offset().top
+            // }, "fast")
+
+            window.scrollTo(top, $(`#page${num}`).offset().top)
         })
     }
 
