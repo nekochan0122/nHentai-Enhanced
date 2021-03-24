@@ -491,38 +491,68 @@ function book () {
  */
 function readingBook () {
     let cur = window.location.href.split('/'),
-        curNum = cur[cur.length - 2],
-        maxNum = $('span.num-pages').html(),
-        id = cur[cur.length - 3]
+        curNum = Number(cur[cur.length - 2]),
+        maxNum = Number($('span.num-pages').eq(1).text()),
+        id = cur[cur.length - 3],
 
-    $('nav').remove()
+        // 觀察者
+        options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: [0,1.0]
+        },
+        callback = entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    $H('span.current', $(entry.target).attr('id').replace('page', ''))
+                }
+            })
+        },
+        observer = new IntersectionObserver(callback, options)
+
+    $('nav').hide()
     $('#image-container').remove()
     $('.reader-bar').eq(1).remove()
     $('.reader-settings').remove()
+    $('.reader-pagination').hide()
+    $('.reader-bar').append(`<div style="display:flex;align-self:flex-center;position:absolute;left:50%;transform:translateX(-50%)"><button class="page-number btn btn-unstyled"><span class="current">0</span><span class="divider">&nbsp;/&nbsp;</span><span class="num-pages">${maxNum}</span></button></div>`)
 
-    $('.reader-bar').eq(0).css({'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
+    $('.reader-bar').eq(0).css({'opacity': '0', 'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
         function () {
-            $(this).animate({'opacity':'1.0'}, 100);
+            $(this).animate({'opacity':'1.0'}, 100)
         },
         function () {
-            $(this).animate({'opacity':'0'}, 100);
+            $(this).animate({'opacity':'0'}, 100)
         }
-    ).animate({'opacity':'0'}, 100);
+    )
 
     // 鍵盤事件
+    $(document).unbind()
+    $(window).unbind()
     $(window).keyup(event => {
-        // console.log(event.code)
+        $('.reader-pagination > a').remove()
+
+        let cur = window.location.href.split('/'),
+            curNum = Number(cur[cur.length - 2])
 
         switch (event.code) {
             case 'ArrowRight': // 下一張
+                if (curNum <= maxNum) scrollToPage(curNum)
                 break
+
             case 'ArrowLeft': // 上一張
+                if (curNum >= 0) scrollToPage(curNum)
                 break
+
         }
     })
 
     nextImage(1)
 
+    /**
+     * 獲取下一張圖片
+     * @param {number} target - 獲取的頁數
+     */
     function nextImage (target) {
         if (target > maxNum) return
 
@@ -543,10 +573,11 @@ function readingBook () {
 
                 // 滾動至當前頁數
                 if (target == curNum) {
-                    $('html, body').animate({
-                        scrollTop: $(`#page${curNum}`).offset().top
-                    }, 300)
+                    scrollToPage(curNum)
                 }
+
+                // 綁定目標
+                observer.observe($(`#page${target}`)[0])
 
                 // 讀取下一頁
                 nextImage(target + 1)
@@ -555,6 +586,22 @@ function readingBook () {
             error: () => {
                 debugConsole(`第 ${target} 張 獲取失敗`)
             }
+        })
+    }
+
+    /**
+     * 滾動至頁數
+     * @param {*} num - 元素 ID
+     */
+    function scrollToPage (num) {
+        // 工具列 動畫
+        $('.reader-bar').eq(0).animate({'opacity':'1.0'}, 0, "swing", function () {
+            $(this).animate({'opacity':'0'}, "slow")
+
+            // 滾動視口 至 ID
+            $('html, body').animate({
+                scrollTop: $(`#page${num}`).offset().top
+            }, "fast")
         })
     }
 
