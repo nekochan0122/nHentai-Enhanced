@@ -604,7 +604,7 @@ function readingBook () {
             //     scrollTop: $(`#page${num}`).offset().top
             // }, "fast")
 
-            window.scrollTo(top, $(`#page${num}`).offset().top)
+            window.scrollTo(top, document.querySelector(`#page${num}`).offsetTop)
         })
     }
 
@@ -785,7 +785,7 @@ function $H (selector, text) {
 function blockAdsFunc () {
     debugConsole('阻擋廣告 已開啟')
 
-    $('.advertisement').remove()
+    $('.advertisement').hide()
 }
 
 /**
