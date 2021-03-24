@@ -112,7 +112,7 @@ function init () {
                 homepage()
 
             // 第二頁開始的頁面列表
-            } else if ($('.index-container')[0] && /\?page=/.test(window.location.href)) {
+            } else if ($('.index-container')[0] && /net\/\?page=/.test(window.location.href)) {
                 debugConsole('偵測到頁面列表')
                 page()
 
