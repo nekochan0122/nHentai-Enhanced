@@ -644,10 +644,12 @@ function ajaxNextPage (mode) {
 
             // 黑名單 class 加 blacklisted
             // Code from：https://static.nhentai.net/js/scripts.8d76ecfad261.js
-            const t = window.n.options.blacklisted_tags
-            for (let e = t.map((t => {
-                return ".tag-".concat(t, ',.gallery[data-tags~="').concat(t, '"]')
-            })).join(","), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add("blacklisted")
+            if (login) {
+                const t = window.n.options.blacklisted_tags
+                for (let e = t.map((t => {
+                    return ".tag-".concat(t, ',.gallery[data-tags~="').concat(t, '"]')
+                })).join(","), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add("blacklisted")
+            }
 
             // 隱藏黑名單
             hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
