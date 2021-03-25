@@ -210,7 +210,10 @@ function nav (callback) {
 
     }
 
+    // 右側自訂選單
     $('.menu.right').prepend(`<li class="desktop "><a href="https://discord.gg/ekbWahg52h"><i class="fab fa-discord"></i> &nbsp Discord - nHentai-Enhanced</a></li>`)
+
+    $('input[type=search]').attr({'autocomplete': 'off', 'placeholder': ''})
 
     callback()
     customMenu(custom.menu)
