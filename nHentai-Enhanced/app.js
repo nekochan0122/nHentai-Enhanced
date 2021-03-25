@@ -618,7 +618,7 @@ function ajaxNextPage (mode) {
     currentPageNum++
 
     // 判斷當前模式 選擇正確的元素
-    const selector = mode === 'homepage' ? '#content > div:nth-child(3)' :
+    const selector = mode === 'homepage' ? '.index-container:nth-child(4)' :
                      mode === 'page' ? '.index-container' : null
 
     loadingPage = true
