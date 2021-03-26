@@ -338,17 +338,16 @@ function book () {
         serachTimes = 0,
 
         sT1Array = searchText1.split(' '),
-        sT1Length = sT1Array.length === 1 ? sT1Array.length : sT1Array.length - 1
+        sT1Length = sT1Array.length === 1 ? sT1Array.length : sT1Array.length - 1,
+
+    // 移除文字
+    remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-'],
+    // 替換文字
+    filter = [' ', '「', '」']
 
     for (let i = 0; i < sT1Length; i++) {
         searchText3 += `${sT1Array[i]}+`
     }
-
-
-    // 移除文字
-    remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-']
-    // 替換文字
-    filter = [' ', '「', '」'],
 
     // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
@@ -497,6 +496,7 @@ function readingBook () {
         curNum = Number(cur[cur.length - 2]),
         maxNum = Number($('span.num-pages').eq(1).text()),
         id = cur[cur.length - 3],
+        curIdNum = '',
 
         // 觀察者
         options = {
@@ -507,44 +507,39 @@ function readingBook () {
         callback = entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    $H('span.current', $(entry.target).attr('id').replace('page', ''))
+                    curIdNum = Number($(entry.target).attr('id').replace('page', ''))
+                    $H('span.current', curIdNum)
                 }
             })
         },
         observer = new IntersectionObserver(callback, options)
 
     $('nav').hide()
-    $('#image-container').remove()
-    $('.reader-bar').eq(1).remove()
-    $('.reader-settings').remove()
+    $('#image-container').hide()
+    $('.reader-bar').eq(1).hide()
+    $('.reader-settings').hide()
     $('.reader-pagination').hide()
+
     $('.reader-bar').append(`<div style="display:flex;align-self:flex-center;position:absolute;left:50%;transform:translateX(-50%)"><button class="page-number btn btn-unstyled"><span class="current">0</span><span class="divider">&nbsp;/&nbsp;</span><span class="num-pages">${maxNum}</span></button></div>`)
 
     $('.reader-bar').eq(0).css({'opacity': '0', 'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
-        function () {
-            $(this).animate({'opacity':'1.0'}, 100)
-        },
-        function () {
-            $(this).animate({'opacity':'0'}, 100)
-        }
+        function () { $(this).animate({'opacity':'1.0'}, 100) },
+        function () { $(this).animate({'opacity':'0'}, 100) }
     )
 
     // 鍵盤事件
-    $(document).unbind()
-    $(window).unbind()
     $(window).keyup(event => {
         $('.reader-pagination > a').remove()
 
-        let cur = window.location.href.split('/'),
-            curNum = Number(cur[cur.length - 2])
-
         switch (event.code) {
             case 'ArrowRight': // 下一張
-                if (curNum <= maxNum) scrollToPage(curNum)
+                curIdNum++
+                curIdNum <= maxNum ? scrollToPage(curIdNum) : curIdNum--
                 break
 
             case 'ArrowLeft': // 上一張
-                if (curNum >= 0) scrollToPage(curNum)
+                curIdNum--
+                curIdNum >= 1 ? scrollToPage(curIdNum) : curIdNum++
                 break
 
         }
@@ -575,9 +570,7 @@ function readingBook () {
                 $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`))
 
                 // 滾動至當前頁數
-                if (target == curNum) {
-                    scrollToPage(curNum)
-                }
+                if (target == curNum) scrollToPage(curNum)
 
                 // 綁定目標
                 observer.observe($(`#page${target}`)[0])
@@ -597,20 +590,10 @@ function readingBook () {
      * @param {*} num - 元素 ID
      */
     function scrollToPage (num) {
-        // 工具列 動畫
-        $('.reader-bar').eq(0).animate({'opacity':'1.0'}, 0, "swing", function () {
-            $(this).animate({'opacity':'0'}, "slow")
-
-            // 滾動視口 至 ID
-
-            // $('html, body').animate({
-            //     scrollTop: $(`#page${num}`).offset().top
-            // }, "fast")
-
-            window.scrollTo(top, document.querySelector(`#page${num}`).offsetTop)
-        })
+        $('html, body').animate({
+            scrollTop: $(`#page${num}`).offset().top
+        }, "fast")
     }
-
 }
 
 /**
