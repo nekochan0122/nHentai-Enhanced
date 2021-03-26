@@ -112,7 +112,7 @@ function init () {
                 homepage()
 
             // 第二頁開始的頁面列表
-            } else if ($('.index-container')[0] && /net\/\?page=/.test(window.location.href)) {
+            } else if ($('.index-container')[0] && /net\/\?page=/.test(location.href)) {
                 debugConsole('偵測到頁面列表')
                 page()
 
@@ -289,7 +289,7 @@ function page () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
-        currentPageNum = window.location.href.replace('https://nhentai.net/?page=', '')
+        currentPageNum = location.href.replace('https://nhentai.net/?page=', '')
 
         // 滾動事件
         $(window).scroll(() => {
@@ -492,7 +492,7 @@ function book () {
  * 閱讀本本中
  */
 function readingBook () {
-    let cur = window.location.href.split('/'),
+    let cur = location.href.split('/'),
         curNum = Number(cur[cur.length - 2]),
         maxNum = Number($('span.num-pages').eq(1).text()),
         id = cur[cur.length - 3],
