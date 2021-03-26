@@ -496,7 +496,7 @@ function readingBook () {
         curNum = Number(cur[cur.length - 2]),
         maxNum = Number($('span.num-pages').eq(1).text()),
         id = cur[cur.length - 3],
-        curIdNum = '',
+        curIdNum = 1,
 
         // 觀察者
         options = {
