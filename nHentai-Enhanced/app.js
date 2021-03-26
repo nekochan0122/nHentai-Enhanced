@@ -340,10 +340,10 @@ function book () {
         sT1Array = searchText1.split(' '),
         sT1Length = sT1Array.length === 1 ? sT1Array.length : sT1Array.length - 1,
 
-    // 移除文字
-    remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-'],
-    // 替換文字
-    filter = [' ', '「', '」']
+        // 移除文字
+        remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-'],
+        // 替換文字
+        filter = [' ', '「', '」']
 
     for (let i = 0; i < sT1Length; i++) {
         searchText3 += `${sT1Array[i]}+`
