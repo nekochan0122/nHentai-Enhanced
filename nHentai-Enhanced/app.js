@@ -289,7 +289,7 @@ function page () {
         debugConsole('自動翻頁 已開啟')
 
         // 當前頁數
-        currentPageNum = location.href.replace('https://nhentai.net/?page=', '')
+        currentPageNum = Number(location.href.replace('https://nhentai.net/?page=', ''))
 
         // 滾動事件
         $(window).scroll(() => {
@@ -314,7 +314,7 @@ function book () {
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
         span = $(`#tags > .tag-container:nth-child(${i}) > span`)[0].outerHTML
-        $H(`#tags > .tag-container:nth-child(${i})`, `${json.Book.TagsName[Object.keys(json.Book.TagsName).sort((a, b)=>a - b)[i - 1]]} ${span}`)
+        $H(`#tags > .tag-container:nth-child(${i})`, `${json.Book.TagsName[Object.keys(json.Book.TagsName).sort((a, b) => a - b)[i - 1]]} ${span}`)
     }
 
     // 右側標籤列表
