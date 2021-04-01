@@ -8,7 +8,11 @@
 // @author       NekoChan
 // @match        *://nhentai.net/*
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
-// @grant none
+// @require      https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js
+// @require      https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js
+// @resource     IMPORTED_CSS https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
 // ==/UserScript==
 
 // ========= 協助名單 =========
@@ -309,7 +313,30 @@ function book () {
     const book_id = $('#gallery_id').hide().text().replace('#', '')
 
     // 神的語言
-    $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
+    $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" class="god" data-clipboard-text="${book_id}" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
+
+    const clipboard = new ClipboardJS('.god'),
+          notyf = new Notyf(),
+          css = GM_getResourceText('IMPORTED_CSS')
+
+    GM_addStyle(css)
+
+    clipboard.on('success', e => {
+        debugConsole(`操作：${e.action}, 文字：${e.text}, 觸發：${e.trigger}`)
+
+        notyf.dismissAll()
+        notyf.success('複製成功！')
+
+        e.clearSelection()
+    })
+
+    clipboard.on('error', e => {
+        debugConsole(`操作：${e.action}, 觸發：${e.trigger}`)
+
+        notyf.dismissAll()
+        notyf.error('復製失敗！')
+    })
+
 
     // 左側標籤列表
     for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
