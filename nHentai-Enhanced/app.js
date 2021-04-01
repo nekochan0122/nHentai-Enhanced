@@ -10,7 +10,7 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 // @require      https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js
 // @require      https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js
-// @resource     IMPORTED_CSS https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css
+// @resource     notyf_css https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -317,7 +317,7 @@ function book () {
 
     const clipboard = new ClipboardJS('.god'),
           notyf = new Notyf(),
-          css = GM_getResourceText('IMPORTED_CSS')
+          css = GM_getResourceText('notyf_css')
 
     GM_addStyle(css)
 
