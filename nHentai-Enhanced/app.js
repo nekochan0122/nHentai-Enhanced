@@ -611,7 +611,7 @@ function readingBook () {
 
     /**
      * 滾動至頁數
-     * @param {*} num - 元素 ID
+     * @param {string} num - 元素 ID
      */
     function scrollToPage (num) {
         $('html, body').animate({
