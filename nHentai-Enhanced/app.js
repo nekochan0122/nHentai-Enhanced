@@ -10,9 +10,7 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
 // @require      https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js
 // @require      https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js
-// @resource     notyf_css https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css
-// @grant        GM_getResourceText
-// @grant        GM_addStyle
+// @grant        none
 // ==/UserScript==
 
 // ========= 協助名單 =========
@@ -315,11 +313,11 @@ function book () {
     // 神的語言
     $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" class="god" data-clipboard-text="${book_id}" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
 
-    const clipboard = new ClipboardJS('.god'),
-          notyf = new Notyf(),
-          css = GM_getResourceText('notyf_css')
+    // notyf css
+    $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
 
-    GM_addStyle(css)
+    const clipboard = new ClipboardJS('.god'),
+          notyf = new Notyf()
 
     clipboard.on('success', e => {
         debugConsole(`操作：${e.action}, 文字：${e.text}, 觸發：${e.trigger}`)
