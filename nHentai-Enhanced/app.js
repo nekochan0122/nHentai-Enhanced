@@ -435,30 +435,29 @@ function book () {
                     debugConsole('完美搜尋結果')
                     appendButton(searchText)
 
-                } else if (serachTimes < 2) {
-                    if ($('#info .title').length === 3) {
-                        search(searchText2)
-
-                    } else {
-                        debugConsole('跳過搜尋 searchText2 ，搜尋 searchText3')
-                        search(searchText3, false)
-
+                } else {
+                    switch (serachTimes) {
+                        case 1 :
+                            if ($('#info .title').length === 3) {
+                                search(searchText2)
+                            } else {
+                                debugConsole('跳過搜尋 searchText2 ，搜尋 searchText3')
+                                search(searchText3, false)
+                            }
+                            break
+                        case 2 :
+                            if (resultNum > 0 && perfect) {
+                                debugConsole('完美搜尋結果')
+                                appendButton(searchText)
+                            } else {
+                                search(searchText3, false)
+                            }
+                            break
+                        case 3 :
+                            debugConsole('勉強搜尋結果')
+                            appendButton(searchText)
+                            break
                     }
-
-                } else if (serachTimes == 2) {
-                    if (resultNum > 0 && perfect) {
-                        debugConsole('完美搜尋結果')
-                        appendButton(searchText)
-
-                    } else {
-                        search(searchText3, false)
-
-                    }
-
-                } else if (serachTimes == 3) {
-                    debugConsole('勉強搜尋結果')
-                    appendButton(searchText)
-
                 }
 
                 function appendButton (searchText) {
