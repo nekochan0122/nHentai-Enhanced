@@ -538,11 +538,7 @@ function readingBook () {
         },
         observer = new IntersectionObserver(callback, options)
 
-    $('nav').hide()
-    $('#image-container').hide()
-    $('.reader-bar').eq(1).hide()
-    $('.reader-settings').hide()
-    $('.reader-pagination').hide()
+    $('nav, #image-container, .reader-bar:last, .reader-settings, .reader-pagination').hide()
 
     $('.reader-bar').append(`<div style="display:flex;align-self:flex-center;position:absolute;left:50%;transform:translateX(-50%)"><button class="page-number btn btn-unstyled"><span class="current">0</span><span class="divider">&nbsp;/&nbsp;</span><span class="num-pages">${maxNum}</span></button></div>`)
 
