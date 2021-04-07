@@ -64,7 +64,10 @@ const $ = window.$,
             scrollbartheme: 'dark-3',
             other: 'defaultchannel=817948191856394242&userscalable=false'
         },
-    }
+    },
+
+    // 初始化 notyf
+    notyf = new Notyf()
 
 // 預先定義變量
 let json = null,
@@ -108,6 +111,10 @@ function init () {
         debugConsole('偵測到導航欄')
 
         function ready () {
+
+            // notyf css 初始化
+            $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
+
             // 首頁
             if ($('#content .index-popular')[0]) {
                 debugConsole('偵測到首頁')
@@ -313,11 +320,7 @@ function book () {
     // 神的語言
     $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" class="god" data-clipboard-text="${book_id}" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
 
-    // notyf css
-    $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
-
-    const clipboard = new ClipboardJS('.god'),
-          notyf = new Notyf()
+    const clipboard = new ClipboardJS('.god')
 
     clipboard.on('success', e => {
         debugConsole(`操作：${e.action}, 文字：${e.text}, 觸發：${e.trigger}`)
@@ -636,7 +639,10 @@ function ajaxNextPage (mode) {
         cache: true,
         dataType: "html",
         success: data => {
-            debugConsole(`第${currentPageNum}頁 獲取成功`)
+            debugConsole(`第${currentPageNum}頁 讀取成功`)
+
+            // notyf.dismissAll()
+            // notyf.success(`第${currentPageNum}頁 讀取成功`)
 
             // 創建元素
             let newHtml = $('<div></div>')
@@ -663,7 +669,12 @@ function ajaxNextPage (mode) {
             loadingPage = false
         },
         error: () => {
-            debugConsole(`第${currentPageNum}頁 獲取失敗`)
+            debugConsole(`第${currentPageNum}頁 讀取失敗`)
+
+            notyf.dismissAll()
+            notyf.success(`第${currentPageNum}頁 讀取失敗`)
+
+            currentPageNum--
 
             loadingPage = false
         }
