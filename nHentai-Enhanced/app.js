@@ -87,12 +87,12 @@ $(() => {
         cache: false,
         dataType: "json",
         success: data => {
-            debugConsole('JSON 讀取成功')
+            debugConsole('JSON 獲取成功')
             json = data
             init()
         },
         error: () => {
-            debugConsole('JSON 讀取失敗')
+            debugConsole('JSON 獲取失敗')
         }
     })
 
@@ -103,6 +103,8 @@ $(() => {
  * 偵測元素是否存在。
  */
 function init () {
+    // 網頁名稱
+    // $('title').text('nHentai Enhanced')
 
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
@@ -118,7 +120,7 @@ function init () {
                 debugConsole('偵測到首頁')
                 homepage()
 
-            // 首頁第二頁開始的頁面列表
+            // 第二頁開始的頁面列表
             } else if ($('.index-container')[0] && /net\/\?page=/.test(location.href)) {
                 debugConsole('偵測到頁面列表')
                 page()
@@ -138,8 +140,10 @@ function init () {
 
             }
 
+            // TODO: 黑名單不應該完全隱藏，游標移動至元素上時移除黑名單 class，顯示封面。
+            // TODO: 對於直接點進黑名單的本本頁面，應該出現提示標註該本含有哪些黑名單標籤，且頁面不顯示。
             // 隱藏黑名單
-            hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
+            hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
             // Discord 聊天室
             // discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
@@ -150,9 +154,15 @@ function init () {
 
             // 顯示頁面
             $('body').show()
+
+            // 重置滾動條位置，防止觸發 Ajax 自動翻頁
+            // window.scrollTo({
+            //     top: 0,
+            //     behavior: 'instant'
+            // })
         }
 
-        // 確保在執行 ready function 之前，讀取登入狀態
+        // 確保在執行 ready function 之前，獲取登入狀態
         nav(ready)
 
     } else {
@@ -242,13 +252,13 @@ function homepage () {
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    // 移動頁數位置
+    changeNumPosition('homepage')
 
-    function ajaxPageFunc () {
+    ajaxPage ? ajaxPageEvent() : debugConsole('自動翻頁 已關閉')
+
+    function ajaxPageEvent () {
         debugConsole('自動翻頁 已開啟')
-
-         // 移動頁數位置
-        changeNumPosition('homepage')
 
         // 當前頁數
         currentPageNum = 1
@@ -261,6 +271,15 @@ function homepage () {
             }
         })
     }
+
+    // $('.blacklisted').hover(
+    //     function () {
+    //         $(this).removeClass('blacklisted')
+    //     },
+    //     function () {
+    //         $(this).addClass('blacklisted')
+    //     }
+    // )
 }
 
 /**
@@ -270,13 +289,13 @@ function page () {
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    // 移動頁數位置
+    changeNumPosition('page')
 
-    function ajaxPageFunc () {
+    ajaxPage ? ajaxPageEvent() : debugConsole('自動翻頁 已關閉')
+
+    function ajaxPageEvent () {
         debugConsole('自動翻頁 已開啟')
-
-        // 移動頁數位置
-        changeNumPosition('homepage')
 
         // 當前頁數
         currentPageNum = Number(location.href.replace('https://nhentai.net/?page=', ''))
@@ -350,7 +369,7 @@ function book () {
         sT1Length = sT1Array.length === 1 ? sT1Array.length : sT1Array.length - 1,
 
         // 移除文字
-        remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-', '#'],
+        remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-'],
         // 替換文字
         filter = [' ', '「', '」']
 
@@ -358,7 +377,7 @@ function book () {
         searchText3 += `${sT1Array[i]}+`
     }
 
-    // 讀取搜尋結果數量並修改，第一次搜尋 searchText1
+    // 獲取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
 
     /**
@@ -398,16 +417,16 @@ function book () {
         $.ajax({
             type: "GET",
             url: `/search/?q=${searchText}`,
-            cache: false,
+            cache: true,
             dataType: "html",
             success: data => {
-                debugConsole(`搜尋 ${searchText} 讀取成功`)
+                debugConsole(`搜尋 ${searchText} 獲取成功`)
 
                 // console.log(data)
 
                 let newHtml = $('<div></div>'),
 
-                    // 讀取搜尋結果數量
+                    // 獲取搜尋結果數量
                     resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
 
                     // 搜尋結果是否含有 searchText2
@@ -450,7 +469,7 @@ function book () {
 
             },
             error: () => {
-                debugConsole(`搜尋 ${searchText} 讀取失敗`)
+                debugConsole(`搜尋 ${searchText} 獲取失敗`)
             }
         })
     }
@@ -500,126 +519,108 @@ function book () {
  * 閱讀本本中
  */
 function readingBook () {
+    let cur = location.href.split('/'),
+        curNum = Number(cur[cur.length - 2]),
+        maxNum = Number($('span.num-pages').eq(1).text()),
+        id = cur[cur.length - 3],
+        curIdNum = 1,
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
-
-    function ajaxPageFunc () {
-        debugConsole('自動翻頁 已開啟')
-
-        let cur = location.href.split('/'),
-            curNum = Number(cur[cur.length - 2]),
-            maxNum = Number($('span.num-pages').eq(1).text()),
-            id = cur[cur.length - 3],
-            curIdNum = 1,
-
-            // 觀察者
-            options = {
-                root: null,
-                rootMargin: '0px',
-                threshold: [0,1.0]
-            },
-            callback = entries => {
-                entries.forEach(entry => {
-                    // 當畫面更改為其他頁數時
-                    if (entry.isIntersecting) {
-                        // 重新賦值當前頁數
-                        curIdNum = Number($(entry.target).attr('id').replace('page', ''))
-                        $H('span.current', curIdNum)
-                    }
-                })
-            },
-            observer = new IntersectionObserver(callback, options)
-
-        // 隱藏不需要的元素
-        $('nav, #messages, #image-container, .reader-bar:last, .reader-settings, .reader-pagination').hide()
-
-        // 插入自訂版 reader-bar
-        $('.reader-bar').append(`<div style="display:flex;align-self:flex-center;position:absolute;left:50%;transform:translateX(-50%)"><button class="page-number btn btn-unstyled"><span class="current">0</span><span class="divider">&nbsp;/&nbsp;</span><span class="num-pages">${maxNum}</span></button></div>`)
-
-        // reader-bar css 及 隱藏/顯示 動畫效果
-        $('.reader-bar').eq(0).css({'opacity': '0', 'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
-            function () { $(this).animate({'opacity':'1.0'}, 100) },
-            function () { $(this).animate({'opacity':'0'}, 100) }
-        )
-
-        // 鍵盤事件
-        $(window).keyup(event => {
-            $('.reader-pagination > a').remove()
-
-            switch (event.code) {
-                case 'ArrowRight': // 下一張
-                    curIdNum++
-                    curIdNum <= maxNum ? scrollToPage(curIdNum) : curIdNum--
-                    break
-
-                case 'ArrowLeft': // 上一張
-                    curIdNum--
-                    curIdNum >= 1 ? scrollToPage(curIdNum) : curIdNum++
-                    break
-
-            }
-        })
-
-        // 開始讀取第一張
-        nextImage(1)
-
-        /**
-         * 讀取下一張圖片
-         * @param {number} target - 讀取的頁數
-         */
-        function nextImage (target) {
-            if (target > maxNum) return
-
-            $.ajax({
-                type: "GET",
-                url: `/g/${id}/${target}/`,
-                cache: true,
-                dataType: "html",
-                success: data => {
-                    debugConsole(`第 ${target} 張 讀取成功`)
-
-                    let newHtml = $('<div></div>')
-
-                    // 插入 元素
-                    $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`))
-
-                    // 滾動至當前頁數
-                    if (target == curNum) scrollToPage(curNum)
-
-                    // 綁定目標
-                    observer.observe($(`#page${target}`)[0])
-
-                    // 讀取下一頁
-                    nextImage(target + 1)
-
-                },
-                error: () => {
-                    debugConsole(`第 ${target} 張 讀取失敗`)
-
-                    notyf.dismissAll()
-                    notyf.error(`第 ${target} 張 讀取失敗`)
-
-                    // 重新讀取
-                    nextImage(target)
+        // 觀察者
+        options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: [0,1.0]
+        },
+        callback = entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    curIdNum = Number($(entry.target).attr('id').replace('page', ''))
+                    $H('span.current', curIdNum)
                 }
             })
-        }
+        },
+        observer = new IntersectionObserver(callback, options)
 
-        /**
-         * 滾動至頁數
-         * @param {string} num - 元素 ID
-         */
-        function scrollToPage (num) {
-            $('html, body').animate({
-                scrollTop: $(`#page${num}`).offset().top
-            }, "fast")
-        }
+    $('nav, #messages, #image-container, .reader-bar:last, .reader-settings, .reader-pagination').hide()
 
+    $('.reader-bar').append(`<div style="display:flex;align-self:flex-center;position:absolute;left:50%;transform:translateX(-50%)"><button class="page-number btn btn-unstyled"><span class="current">0</span><span class="divider">&nbsp;/&nbsp;</span><span class="num-pages">${maxNum}</span></button></div>`)
+
+    $('.reader-bar').eq(0).css({'opacity': '0', 'position': 'fixed', 'top': '0', 'width': '100%', 'z-index': '999999'}).hover(
+        function () { $(this).animate({'opacity':'1.0'}, 100) },
+        function () { $(this).animate({'opacity':'0'}, 100) }
+    )
+
+    // 鍵盤事件
+    $(window).keyup(event => {
+        $('.reader-pagination > a').remove()
+
+        switch (event.code) {
+            case 'ArrowRight': // 下一張
+                curIdNum++
+                curIdNum <= maxNum ? scrollToPage(curIdNum) : curIdNum--
+                break
+
+            case 'ArrowLeft': // 上一張
+                curIdNum--
+                curIdNum >= 1 ? scrollToPage(curIdNum) : curIdNum++
+                break
+
+        }
+    })
+
+    nextImage(1)
+
+    /**
+     * 獲取下一張圖片
+     * @param {number} target - 獲取的頁數
+     */
+    function nextImage (target) {
+        if (target > maxNum) return
+
+        $.ajax({
+            type: "GET",
+            url: `/g/${id}/${target}/`,
+            cache: true,
+            dataType: "html",
+            success: data => {
+                debugConsole(`第 ${target} 張 獲取成功`)
+
+                // console.log(data)
+
+                let newHtml = $('<div></div>')
+
+                // 插入 元素
+                $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`))
+
+                // 滾動至當前頁數
+                if (target == curNum) scrollToPage(curNum)
+
+                // 綁定目標
+                observer.observe($(`#page${target}`)[0])
+
+                // 讀取下一頁
+                nextImage(target + 1)
+
+            },
+            error: () => {
+                debugConsole(`第 ${target} 張 獲取失敗`)
+            }
+        })
+    }
+
+    /**
+     * 滾動至頁數
+     * @param {string} num - 元素 ID
+     */
+    function scrollToPage (num) {
+        $('html, body').animate({
+            scrollTop: $(`#page${num}`).offset().top
+        }, "fast")
     }
 }
 
 /**
- * Ajax 讀取下一頁資料 並插入至容器
+ * Ajax 獲取下一頁資料 並插入至容器
  * @param {string} mode - "homepage", "page"
  */
 function ajaxNextPage (mode) {
@@ -631,7 +632,7 @@ function ajaxNextPage (mode) {
 
     loadingPage = true
 
-    debugConsole(`第${currentPageNum}頁 讀取中`)
+    debugConsole(`第${currentPageNum}頁 獲取中`)
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
@@ -639,6 +640,9 @@ function ajaxNextPage (mode) {
         dataType: "html",
         success: data => {
             debugConsole(`第${currentPageNum}頁 讀取成功`)
+
+            // notyf.dismissAll()
+            // notyf.success(`第${currentPageNum}頁 讀取成功`)
 
             // 創建元素
             let newHtml = $('<div></div>')
@@ -660,7 +664,7 @@ function ajaxNextPage (mode) {
             }
 
             // 隱藏黑名單
-            hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
+            hideBlackList ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
             loadingPage = false
         },
@@ -668,7 +672,7 @@ function ajaxNextPage (mode) {
             debugConsole(`第${currentPageNum}頁 讀取失敗`)
 
             notyf.dismissAll()
-            notyf.error(`第${currentPageNum}頁 讀取失敗`)
+            notyf.success(`第${currentPageNum}頁 讀取失敗`)
 
             currentPageNum--
 
@@ -704,13 +708,17 @@ function changeNumPosition (mode) {
  *  隱藏黑名單
  */
 function hideBlackListFunc () {
-    debugConsole('隱藏黑名單 已開啟')
+    if (login) {
+        debugConsole('隱藏黑名單 已開啟')
 
-    $('.blacklisted').remove()
+        $('.blacklisted').remove()
+    } else {
+        debugConsole('用戶未登入 隱藏黑名單 已關閉')
+    }
 }
 
 /**
- * 讀取用戶名
+ * 獲取用戶名
  * @returns 已登入用戶名，若未登入返回空字符串
  */
 function getUserName () {
