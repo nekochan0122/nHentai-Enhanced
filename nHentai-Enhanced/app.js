@@ -18,9 +18,9 @@
 //     redblaze - 標籤爬蟲
 // ===========================
 
-'use strict'
-
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
+
+'use strict'
 
 // jQuery 變量，防止 Tampermonkey 出現錯誤提示
 const $ = window.$,
@@ -32,6 +32,9 @@ const $ = window.$,
 
     // Ajax 自動翻頁
     ajaxPage = true,
+
+    // 在新分頁中開啟本本
+    newTabBook = false,
 
     // 隱藏黑名單
     hideBlackList = false,
@@ -76,7 +79,7 @@ let json = null,
     loadingPage = false
 
 // 初始化前隱藏頁面
-$('body').hide()
+document.body.style.display = 'none'
 
 // 網頁讀取完畢
 $(() => {
@@ -138,6 +141,9 @@ function init () {
 
             }
 
+            // 顯示頁面
+            document.body.style.display = ''
+
             // 隱藏黑名單
             hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
@@ -147,9 +153,6 @@ function init () {
 
             // 阻擋廣告
             blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
-
-            // 顯示頁面
-            $('body').show()
         }
 
         // 確保在執行 ready function 之前，讀取登入狀態
@@ -301,8 +304,10 @@ function book () {
     // 神的語言
     $($(`<h3 class="title"><span class="before">神的語言：</span><a id="book_id" class="god" data-clipboard-text="${book_id}" href="javascript:;">${book_id}</a></h3>`)).insertAfter('#gallery_id')
 
+    // ClipboardJS 初始化
     const clipboard = new ClipboardJS('.god')
 
+    // ClipboardJS 事件
     clipboard.on('success', e => {
         debugConsole(`操作：${e.action}, 文字：${e.text}, 觸發：${e.trigger}`)
 
@@ -331,6 +336,7 @@ function book () {
 
     // 標籤下方按紐區
     // TODO: Favorite
+    // 第一次獲取並翻譯，點下後重新獲取並翻譯(或重新整理比較省事)
 
     // 按鈕 - 下載
     // $H('#download', `<i class="fa fa-download"></i> ${json.Book.Btns.BTdownload}`)
@@ -678,10 +684,10 @@ function ajaxNextPage (mode) {
 }
 
 /**
- * 將目前項目連結 改為新分頁開啟
+ * 將列表中的本本 改為新分頁開啟
  */
 function galleryBlank () {
-    $('.gallery > a').attr('target', '_blank')
+    newTabBook ? $('.gallery > a').attr('target', '_blank') : null
 }
 
 /**
