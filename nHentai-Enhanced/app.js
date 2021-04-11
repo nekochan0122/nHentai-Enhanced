@@ -19,6 +19,7 @@
 // ===========================
 
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
+// 中文 tag data-src = 29963
 
 'use strict'
 
@@ -83,7 +84,7 @@ document.body.style.display = 'none'
 
 // 網頁讀取完畢
 $(() => {
-    // 引入 JSON
+    // 獲取 JSON
     $.ajax({
         type: "GET",
         url: data,
@@ -98,7 +99,6 @@ $(() => {
             debugConsole('JSON 讀取失敗')
         }
     })
-
 })
 
 /**
@@ -140,6 +140,7 @@ function init () {
                 debugConsole('未知頁面')
 
             }
+            // TODO: #content > h1 > span ( switch : 標籤 -> 畫師 -> 語言 -> 分類 -> 同人 -> 群組 )
 
             // 顯示頁面
             document.body.style.display = ''
@@ -495,6 +496,7 @@ function book () {
     $H('time', timeTranslator($('time').html()))
     $("time").bind('DOMNodeInserted', function() {
         let time = timeTranslator(this.innerHTML)
+
         if (this.innerHTML !== time) {
             this.innerHTML = time
             debugConsole(`偵測到時間發生變化：${this.innerHTML}`)
@@ -570,8 +572,8 @@ function readingBook () {
         nextImage(1)
 
         /**
-         * 讀取下一張圖片
-         * @param {number} target - 讀取的頁數
+         * 獲取下一張圖片
+         * @param {number} target - 獲取的頁數
          */
         function nextImage (target) {
             if (target > maxNum) return
@@ -625,7 +627,7 @@ function readingBook () {
 }
 
 /**
- * Ajax 讀取下一頁資料 並插入至容器
+ * Ajax 獲取下一頁資料 並插入至容器
  * @param {string} mode - "homepage", "page"
  */
 function ajaxNextPage (mode) {
@@ -638,6 +640,7 @@ function ajaxNextPage (mode) {
     loadingPage = true
 
     debugConsole(`第${currentPageNum}頁 讀取中`)
+
     $.ajax({
         type: "GET",
         url: `/?page=${currentPageNum}`,
