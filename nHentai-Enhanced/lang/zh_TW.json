@@ -68,14 +68,13 @@
         }
     },
     "spanPage": {
-        "Parodies": "同人:",
-        "Characters":"角色:",
-        "Tags": "標籤:",
-        "Artists": "畫師:",
-        "Groups":"群組:",
-        "Languages": "語言:",
-        "Categories": "分類:",
-        "Pages": "頁數:"
+        "Parodie": "同人:",
+        "Character":"角色:",
+        "Tag": "標籤:",
+        "Artist": "畫師:",
+        "Group":"群組:",
+        "Language": "語言:",
+        "Categorie": "分類:"
     },
     "Tags": {
         "abortion": "墮胎",
