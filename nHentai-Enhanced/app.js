@@ -138,6 +138,11 @@ function init () {
                 debugConsole('偵測到閱讀本本中')
                 readingBook()
 
+            // span 頁面
+            } else if ($('#content > h1 > span')[0]) {
+                debugConsole('偵測到 span 頁面')
+                spanPage()
+
             } else {
                 debugConsole('未知頁面')
 
@@ -627,6 +632,15 @@ function readingBook () {
             }, "fast")
         }
 
+    }
+}
+
+function spanPage () {
+    const span = $('#content > h1 > span'), spanName = span.html()
+
+    if (json.spanPage.hasOwnProperty(spanName)) {
+        // debugConsole(`偵測到：${spanName}，更改為：${json.spanPage[spanName]}`)
+        span.html(json.spanPage[spanName]).parent().attr('title', spanName)
     }
 }
 

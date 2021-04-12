@@ -67,6 +67,16 @@
             "ago": "前"
         }
     },
+    "spanPage": {
+        "Parodies": "同人:",
+        "Characters":"角色:",
+        "Tags": "標籤:",
+        "Artists": "畫師:",
+        "Groups":"群組:",
+        "Languages": "語言:",
+        "Categories": "分類:",
+        "Pages": "頁數:"
+    },
     "Tags": {
         "abortion": "墮胎",
         "absorption": "消化",
