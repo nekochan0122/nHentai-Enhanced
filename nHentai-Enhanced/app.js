@@ -88,10 +88,10 @@ document.body.style.display = 'none'
 $(() => {
     // 獲取 JSON
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: data,
         cache: false,
-        dataType: "json",
+        dataType: 'json',
         success: data => {
             debugConsole('JSON 讀取成功')
             json = data
@@ -329,7 +329,7 @@ function book () {
     }
 
     // 右側標籤列表
-    tagsTranslator($("#tags > .tag-container .tags a .name"))
+    tagsTranslator($('#tags > .tag-container .tags a .name'))
 
     // 標籤下方按紐區
     // TODO: Favorite
@@ -399,10 +399,10 @@ function book () {
         }
 
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: `/search/?q=${searchText}`,
             cache: false,
-            dataType: "html",
+            dataType: 'html',
             success: data => {
                 debugConsole(`搜尋 ${searchText} 讀取成功`)
 
@@ -490,7 +490,7 @@ function book () {
 
     // 時間
     $H('time', timeTranslator($('time').html()))
-    $("time").bind('DOMNodeInserted', function() {
+    $('time').bind('DOMNodeInserted', function() {
         let time = timeTranslator(this.innerHTML)
 
         if (this.innerHTML !== time) {
@@ -575,10 +575,10 @@ function readingBook () {
             if (target > maxNum) return
 
             $.ajax({
-                type: "GET",
+                type: 'GET',
                 url: `/g/${id}/${target}/`,
                 cache: true,
-                dataType: "html",
+                dataType: 'html',
                 success: data => {
                     debugConsole(`第 ${target} 張 讀取成功`)
 
@@ -616,7 +616,7 @@ function readingBook () {
         function scrollToPage (num) {
             $('html, body').animate({
                 scrollTop: $(`#page${num}`).offset().top
-            }, "fast")
+            }, 'fast')
         }
 
     }
@@ -633,7 +633,7 @@ function spanPage () {
 
     tagsTranslator($('#content > h1 > a > .name'))
 
-    // sort
+    // sort (太醜了)
     $H('div.sort > div:nth-child(1) > a', jsonSP.sort.Recent)
     $H('div.sort > div:nth-child(2) > span', jsonSP.sort.Popular)
     $H('div.sort > div:nth-child(2) > a:nth-child(2)', jsonSP.sort.today)
@@ -641,7 +641,6 @@ function spanPage () {
     $H('div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
 
     changeNumPosition('span')
-
 
     const link = window.location.href.split('=')
 
@@ -689,10 +688,10 @@ function ajaxNextPage (mode, selector = null) {
     debugConsole(`第${currentPageNum}頁 讀取中`)
 
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: `${window.location.href}/?page=${currentPageNum}`,
         cache: true,
-        dataType: "html",
+        dataType: 'html',
         success: data => {
             debugConsole(`第${currentPageNum}頁 讀取成功`)
 
@@ -711,8 +710,8 @@ function ajaxNextPage (mode, selector = null) {
             if (login) {
                 const t = window.n.options.blacklisted_tags
                 for (let e = t.map((t => {
-                    return ".tag-".concat(t, ',.gallery[data-tags~="').concat(t, '"]')
-                })).join(","), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add("blacklisted")
+                    return '.tag-'.concat(t, ',.gallery[data-tags~="').concat(t, '"]')
+                })).join(','), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add('blacklisted')
             }
 
             // 隱藏黑名單
