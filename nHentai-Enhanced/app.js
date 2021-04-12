@@ -286,7 +286,7 @@ function page () {
         changeNumPosition('page')
 
         // 當前頁數
-        currentPageNum = Number(location.href.replace('https://nhentai.net/?page=', ''))
+        currentPageNum = Number(location.href.split('=')[1])
 
         scrollEventAjax('page')
     }
@@ -641,6 +641,11 @@ function spanPage () {
     $H('div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
 
     changeNumPosition('span')
+
+
+    const link = window.location.href.split('=')
+
+    currentPageNum = link.length == 1 ? 1 : Number(link[1])
 
     // ajax
     scrollEventAjax('span')
