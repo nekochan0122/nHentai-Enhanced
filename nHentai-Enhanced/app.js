@@ -266,13 +266,7 @@ function homepage () {
         // 當前頁數
         currentPageNum = 1
 
-        // 滾動事件
-        $(window).scroll(() => {
-            // 滾動條到 75% 觸發 ajaxNextPage
-            if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
-                ajaxNextPage('homepage')
-            }
-        })
+        scrollEventAjax('homepage')
     }
 }
 
@@ -294,14 +288,7 @@ function page () {
         // 當前頁數
         currentPageNum = Number(location.href.replace('https://nhentai.net/?page=', ''))
 
-        // 滾動事件
-        $(window).scroll(() => {
-
-            // 滾動條到 75% 觸發 ajaxNextPage
-            if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
-                ajaxNextPage('page')
-            }
-        })
+        scrollEventAjax('page')
     }
 }
 
@@ -635,6 +622,9 @@ function readingBook () {
     }
 }
 
+/**
+ * span 頁面
+ */
 function spanPage () {
     const jsonSP = json.spanPage, span = $('#content > h1 > span'), spanName = span.html()
 
@@ -643,23 +633,51 @@ function spanPage () {
 
     tagsTranslator($('#content > h1 > a > .name'))
 
-    $H('#content > div.sort > div:nth-child(1) > a', jsonSP.sort.Recent)
-    $H('#content > div.sort > div:nth-child(2) > span', jsonSP.sort.Popular)
-    $H('#content > div.sort > div:nth-child(2) > a:nth-child(2)', jsonSP.sort.today)
-    $H('#content > div.sort > div:nth-child(2) > a:nth-child(3)', jsonSP.sort.week)
-    $H('#content > div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
+    // sort
+    $H('div.sort > div:nth-child(1) > a', jsonSP.sort.Recent)
+    $H('div.sort > div:nth-child(2) > span', jsonSP.sort.Popular)
+    $H('div.sort > div:nth-child(2) > a:nth-child(2)', jsonSP.sort.today)
+    $H('div.sort > div:nth-child(2) > a:nth-child(3)', jsonSP.sort.week)
+    $H('div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
+
+    changeNumPosition('span')
+
+    // ajax
+    scrollEventAjax('span')
+}
+
+/**
+ * 觸發 ajaxNextPage 的滾動事件
+ * @param {string} mode - 'homepage', 'page', 'span'
+ */
+function scrollEventAjax (mode) {
+    // 滾動事件
+    $(window).scroll(() => {
+        // 滾動條到 75% 觸發 ajaxNextPage
+        if ($(window).scrollTop() + $(window).height() > $(document).height() * 0.75 && loadingPage === false) {
+            ajaxNextPage(mode)
+        }
+    })
 }
 
 /**
  * Ajax 獲取下一頁資料 並插入至容器
- * @param {string} mode - "homepage", "page"
+ * @param {string} mode - 'homepage', 'page', 'span'
+ * @param {string} selector - 該參數不用傳遞（純粹想少寫一行變量聲明）
  */
-function ajaxNextPage (mode) {
+function ajaxNextPage (mode, selector = null) {
     currentPageNum++
 
     // 判斷當前模式 選擇正確的元素
-    const selector = mode === 'homepage' ? '.index-container:nth-child(4)' :
-                     mode === 'page' ? '.index-container' : null
+    switch (mode) {
+        case 'homepage' :
+            selector = '.index-container:nth-child(4)'
+            break
+        case 'page' :
+        case 'span' :
+            selector = '.index-container'
+            break
+    }
 
     loadingPage = true
 
@@ -667,7 +685,7 @@ function ajaxNextPage (mode) {
 
     $.ajax({
         type: "GET",
-        url: `/?page=${currentPageNum}`,
+        url: `${window.location.href}/?page=${currentPageNum}`,
         cache: true,
         dataType: "html",
         success: data => {
@@ -719,13 +737,25 @@ function galleryBlank () {
 
 /**
  * 更改 頁數選單 位置
- * @param {string} mode - "homepage", "page"
+ * @param {string} mode - 'homepage', 'page'
+ * @param {string} selector - 該參數不用傳遞（純粹想少寫一行變量聲明）
  */
-function changeNumPosition (mode) {
+function changeNumPosition (mode, selector) {
 
     // 判斷當前模式 選擇正確的元素
-    const selector = mode === "homepage" ? '#content > div.container.index-container.index-popular' :
-                     mode === "page" ? '#content > div' : null
+    // const selector = mode === 'homepage' ? '#content > div.container.index-container.index-popular' :
+    //                  mode === 'page' ? '#content > div' : null
+
+    switch (mode) {
+        case 'homepage' :
+            selector = '.index-container.index-popular'
+            break
+        case 'page' :
+            selector = '#content > div'
+            break
+        case 'span' :
+            selector = '.container.index-container'
+    }
 
     $('#content > section').insertBefore(selector)
 
