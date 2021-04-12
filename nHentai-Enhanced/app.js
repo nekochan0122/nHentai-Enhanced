@@ -636,12 +636,18 @@ function readingBook () {
 }
 
 function spanPage () {
-    const span = $('#content > h1 > span'), spanName = span.html()
+    const jsonSP = json.spanPage, span = $('#content > h1 > span'), spanName = span.html()
 
-    if (json.spanPage.hasOwnProperty(spanName)) {
-        // debugConsole(`偵測到：${spanName}，更改為：${json.spanPage[spanName]}`)
-        span.html(json.spanPage[spanName]).parent().attr('title', spanName)
-    }
+    // span
+    jsonSP.tags.hasOwnProperty(spanName) ? span.html(jsonSP.tags[spanName]).parent() : debugConsole('未知的 span 頁面')
+
+    tagsTranslator($('#content > h1 > a > .name'))
+
+    $H('#content > div.sort > div:nth-child(1) > a', jsonSP.sort.Recent)
+    $H('#content > div.sort > div:nth-child(2) > span', jsonSP.sort.Popular)
+    $H('#content > div.sort > div:nth-child(2) > a:nth-child(2)', jsonSP.sort.today)
+    $H('#content > div.sort > div:nth-child(2) > a:nth-child(3)', jsonSP.sort.week)
+    $H('#content > div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
 }
 
 /**
@@ -830,7 +836,7 @@ function blockAdsFunc () {
 
 /**
  * 翻譯標籤
- * @param {object} tags - jQuery DOM
+ * @param {object} tags - jQuery DOM .name
  */
 function tagsTranslator (tags) {
     for (let i = 0; i < tags.length; i++) {
