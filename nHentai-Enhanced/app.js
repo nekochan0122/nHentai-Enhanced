@@ -20,6 +20,8 @@
 
 // TODO: [優化] 更多頁面 支援 Ajax 讀取，和 更多頁面 支援 頁數選單移至上方
 // 中文 tag data-src = 29963
+// 日文 tag data-src = 6346
+// 英文 tag data-src = 12227
 
 'use strict'
 
@@ -282,7 +284,7 @@ function page () {
         debugConsole('自動翻頁 已開啟')
 
         // 移動頁數位置
-        changeNumPosition('homepage')
+        changeNumPosition('page')
 
         // 當前頁數
         currentPageNum = Number(location.href.replace('https://nhentai.net/?page=', ''))
@@ -420,7 +422,7 @@ function book () {
                     resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
 
                     // 搜尋結果是否含有 searchText2
-                    perfect = /pBTJud4CQuaD6wNA/.test(data.replace(searchText2, 'pBTJud4CQuaD6wNA'))
+                    perfect = /69696969/.test(data.replace(searchText2, '69696969'))
 
                 debugConsole(`搜尋 結果數量：${resultNum}`)
 
