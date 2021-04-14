@@ -406,8 +406,6 @@ function book () {
             success: data => {
                 debugConsole(`搜尋 ${searchText} 讀取成功`)
 
-                // console.log(data)
-
                 let newHtml = $('<div></div>'),
 
                     // 讀取搜尋結果數量
@@ -747,9 +745,6 @@ function galleryBlank () {
 function changeNumPosition (mode, selector) {
 
     // 判斷當前模式 選擇正確的元素
-    // const selector = mode === 'homepage' ? '#content > div.container.index-container.index-popular' :
-    //                  mode === 'page' ? '#content > div' : null
-
     switch (mode) {
         case 'homepage' :
             selector = '.index-container.index-popular'
@@ -864,8 +859,6 @@ function blockAdsFunc () {
     $('.advertisement').hide()
 
     window.n.ads = null
-
-    console.log(`window.n.ads = ${window.n.ads}`)
 }
 
 /**
