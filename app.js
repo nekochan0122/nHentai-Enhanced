@@ -43,8 +43,6 @@ const $ = window.$,
     hideBlackList = false,
 
     // Discord 聊天室
-    // discordChat = true,
-    enableTitanEmbeds = false,
     enableWidgetBot = false,
 
     // 阻擋廣告
@@ -60,16 +58,7 @@ const $ = window.$,
             { 日文: '/language/japanese/' },
             { 英文: '/language/english/' },
             { 裏番: 'https://hanime1.me/' },
-        ],
-
-        // TitanEmbeds：https://titanembeds.com/
-        discordChat: {
-            url: 'https://titanembeds.com/embed/817948191122653195',
-            lang: 'zh_Hant_TW',
-            theme: 'DiscordDark',
-            scrollbartheme: 'dark-3',
-            other: 'defaultchannel=817948191856394242&userscalable=false'
-        },
+        ]
     },
 
     // 初始化 notyf
@@ -156,8 +145,7 @@ function init () {
             hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
 
             // Discord 聊天室
-            // discordChat ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
-            enableTitanEmbeds || enableWidgetBot ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
+            enableWidgetBot ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')
 
             // 阻擋廣告
             blockAds ? blockAdsFunc() : debugConsole('阻擋廣告 已關閉')
@@ -785,35 +773,6 @@ function getUserName () {
 function discordChatFunc (DC) {
     debugConsole('Discord 聊天室 已開啟')
 
-    function titanEmbeds () {
-        // 提示圖標 #discordChatIcon
-        $('body').append(`
-            <div id="discordChatIcon" style="position:fixed;left:20px;bottom:0.5%;z-index:99999;">
-                <a href="javascript:;">
-                    <img src="https://raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/img/discordChatIcon.png"
-                        height="${window.innerHeight / 15}">
-                </a>
-            </div>`)
-
-        // 主要聊天室元素 #discordChat
-        $('body').append(`
-            <div id="discordChat" style="position:fixed;left:20px;bottom:8%;z-index:99999;">
-                <iframe src="${DC.url}?lang=${DC.lang}&theme=${DC.theme}&scrollbartheme=${DC.scrollbartheme}&username=${getUserName()}&${DC.other}"
-                        height="${window.innerHeight / 1.3}"
-                        width="${window.innerWidth / 5}"
-                        frameborder="0">
-                </iframe>
-            </div>`)
-
-        // 默認隱藏聊天室
-        $('#discordChat').hide()
-
-        // 圖標事件
-        $('#discordChatIcon').click(() => {
-            $('#discordChat').toggle('fast')
-        })
-    }
-
     // WidgetBot V2 注：該版本許多問題，讀取非常慢。等待 V3釋出後在考慮使用
     function widgetBot () {
         const crateScript = document.createElement('script')
@@ -829,7 +788,6 @@ function discordChatFunc (DC) {
         document.head.appendChild(crateScript)
     }
 
-    enableTitanEmbeds ? titanEmbeds() : null
     enableWidgetBot ? widgetBot() : null
 }
 
