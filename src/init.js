@@ -7,7 +7,6 @@ import {
 } from './config.js'
 
 import { login } from './variable.js'
-
 import { book } from './pages/book'
 import { homepage } from './pages/homepage'
 import { nav } from './pages/nav'

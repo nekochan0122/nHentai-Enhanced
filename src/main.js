@@ -1,11 +1,8 @@
 'use strict'
 
 import { $, data, ajaxChahe } from './config.js'
-
 import { json } from './variable.js'
-
 import { init } from './init'
-
 import { debugConsole } from './utils'
 
 // 初始化前隱藏頁面
