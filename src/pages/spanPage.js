@@ -37,7 +37,7 @@ export function spanPage () {
     changeNumPosition('span')
 
     // 獲取當前頁數
-    const link = window.location.href.split('=')
+    const link = location.href.split('=')
     currentPageNum = link.length == 1 ? 1 : Number(link[1])
 
     // ajax

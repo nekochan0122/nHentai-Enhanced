@@ -16,7 +16,7 @@ import {
  */
 export function readingBook () {
 
-    /onePageMode=True/.test(window.location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    /onePageMode=True/.test(location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
         debugConsole('自動翻頁 已開啟')

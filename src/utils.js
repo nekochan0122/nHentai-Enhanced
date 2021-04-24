@@ -64,7 +64,7 @@ function ajaxNextPage (mode, selector = null) {
 
     $.ajax({
         type: 'GET',
-        url: `${window.location.href}/?page=${currentPageNum}`,
+        url: `${location.href}/?page=${currentPageNum}`,
         cache: true,
         dataType: 'html',
         success: data => {
