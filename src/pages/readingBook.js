@@ -85,7 +85,10 @@ export function readingBook () {
          * @param {number} target - 獲取的頁數
          */
         function nextImage (target) {
-            if (target > maxNum) return
+            if (target > maxNum) {
+                notyf.success('全部讀取完畢')
+                return
+            }
 
             $.ajax({
                 type: 'GET',

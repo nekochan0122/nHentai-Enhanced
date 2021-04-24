@@ -34,7 +34,7 @@ export function book () {
         debugConsole(`操作：${e.action}, 文字：${e.text}, 觸發：${e.trigger}`)
 
         notyf.dismissAll()
-        notyf.success('複製成功！')
+        notyf.success('複製成功')
 
         e.clearSelection()
     })
@@ -43,7 +43,7 @@ export function book () {
         debugConsole(`操作：${e.action}, 觸發：${e.trigger}`)
 
         notyf.dismissAll()
-        notyf.error('復製失敗！')
+        notyf.error('復製失敗')
     })
 
 
