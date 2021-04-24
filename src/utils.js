@@ -72,22 +72,15 @@ function ajaxNextPage (mode, selector = null) {
 
             // 創建元素
             let newHtml = $('<div></div>')
-            // 格式化 HTML字符串 成 DOM 註：取代 data-src 成 src，解決 lazyload 問題
-            newHtml.html(data.replaceAll('data-src', 'src'))
-            // 插入 元素
-            $(selector).append(newHtml.find('.gallery'))
+
+            // 格式化 HTML字符串，插入元素
+            $(selector).append(newHtml.html(data.replaceAll('data-src', 'src')).find('.gallery'))
 
             // 將目前項目連結 改為新分頁開啟
             galleryBlank()
 
-            // 黑名單 class 加 blacklisted
-            // from：https://static.nhentai.net/js/scripts.8d76ecfad261.js
-            if (login) {
-                const t = window.n.options.blacklisted_tags
-                for (let e = t.map((t => {
-                    return '.tag-'.concat(t, ',.gallery[data-tags~="').concat(t, '"]')
-                })).join(','), n = document.querySelectorAll(e), r = 0; r < n.length; r++) n[r].classList.add('blacklisted')
-            }
+            // 處理 黑名單
+            login ? n.install_blacklisting() : null
 
             // 隱藏黑名單
             hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
