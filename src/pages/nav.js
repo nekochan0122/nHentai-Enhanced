@@ -32,11 +32,11 @@ export function nav (callback) {
     })
 
     // 左側
-    for (let i = 1; i < Object.getOwnPropertyNames(json.MenuLeft).length + 1; i++) {
+    for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
         $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
 
         // 隱藏 資訊
-        if (i === 7) $(`.menu.left li:nth-child(${i})`).hide()
+        i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
     }
 
     // 右側

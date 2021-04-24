@@ -47,7 +47,7 @@ export function book () {
 
 
     // 左側標籤列表
-    for (let i = 1, span = ''; i < Object.getOwnPropertyNames(json.Book.TagsName).length + 1; i++) {
+    for (let i = 1, len = Object.keys(json.Book.TagsName).length, span = ''; i <= len; i++) {
         span = $(`#tags > .tag-container:nth-child(${i}) > span`)[0].outerHTML
         $H(`#tags > .tag-container:nth-child(${i})`, `${json.Book.TagsName[Object.keys(json.Book.TagsName).sort((a, b) => a - b)[i - 1]]} ${span}`)
     }
