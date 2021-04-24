@@ -6,6 +6,9 @@ export const $ = window.$,
     lang = 'zh_TW',
     data = `//raw.githubusercontent.com/NekoChanTaiwan/nHentai-Enhanced/main/locales/${lang}.json?flush_cache=True`,
 
+    // Ajax 快取控制
+    ajaxChahe = false,
+
     // Ajax 自動翻頁
     ajaxPage = true,
 

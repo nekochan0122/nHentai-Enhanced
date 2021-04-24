@@ -1,5 +1,6 @@
 import {
     $,
+    ajaxChahe,
 } from '../config.js'
 
 import {
@@ -125,7 +126,7 @@ export function book () {
         $.ajax({
             type: 'GET',
             url: `/search/?q=${searchText}`,
-            cache: false,
+            cache: ajaxChahe,
             dataType: 'html',
             success: data => {
                 debugConsole(`搜尋 ${searchText} 讀取成功`)

@@ -1,5 +1,6 @@
 import {
     $,
+    ajaxChahe,
     newTabBook,
     hideBlackList,
     enableWidgetBot,
@@ -65,7 +66,7 @@ function ajaxNextPage (mode, selector = null) {
     $.ajax({
         type: 'GET',
         url: `${location.href}/?page=${currentPageNum}`,
-        cache: true,
+        cache: ajaxChahe,
         dataType: 'html',
         success: data => {
             debugConsole(`第${currentPageNum}頁 讀取成功`)
