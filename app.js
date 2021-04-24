@@ -327,8 +327,8 @@ function book () {
     // $H('#download', `<i class="fa fa-download"></i> ${json.Book.Btns.BTdownload}`)
     $('#download').hide()
 
-    // 新增按鈕 - 開始閱讀
-    $('#info > .buttons').prepend(`<a href="/g/${book_id}/1/" class="btn btn-primary"><i class="fas fa-book-open"></i> ${json.Book.Btns.Read}</a>`)
+    // 新增按鈕 - 單頁閱讀
+    $('#info > .buttons').prepend(`<a href="/g/${book_id}/1/?onePageMode=True" class="btn btn-primary"><i class="fas fa-book-open"></i> ${json.Book.Btns.Read}</a>`)
 
     // 新增按鈕 - 搜尋相關本本
     let searchText1 = $('#info .title').length === 2 ? `${$('#info .title:nth-child(1) > .pretty').text()}` :
@@ -491,7 +491,7 @@ function book () {
  */
 function readingBook () {
 
-    ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    /onePageMode=True/.test(window.location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
         debugConsole('自動翻頁 已開啟')
