@@ -11,7 +11,7 @@ module.exports = {
     },
     module: {},
     plugins: [
-        new WebpackUserscript({
+        new WebpackUserscript({ // https://cowsay.blog/post/431d1mdg/
             headers: {
                 namespace: "https://github.com/NekoChanTaiwan",
                 match: 'https://nhentai.net/*',
