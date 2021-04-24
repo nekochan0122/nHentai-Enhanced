@@ -31,7 +31,7 @@ const $ = window.$,
     // 語言設定
     translater = true,
     lang = 'zh_TW',
-    data = `//raw.githubusercontent.com/NekoChanTaiwan/Tampermonkey-Scripts/main/nHentai-Enhanced/lang/${lang}.json?flush_cache=True`,
+    data = `//raw.githubusercontent.com/NekoChanTaiwan/nHentai-Enhanced/main/locales/${lang}.json?flush_cache=True`,
 
     // Ajax 自動翻頁
     ajaxPage = true,
