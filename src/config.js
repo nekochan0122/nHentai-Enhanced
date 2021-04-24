@@ -10,7 +10,7 @@ export const $ = window.$,
     ajaxPage = true,
 
     // 在新分頁中開啟本本
-    newTabBook = false,
+    newTabBook = true,
 
     // 隱藏黑名單
     hideBlackList = false,

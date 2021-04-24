@@ -6,9 +6,7 @@ import {
     custom
 } from './config.js'
 
-import {
-    login,
-} from './variable.js'
+import { login} from './variable.js'
 
 import { book } from './pages/book'
 import { homepage } from './pages/homepage'
