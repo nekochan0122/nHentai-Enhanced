@@ -136,7 +136,6 @@ function init () {
                 debugConsole('未知頁面')
 
             }
-            // TODO: #content > h1 > span ( switch : 標籤 -> 畫師 -> 語言 -> 分類 -> 同人 -> 群組 )
 
             // 顯示頁面
             document.body.style.display = ''
@@ -612,24 +611,25 @@ function readingBook () {
  * span 頁面
  */
 function spanPage () {
-    const jsonSP = json.spanPage, span = $('#content > h1 > span'), spanName = span.html()
+    const jsonSP = json.spanPage, sort = jsonSP.sort, span = $('#content > h1 > span'), spanName = span.html()
 
-    // span
+    // 翻譯 span
     jsonSP.tags.hasOwnProperty(spanName) ? span.html(jsonSP.tags[spanName]).parent() : debugConsole('未知的 span 頁面')
 
+    // 翻譯 標籤
     tagsTranslator($('#content > h1 > a > .name'))
 
     // sort (太醜了)
-    $H('div.sort > div:nth-child(1) > a', jsonSP.sort.Recent)
-    $H('div.sort > div:nth-child(2) > span', jsonSP.sort.Popular)
-    $H('div.sort > div:nth-child(2) > a:nth-child(2)', jsonSP.sort.today)
-    $H('div.sort > div:nth-child(2) > a:nth-child(3)', jsonSP.sort.week)
-    $H('div.sort > div:nth-child(2) > a:nth-child(4)', jsonSP.sort.allTime)
+    $H('.sort > div:nth-child(1) > a', sort.Recent)
+    $H('.sort > div:nth-child(2) > span', sort.Popular)
+    $H('.sort > div:nth-child(2) > a:nth-child(2)', sort.today)
+    $H('.sort > div:nth-child(2) > a:nth-child(3)', sort.week)
+    $H('.sort > div:nth-child(2) > a:nth-child(4)', sort.allTime)
 
     changeNumPosition('span')
 
+    // 獲取當前頁數
     const link = window.location.href.split('=')
-
     currentPageNum = link.length == 1 ? 1 : Number(link[1])
 
     // ajax
