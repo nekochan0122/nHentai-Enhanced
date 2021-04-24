@@ -33,6 +33,5 @@ export const $ = window.$,
             { 中文: '/language/chinese/' },
             { 日文: '/language/japanese/' },
             { 英文: '/language/english/' },
-            { 裏番: 'https://hanime1.me/' },
         ]
     }
