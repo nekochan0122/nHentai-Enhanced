@@ -8,10 +8,11 @@ import {
 } from '../variable.js'
 
 import {
-  debugConsole,
-  tagsTranslator,
-  changeNumPosition,
-  scrollEventAjax
+    scrollEventAjax,
+    changeNumPosition,
+    debugConsole,
+    $H,
+    tagsTranslator,
 } from '../utils'
 
 /**
