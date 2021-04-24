@@ -26,7 +26,7 @@ export function nav (callback) {
         if ($(window).scrollTop() === 0) {
             $('nav').css({'position': 'static'})
         }
-        else if (window.pageYOffset >= $('nav')[0].offsetTop) {
+        else if (pageYOffset >= $('nav')[0].offsetTop) {
             $('nav').css({'position': 'fixed'})
         }
     })
@@ -41,7 +41,7 @@ export function nav (callback) {
 
     // 右側
     //  - 檢測是否有登入
-    if (Object.keys(window.n.options.user).length) {
+    if (Object.keys(n.options.user).length) {
         // 最愛
         $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-heart color-icon"></i> ${json.MenuRight2.Favroites}`)
         // 登出
