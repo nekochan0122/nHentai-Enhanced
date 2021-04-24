@@ -14,6 +14,7 @@ module.exports = {
         new WebpackUserscript({ // https://cowsay.blog/post/431d1mdg/
             headers: {
                 namespace: "https://github.com/NekoChanTaiwan",
+                license: 'MIT',
                 match: 'https://nhentai.net/*',
                 grant: ['none'],
                 require: [
