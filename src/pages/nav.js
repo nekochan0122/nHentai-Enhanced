@@ -41,7 +41,7 @@ export function nav (callback) {
 
     // 右側
     //  - 檢測是否有登入
-    if (!/Sign in/.test($('.menu.right li:nth-child(1) >a').html())) {
+    if (Object.keys(window.n.options.user).length) {
         // 最愛
         $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-heart color-icon"></i> ${json.MenuRight2.Favroites}`)
         // 登出
