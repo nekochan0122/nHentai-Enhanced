@@ -149,14 +149,6 @@ function hideBlackListFunc () {
 }
 
 /**
- * 讀取用戶名
- * @returns 已登入用戶名，若未登入返回空字符串
- */
-function getUserName () {
-    return login ? $('.menu.right li:nth-child(3) a').contents().filter(function () {return this.nodeType == Node.TEXT_NODE}).text().trim() : ''
-}
-
-/**
  * Discord 聊天室
  */
 function discordChatFunc (DC) {
@@ -247,7 +239,6 @@ export {
     galleryBlank,
     changeNumPosition,
     hideBlackListFunc,
-    getUserName,
     discordChatFunc,
     debugConsole,
     $H,
