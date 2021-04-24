@@ -13,7 +13,7 @@ module.exports = {
     plugins: [
         new WebpackUserscript({ // https://cowsay.blog/post/431d1mdg/
             headers: {
-                namespace: "https://github.com/NekoChanTaiwan",
+                namespace: 'https://github.com/NekoChanTaiwan',
                 license: 'MIT',
                 match: 'https://nhentai.net/*',
                 grant: ['none'],
