@@ -570,7 +570,7 @@ function readingBook () {
                     let newHtml = $('<div></div>')
 
                     // 插入 元素
-                    $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`))
+                    $('#content').append(newHtml.html(data).find('#image-container > a > img').attr('id', `page${target}`).css({'display': 'block', 'margin': '0px auto'}))
 
                     // 滾動至當前頁數
                     if (target == curNum) scrollToPage(curNum)
