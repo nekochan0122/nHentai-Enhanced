@@ -14,6 +14,8 @@ import {
     $H,
 } from '../utils'
 
+import { PageTranslator } from '../pageTranslate.js'
+
 /**
  * nav 導航
  * @param {callback} callback
@@ -34,12 +36,17 @@ export function nav (callback) {
     })
 
     // 左側
-    for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
-        $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
+    // for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
+    //     $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
 
-        // 隱藏 資訊
-        i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
-    }
+    //     // 隱藏 資訊
+    //     i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
+    // }
+
+    let time = performance.now()
+    const t = new PageTranslator()
+    t.Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
+    debugConsole(`翻译耗时：${performance.now() - time}`)
 
     // 右側
     //  - 檢測是否有登入
