@@ -8,7 +8,7 @@
 // @namespace  https://github.com/NekoChanTaiwan
 // @license    MIT
 // @grant      none
-// @require    https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
+// @require    https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require    https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js
 // @require    https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js
 // ==/UserScript==

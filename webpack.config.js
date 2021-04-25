@@ -18,7 +18,7 @@ module.exports = {
                 match: 'https://nhentai.net/*',
                 grant: ['none'],
                 require: [
-                    'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+                    'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js',
                     'https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js',
                     'https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js'
                 ]
