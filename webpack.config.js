@@ -13,6 +13,7 @@ module.exports = {
     plugins: [
         new WebpackUserscript({ // https://cowsay.blog/post/431d1mdg/
             headers: {
+                name: 'nHentai-Enhanced',
                 namespace: 'https://github.com/NekoChanTaiwan',
                 license: 'MIT',
                 match: 'https://nhentai.net/*',

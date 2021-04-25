@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name       nhentai-enhanced
+// @name       nHentai-Enhanced
 // @version    0.0.1
 // @author     NekoChan
 // @homepage   https://github.com/NekoChanTaiwan/nHentai-Enhanced
