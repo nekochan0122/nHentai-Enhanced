@@ -14,7 +14,7 @@ import {
     $H,
 } from '../utils'
 
-import { TranslatePlus } from '../pageTranslate.js'
+import { TranslatePlus , Translate } from '../pageTranslate.js'
 
 /**
  * nav 導航
@@ -36,18 +36,28 @@ export function nav (callback) {
     })
 
     // 左側
+
+
+    // let time = performance.now() //1.7ms
     // for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
     //     $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
 
     //     // 隱藏 資訊
     //     i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
     // }
+    // debugConsole(`翻译耗时：${performance.now() - time} ms.`)
 
-    let time = performance.now()
+    // let time = performance.now() //15ms
     
-    TranslatePlus([], json.MenuLeft)
+    // TranslatePlus([], json.MenuLeft)
 
-    debugConsole(`翻译耗时：${performance.now() - time} ms.`)
+    // debugConsole(`翻译耗时：${performance.now() - time} ms.`)
+
+    // let time = performance.now() //3ms
+    
+    // Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
+
+    // debugConsole(`翻译耗时：${performance.now() - time} ms.`)
 
     // 右側
     //  - 檢測是否有登入

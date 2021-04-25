@@ -1,6 +1,12 @@
 //模块化
-export { TranslatePlus }
+export { TranslatePlus , Translate }
 
+import {
+    $
+} from './config.js'
+import {
+    debugConsole,
+} from './utils'
 /**
  * 页面翻译\
  * 通过CSS选择器获得元素内容作为翻译规则的键，再用键查找翻译规则对象中的值替换网页中的内容\
@@ -12,12 +18,12 @@ export { TranslatePlus }
  * @param {Object} value - 已翻译的内容 也可以说是将要作为替换的文本
  */
  function Translate(CssSelectors, toTransRules) {
-    CssSelectors = _CssNthChildLoader(CssSelectors)
+    CssSelectors = _CssNthChildLoader(CssSelectors);
     for (const CssSelector of CssSelectors) {
         for (const Single of $(CssSelector)) {
-            const Tag = $(Single)
+            const Tag = $(Single);
             if (Tag.text().trim() in toTransRules) {
-                Tag.html(toTransRules[Tag.text().trim()])
+                Tag.html(toTransRules[Tag.text().trim()]);
             }
         }
     }
@@ -33,8 +39,8 @@ export { TranslatePlus }
  * @param {Object} value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
 function TranslatePlus(IgnoreCssSelectors, toTransRules) {
-    const PageTransSelectors = GetPageTransSelectors(IgnoreCssSelectors, toTransRules)
-    Translate(PageTransSelectors, toTransRules)
+    const PageTransSelectors = GetPageTransSelectors(IgnoreCssSelectors, toTransRules);
+    Translate(PageTransSelectors, toTransRules);
 }
 /**
  * 调试函数：用于获取CssSelectors选中的所有网页元素内容，这将作为翻的译规则对象中键\
@@ -49,27 +55,27 @@ function TranslatePlus(IgnoreCssSelectors, toTransRules) {
  */
 function GetTransList(CssSelectors, toTransRules, Translated = false) {
     if (Translated) {
-        let NewtoTransRules = _objectFlip(toTransRules)
-        Translate(CssSelectors, NewtoTransRules)
+        let NewtoTransRules = _objectFlip(toTransRules);
+        Translate(CssSelectors, NewtoTransRules);
     }
 
-    CssSelectors = _CssNthChildLoader(CssSelectors)
-    let NativeTextArray = Object.assign({}, toTransRules)
+    CssSelectors = _CssNthChildLoader(CssSelectors);
+    let NativeTextArray = Object.assign({}, toTransRules);
 
     for (const CssSelector of CssSelectors) {
         for (const Single of $(CssSelector)) {
             if ($(Single).text().trim() in toTransRules) {
-                NativeTextArray[$(Single).text().trim()] = toTransRules[$(Single).text().trim()]
+                NativeTextArray[$(Single).text().trim()] = toTransRules[$(Single).text().trim()];
             } else {
-                NativeTextArray[$(Single).text().trim()] = ''
+                NativeTextArray[$(Single).text().trim()] = '';
             }
         }
     }
     if (Translated) {
-        Translate(CssSelectors, toTransRules)
+        Translate(CssSelectors, toTransRules);
     }
 
-    _copyToClipboard(JSON.stringify(NativeTextArray))
+    _copyToClipboard(JSON.stringify(NativeTextArray));
 }
 /**
  * 在网页中查找含有未翻译内容的元素并生成该元素的CSS选择器，保存成一个数组\
@@ -81,27 +87,28 @@ function GetTransList(CssSelectors, toTransRules, Translated = false) {
  * @returns {Array} 未翻译内容 通过key在网页中查找到的CSS选择器数组
  */
 function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
-    let BodyClone = $('body').clone()
-    let PageTransSelectors = []
+    let BodyClone = $('body').clone();
+    let PageTransSelectors = [];
     for (const CssSelector of IgnoreCssSelectors) {
-        $(CssSelector, BodyClone).remove()
+        $(CssSelector, BodyClone).remove();
     }
 
     $('*', BodyClone).each(function () {
-        let Results = $('*', this)
-        if (Results.length == 1) {
-            const Text = Results.eq(0).text().trim()
+        let Results = $('*', this);
+
+        if (Results.length == 0) {
+            const Text = this.textContent?.trim();
 
             if (!Text) {
-                return
+                return;
             }
 
             if (Text in NativeTextFilters) {
-                PageTransSelectors.push(finder(Results[0]))
+                PageTransSelectors.push(finder(this));
             }
         }
-    })
-    return PageTransSelectors
+    });
+    return PageTransSelectors;
 }
 /**
  * 内部函数，用于解析新增语法 nth-child(Start:End)
@@ -109,30 +116,30 @@ function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
  * @returns 处理完毕的选择器数组
  */
 function _CssNthChildLoader(CssSelectors) {
-    let TargetSelectors = []
-    let RecursionCount = 0
-    let NewCssSelectors = CssSelectors.slice()
-    let i = 0
+    let TargetSelectors = [];
+    let RecursionCount = 0;
+    let NewCssSelectors = CssSelectors.slice();
+    let i = 0;
     for (const CssSelector of CssSelectors) {
-        let TestResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
-        TestResults = Array.from(TestResults)
+        let TestResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g);
+        TestResults = Array.from(TestResults);
         if (TestResults.length) {
             if (RecursionCount < TestResults.length) {
-                RecursionCount = TestResults.length
+                RecursionCount = TestResults.length;
             }
-            NewCssSelectors.splice(i, 1)
-            i--
+            NewCssSelectors.splice(i, 1);
+            i--;
 
-            TargetSelectors.push(CssSelector)
+            TargetSelectors.push(CssSelector);
         }
-        i++
+        i++;
     }
 
     if (!TargetSelectors.length) {
-        return CssSelectors
+        return CssSelectors;
     }
 
-    return NewCssSelectors.concat(_CssNthChildProcess(TargetSelectors, RecursionCount))
+    return NewCssSelectors.concat(_CssNthChildProcess(TargetSelectors, RecursionCount));
 }
 /**
  * 内部函数：迭代处理CSS选择器新语法
@@ -141,26 +148,26 @@ function _CssNthChildLoader(CssSelectors) {
  * @returns
  */
 function _CssNthChildProcess(CssSelectors, RecursionCount) {
-    let i = 0
-    let NewCssSelectors = CssSelectors.slice()
+    let i = 0;
+    let NewCssSelectors = CssSelectors.slice();
     for (const CssSelector of CssSelectors) {
-        let MatchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
-        MatchResults = Array.from(MatchResults)
-        let [Start, End] = [+MatchResults[0][1], +MatchResults[0][2]]
-        NewCssSelectors.splice(i, 1)
-        i--
+        let MatchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g);
+        MatchResults = Array.from(MatchResults);
+        let [Start, End] = [+MatchResults[0][1], +MatchResults[0][2]];
+        NewCssSelectors.splice(i, 1);
+        i--;
         for (let a = 0; a < End - Start + 1; a++) {
             NewCssSelectors.push(
                 MatchResults[0].input.replace(`${Start}:${End}`, '' + (Start + a)) // only replace once
-            )
+            );
         }
-        i++
+        i++;
     }
-    RecursionCount--
+    RecursionCount--;
     if (!RecursionCount) {
-        return NewCssSelectors
+        return NewCssSelectors;
     } else {
-        return _CssNthChildProcess(NewCssSelectors, RecursionCount)
+        return _CssNthChildProcess(NewCssSelectors, RecursionCount);
     }
 }
 /**
@@ -170,16 +177,16 @@ function _CssNthChildProcess(CssSelectors, RecursionCount) {
 function _copyToClipboard(s) {
     //From https://zhidao.baidu.com/question/1610338565580504947.html
     if (window.clipboardData) {
-        window.clipboardData.setData('text', s)
+        window.clipboardData.setData('text', s);
     } else {
-        ;(function (s) {
+        (function (s) {
             document.oncopy = function (e) {
-                e.clipboardData.setData('text', s)
-                e.preventDefault()
-                document.oncopy = null
-            }
-        })(s)
-        document.execCommand('Copy')
+                e.clipboardData.setData('text', s);
+                e.preventDefault();
+                document.oncopy = null;
+            };
+        })(s);
+        document.execCommand('Copy');
     }
 }
 /**
@@ -190,7 +197,7 @@ function _copyToClipboard(s) {
 function _objectFlip(obj) {
     //From https://stackoverflow.com/questions/23013573/swap-key-with-value-json
     return Object.keys(obj).reduce((ret, key) => {
-        ret[obj[key]] = key
-        return ret
-    }, {})
+        ret[obj[key]] = key;
+        return ret;
+    }, {});
 }
