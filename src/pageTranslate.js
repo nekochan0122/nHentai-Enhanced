@@ -97,7 +97,7 @@ function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
             }
 
             if (Text in NativeTextFilters) {
-                PageTransSelectors.push(window.finder(Results[0]))
+                PageTransSelectors.push(finder(Results[0]))
             }
         }
     })
