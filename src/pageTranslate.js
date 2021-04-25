@@ -1,12 +1,3 @@
-//模块化
-export { TranslatePlus , Translate }
-
-import {
-    $
-} from './config.js'
-import {
-    debugConsole,
-} from './utils'
 /**
  * 页面翻译\
  * 通过CSS选择器获得元素内容作为翻译规则的键，再用键查找翻译规则对象中的值替换网页中的内容\
@@ -31,8 +22,8 @@ import {
 /**
  * 页面翻译威力加强版（比较慢）\
  * 使用函数在网页元素中查找翻译规则中的键，替换为翻译规则的值\
- * 流程（不准确）：文本 => CSS选择器 , CSS选择器 => 文本
- * @param也就是说是使用函数替换网页元素内容
+ * 流程（不准确）：文本 => CSS选择器 , CSS选择器 => 文本\
+ * 也就是说是使用函数替换网页元素内容
  * @param {Array} IgnoreCssSelectors - 要删除的网页内容 | 也可以说是要忽略的元素的CSS选择器数组 成员是CSS选择器
  * @param {Object} toTransRules - 翻译规则对象
  * @param {Object} key - 未翻译的内容 | 也可以说是要替换的内容
