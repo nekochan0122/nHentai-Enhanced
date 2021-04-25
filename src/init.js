@@ -6,7 +6,7 @@ import {
     custom
 } from './config.js'
 
-import { login } from './variable.js'
+import { login, notyf } from './variable.js'
 import { book } from './pages/book'
 import { homepage } from './pages/homepage'
 import { nav } from './pages/nav'
@@ -27,13 +27,21 @@ import {
  */
 export function init () {
 
+    // notyf css 初始化
+    $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
+
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
 
         function ready (pages = {}) {
 
-            // notyf css 初始化
-            $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
+            /**
+             * 增加頁面
+             * @param {string} pageName - 頁面名稱
+             * @param {boolean} condition - 判斷
+             * @param {funtion} func - 頁面函式
+             */
+            const addPage = (pageName, condition, func) => pages[pageName] = { condition, func }
 
             // 增加頁面
             addPage('homepage', $('#content .index-popular')[0], homepage)
@@ -46,23 +54,15 @@ export function init () {
             for (let key of Object.keys(pages)) {
                 debugConsole(`正在偵測 ${key}`)
                 if (pages[key].condition) {
-                    pages[key].callback()
+                    // 調用頁面函數
+                    pages[key].func()
+
+                    // 顯示 #content
+                    $('#content').show()
+
                     break
                 }
             }
-
-            /**
-             * 增加頁面
-             * @param {string} pageName - 頁面名稱
-             * @param {boolean} condition - 判斷
-             * @param {funtion} callback - 回調函式
-             */
-            function addPage (pageName, condition, callback) {
-                pages[pageName] = { condition, callback }
-            }
-
-            // 顯示頁面
-            document.body.style.display = ''
 
             // 隱藏黑名單
             hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
@@ -75,11 +75,15 @@ export function init () {
         }
 
         // 確保在執行 ready function 之前，讀取登入狀態
-        nav(ready)
+        try {
+            nav(ready)
+            $('nav').show()
+        } catch (e){
+            debugConsole('初始化失敗：' + e)
+            notyf.error('nHentai-Enhanced 初始化失敗：' + e)
+        }
 
     } else {
-        debugConsole('初始化失敗，找不到指定的元素：nav[role="navigation"]')
-
-        $('body').show()
+        debugConsole('nav 初始化失敗，找不到指定的元素：nav[role="navigation"]')
     }
 }
