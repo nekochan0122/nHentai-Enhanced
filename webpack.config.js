@@ -20,7 +20,8 @@ module.exports = {
                 require: [
                     'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
                     'https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js',
-                    'https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js'
+                    'https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js',
+                    'https://cdn.jsdelivr.net/gh/821938089/finder@2.0.0.1/finder.js'
                 ]
             },
             metajs: false,

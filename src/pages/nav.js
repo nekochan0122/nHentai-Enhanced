@@ -14,7 +14,7 @@ import {
     $H,
 } from '../utils'
 
-import { PageTranslator } from '../pageTranslate.js'
+import { TranslatePlus } from '../pageTranslate.js'
 
 /**
  * nav 導航
@@ -44,9 +44,10 @@ export function nav (callback) {
     // }
 
     let time = performance.now()
-    const t = new PageTranslator()
-    t.Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
-    debugConsole(`翻译耗时：${performance.now() - time}`)
+    
+    TranslatePlus([], json.MenuLeft)
+
+    debugConsole(`翻译耗时：${performance.now() - time} ms.`)
 
     // 右側
     //  - 檢測是否有登入
