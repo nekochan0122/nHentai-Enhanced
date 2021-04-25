@@ -5,8 +5,8 @@ import { json } from './variable.js'
 import { init } from './init'
 import { debugConsole } from './utils'
 
-// 初始化前隱藏頁面
-document.body.style.display = 'none'
+// 初始化前 隱藏 nav, #content
+$('nav, #content').hide()
 
 // 網頁讀取完畢
 $(() => {

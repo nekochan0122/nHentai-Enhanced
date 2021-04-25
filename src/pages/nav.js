@@ -9,7 +9,6 @@ import {
 } from '../variable.js'
 
 import {
-    customMenu,
     debugConsole,
     $H,
 } from '../utils'
@@ -86,6 +85,18 @@ export function nav (callback) {
 
     $('input[type=search]').attr({'autocomplete': 'off', 'placeholder': ''})
 
-    callback()
     customMenu(custom.menu)
+    callback()
+
+    /**
+     * 自定選單
+     * @param {array} menu - 一個包含物件選單的陣列，鍵名為連結名稱，鍵值為連結
+     * @param {number} len - 該參數不必傳遞，用於變量聲明
+     */
+    function customMenu (menu, len = menu.length) {
+        for (let i = 0; i < len; i++) {
+            debugConsole(`新增自定選單：${Object.keys(menu[i])[0]} 連結：${Object.values(menu[i])[0]}`)
+            $('.menu.left').append(`<li class="desktop "><a href="${Object.values(menu[i])[0]}">${Object.keys(menu[i])[0]}</a></li>`)
+        }
+    }
 }

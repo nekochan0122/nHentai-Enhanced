@@ -17,17 +17,6 @@ import {
 } from './variable.js'
 
 /**
- * 自定選單
- * @param {array} menu
- */
-function customMenu (menu) {
-    for (let i = 0; i < menu.length; i++) {
-        debugConsole(`新增自定選單：${Object.keys(menu[i])[0]} 連結：${Object.values(menu[i])[0]}`)
-        $('.menu.left').append(`<li class="desktop "><a href="${Object.values(menu[i])[0]}">${Object.keys(menu[i])[0]}</a></li>`)
-    }
-}
-
-/**
  * 觸發 ajaxNextPage 的滾動事件
  * @param {string} mode - 'homepage', 'page', 'span'
  */
@@ -234,7 +223,6 @@ function timeTranslator (time) {
 }
 
 export {
-    customMenu,
     scrollEventAjax,
     ajaxNextPage,
     galleryBlank,
