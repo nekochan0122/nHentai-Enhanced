@@ -44,25 +44,25 @@ export function init () {
             const addPage = (pageName, condition, func) => pages[pageName] = { condition, func }
 
             // 增加頁面
-            addPage('homepage', $('#content .index-popular')[0], homepage)
-            addPage('page', $('.index-container')[0] && /net\/\?page=/.test(location.href), page)
-            addPage('book', $('#tags')[0], book)
-            addPage('readingBook', $('#image-container')[0], readingBook,)
-            addPage('spanPage', $('#content > h1 > span')[0], spanPage)
+            addPage('主頁', $('#content .index-popular')[0], homepage)
+            addPage('頁面列表', $('.index-container')[0] && /net\/\?page=/.test(location.href), page)
+            addPage('本本', $('#tags')[0], book)
+            addPage('閱讀模式', $('#image-container')[0], readingBook,)
+            addPage('span 頁面', $('#content > h1 > span')[0], spanPage)
 
             // 循環偵測頁面
             for (let key of Object.keys(pages)) {
-                debugConsole(`正在偵測 ${key}`)
+                debugConsole(`正在偵測頁面：${key}`)
                 if (pages[key].condition) {
                     // 調用頁面函數
                     pages[key].func()
 
-                    // 顯示 #content
-                    $('#content').show()
-
                     break
                 }
             }
+
+            // 顯示 #content
+            $('#content').show()
 
             // 隱藏黑名單
             hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
