@@ -19,6 +19,8 @@ import {
  * homepage 首頁
  */
 export function homepage () {
+    debugConsole('偵測到首頁')
+
     // 當前熱門
     $H('#content .index-popular > h2', `<i class="fa fa-fire color-icon"></i> ${json.Homepage.PopularNow}`)
 

@@ -19,6 +19,8 @@ import {
  * span 頁面
  */
 export function spanPage () {
+    debugConsole('偵測到 span 頁面')
+
     const jsonSP = json.spanPage, sort = jsonSP.sort, span = $('#content > h1 > span'), spanName = span.html()
 
     // 翻譯 span

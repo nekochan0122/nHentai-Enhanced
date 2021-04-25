@@ -17,6 +17,8 @@ import {
  * page 頁面列表
  */
 export function page () {
+    debugConsole('偵測到頁面列表')
+
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 

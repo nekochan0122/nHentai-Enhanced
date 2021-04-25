@@ -21,6 +21,8 @@ import {
  * book 本本
  */
 export function book () {
+    debugConsole('偵測到本本')
+
     const book_id = $('#gallery_id').hide().text().replace('#', '')
 
     // 神的語言

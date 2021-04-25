@@ -10,6 +10,7 @@ import {
 
 import {
     customMenu,
+    debugConsole,
     $H,
 } from '../utils'
 
@@ -18,6 +19,7 @@ import {
  * @param {callback} callback
  */
 export function nav (callback) {
+    debugConsole('偵測到導航欄')
 
     // 滾動事件
     $(window).scroll(() => {

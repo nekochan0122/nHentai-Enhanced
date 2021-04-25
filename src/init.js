@@ -29,41 +29,36 @@ export function init () {
 
     // 導航欄
     if ($('nav[role="navigation"]')[0]) {
-        debugConsole('偵測到導航欄')
 
-        function ready () {
+        function ready (pages = {}) {
 
             // notyf css 初始化
             $('head').append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css">')
 
-            // 首頁
-            if ($('#content .index-popular')[0]) {
-                debugConsole('偵測到首頁')
-                homepage()
+            // 增加頁面
+            addPage('homepage', $('#content .index-popular')[0], homepage)
+            addPage('page', $('.index-container')[0] && /net\/\?page=/.test(location.href), page)
+            addPage('book', $('#tags')[0], book)
+            addPage('readingBook', $('#image-container')[0], readingBook,)
+            addPage('spanPage', $('#content > h1 > span')[0], spanPage)
 
-            // 首頁第二頁開始的頁面列表
-            } else if ($('.index-container')[0] && /net\/\?page=/.test(location.href)) {
-                debugConsole('偵測到頁面列表')
-                page()
+            // 循環偵測頁面
+            for (let key of Object.keys(pages)) {
+                debugConsole(`正在偵測 ${key}`)
+                if (pages[key].condition) {
+                    pages[key].callback()
+                    break
+                }
+            }
 
-            // 本本
-            } else if ($('#tags')[0]) {
-                debugConsole('偵測到本本')
-                book()
-
-            // 閱讀本本中
-            } else if ($('#image-container')[0]) {
-                debugConsole('偵測到閱讀本本中')
-                readingBook()
-
-            // span 頁面
-            } else if ($('#content > h1 > span')[0]) {
-                debugConsole('偵測到 span 頁面')
-                spanPage()
-
-            } else {
-                debugConsole('未知頁面')
-
+            /**
+             * 增加頁面
+             * @param {string} pageName - 頁面名稱
+             * @param {boolean} condition - 判斷
+             * @param {funtion} callback - 回調函式
+             */
+            function addPage (pageName, condition, callback) {
+                pages[pageName] = { condition, callback }
             }
 
             // 顯示頁面

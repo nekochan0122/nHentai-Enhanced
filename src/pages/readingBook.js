@@ -17,8 +17,9 @@ import {
  * 閱讀本本中
  */
 export function readingBook () {
+    debugConsole('偵測到閱讀本本中')
 
-    /onePageMode=True/.test(location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
+    ;/onePageMode=True/.test(location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
         debugConsole('自動翻頁 已開啟')
