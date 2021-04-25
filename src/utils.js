@@ -6,6 +6,7 @@ import {
     enableWidgetBot,
     debug,
 } from './config.js'
+// import { TranslatePlus } from './pageTranslate.js'
 
 import {
     json,
@@ -187,8 +188,13 @@ function blockAdsFunc () {
  * 翻譯標籤
  * @param {object} tags - jQuery DOM .name
  */
-function tagsTranslator (tags) {
-    for (let i = 0; i < tags.length; i++) {
+function tagsTranslator(tags) {
+    // console.log(tags)
+    // let time = performance.now() //17ms
+    // TranslatePlus([], json.Tags)
+    // debugConsole(`翻译耗时：${performance.now() - time} ms.`)
+    // let time = performance.now() //3ms
+    for (let i = 0; i < tags.length; i++) { 
         const tagE = tags.eq(i), tagName = tagE.html()
         // debugConsole(`發現標籤：${tagName}`)
 
@@ -198,6 +204,7 @@ function tagsTranslator (tags) {
             tagE.html(json.Tags[tagName]).parent().attr('title', tagName)
         }
     }
+    // debugConsole(`翻译耗时：${performance.now() - time} ms.`)
 }
 
 /**
