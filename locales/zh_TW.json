@@ -13,8 +13,8 @@
         "Log out": "<i class='fa fa-sign-out-alt'></i> 登出"
     },
     "Homepage": {
-        "PopularNow": "當前熱門",
-        "NewUploads": "最新上傳"
+        "Popular Now": "<i class='fa fa-fire color-icon'></i> 當前熱門",
+        "New Uploads": "<i class='fa fa-box-tissue color-icon'></i> 最新上傳"
     },
     "Book": {
         "TagsName": {
