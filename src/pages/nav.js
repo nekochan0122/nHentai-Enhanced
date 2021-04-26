@@ -26,13 +26,16 @@ export function nav (callback, nav = $('nav')) {
     // 檢測是否有登入
     login = Object.keys(n.options.user).length
 
-    // 搜尋欄樣式
+    // 通知 樣式
+    $('.alert, announcement').css({'max-width': '90rem', 'margin': '1rem auto'})
+
+    // 搜尋欄 樣式
     $('input[type=search]').attr({'autocomplete': 'off', 'placeholder': ''})
 
     // nav 樣式
     nav.css({'position': 'sticky', 'top': '0', 'width': '100%', 'z-index': '999999'})
 
-    // 滾動事件
+    // nav 滾動事件
     $(window).scroll(() => pageYOffset > 150 ? nav.css({'position': 'fixed'}) : nav.css({'position': 'sticky'}))
 
     // 左側自訂選單
