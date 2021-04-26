@@ -46,6 +46,12 @@
         "PostAComment": "留言",
         "CommentFormPlaceHolder": "如果你詢問是否有翻譯，你將會死亡。",
         "Comment": "發送",
+        "NoLogin": {
+            "Login": "登入",
+            "Or": "或",
+            "Register": "註冊",
+            "ToPostAComment": "和其他基友一起討論。"
+        },
         "Time": {
             "years": "年",
             "year": "年",
