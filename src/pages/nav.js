@@ -11,9 +11,8 @@ import {
 import {
     debugConsole,
     $H,
+    TranslatePlus,
 } from '../utils'
-
-import { TranslatePlus , Translate } from '../pageTranslate.js'
 
 /**
  * nav 導航
@@ -36,11 +35,13 @@ export function nav (callback) {
 
     // 左側
 
-    for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
-        $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
-        // 隱藏 資訊
-        i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
-    }
+    // for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
+    //     $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
+    //     // 隱藏 資訊
+    //     i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
+    // }
+
+    TranslatePlus(['#content'], json.MenuLeft)
 
     // Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
 
