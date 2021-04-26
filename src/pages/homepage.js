@@ -22,7 +22,7 @@ export function homepage () {
     debugConsole('偵測到首頁')
 
     // 翻譯首頁容器
-    translatePlus(['i'], json.Homepage)
+    translatePlus(['i', 'nav'], json.Homepage)
 
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
