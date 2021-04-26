@@ -38,6 +38,7 @@
         "Btns": {
             "Read": "單頁閱讀",
             "BTdownload": "BT 下載",
+            "Searching": "搜尋中",
             "SerachRelatedBook": "搜尋相關本本"
         },
         "ShowMoreImagesButton": "顯示更多",
