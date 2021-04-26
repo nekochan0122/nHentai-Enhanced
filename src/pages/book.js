@@ -92,8 +92,11 @@ export function book () {
     // 讀取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
 
+    // 搜尋相關本本 按鈕
+    $('#info > .buttons').append(`<a id="serachRelatedBookBtn" class="btn btn-secondary" href="javascript:;" style="cursor: wait;"><i class="fas fa-search"></i> ${json.Book.Btns.Searching}</a>`)
+
     /**
-     * 搜尋相關本本
+     * 搜尋相關本本 函式
      * @param {string} searchText - 要搜尋的字符串
      * @param {boolean} fix - 是否格式化文字
      */
@@ -137,7 +140,7 @@ export function book () {
                 let newHtml = $('<div></div>'),
 
                     // 讀取搜尋結果數量
-                    resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
+                    resultNum = Number(newHtml.html(data).find('#content > h1').text().replace('results', '')),
 
                     // 搜尋結果是否含有 searchText2
                     perfect = /69696969/.test(data.replace(searchText2, '69696969'))
@@ -146,13 +149,13 @@ export function book () {
 
                 if (resultNum > 0 && perfect) {
                     debugConsole('完美搜尋結果')
-                    appendButton(searchText)
+                    updateBtn(searchText)
 
                 } else {
                     switch (serachTimes) {
                         case 1 :
                             if ($('#info .title').length === 3) {
-                                search(searchText2)
+                                search(searchText2, resultNum)
                             } else {
                                 debugConsole('跳過搜尋 searchText2 ，搜尋 searchText3')
                                 search(searchText3, false)
@@ -161,20 +164,21 @@ export function book () {
                         case 2 :
                             if (resultNum > 0 && perfect) {
                                 debugConsole('完美搜尋結果')
-                                appendButton(searchText)
+                                updateBtn(searchText, resultNum)
                             } else {
                                 search(searchText3, false)
                             }
                             break
                         case 3 :
                             debugConsole('勉強搜尋結果')
-                            appendButton(searchText)
+                            updateBtn(searchText, resultNum)
                             break
                     }
                 }
 
-                function appendButton (searchText) {
-                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.Btns.SerachRelatedBook} (<span>${resultNum.replaceAll(' ', '')}</span>)</a>`)
+                function updateBtn (searchText, resultNum, json = json.Book.Btns) {
+                    const btnTextresultNum = resultNum === 0 ? json.Nothing : json.SerachRelatedBook
+                    $('#serachRelatedBookBtn').css('cursor', 'pointer').attr('href', `/search/?q=${searchText}`).html(`<i class="fas fa-search"></i> ${btnTextresultNum} (<span>${resultNum}</span>)`)
                 }
 
             },
