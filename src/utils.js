@@ -27,7 +27,8 @@ export {
     $H,
     blockAdsFunc,
     tagsTranslator,
-    timeTranslator
+    timeTranslator,
+    TranslatePlus,
 }
 
 /**
@@ -281,6 +282,12 @@ function TranslatePlus(IgnoreCssSelectors, toTransRules) {
 function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
     let BodyClone = $('body').clone();
     let PageTransSelectors = [];
+
+    // 合併固定過濾的元素
+    IgnoreCssSelectors = [...IgnoreCssSelectors, ...['#messages', '.notyf', '.notyf-announcer', '.gallery', '.thumbs', '#comment-container']]
+
+    debugConsole('自動獲取 CSS 過濾的元素：' + IgnoreCssSelectors)
+
     for (const CssSelector of IgnoreCssSelectors) {
         $(CssSelector, BodyClone).remove();
     }
