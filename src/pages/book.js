@@ -214,7 +214,7 @@ export function book () {
     }
 
     // 翻譯
-    translatePlus(['i'], json.NewBook)
+    translatePlus(['i', 'nav'], json.NewBook)
 
     // 時間
     $H('time', timeTranslator($('time').html()))
