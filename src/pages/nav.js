@@ -10,7 +10,6 @@ import {
 
 import {
     debugConsole,
-    $H,
     translatePlus,
 } from '../utils'
 
