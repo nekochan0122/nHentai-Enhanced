@@ -85,5 +85,6 @@ export function init () {
 
     } else {
         debugConsole('nav 初始化失敗，找不到指定的元素：nav[role="navigation"]')
+        $('nav, #content').show()
     }
 }

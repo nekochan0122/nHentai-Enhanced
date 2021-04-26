@@ -1,7 +1,7 @@
 import {
     $,
     ajaxPage,
-    ajaxChahe,
+    ajaxCache,
 } from '../config.js'
 
 import {
@@ -94,7 +94,7 @@ export function readingBook () {
             $.ajax({
                 type: 'GET',
                 url: `/g/${id}/${target}/`,
-                cache: ajaxChahe,
+                cache: ajaxCache,
                 dataType: 'html',
                 success: data => {
                     debugConsole(`第 ${target} 張 讀取成功`)
