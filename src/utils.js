@@ -6,7 +6,6 @@ import {
     enableWidgetBot,
     debug,
 } from './config.js'
-// import { TranslatePlus } from './pageTranslate.js'
 
 import {
     json,
