@@ -255,7 +255,7 @@ function TranslatePlus(IgnoreCssSelectors, toTransRules) {
  * 也就是说是用CSS选择器选择网页元素内容，替换为目标值
  * @param {Array} CssSelectors - 要翻译的网页内容所对应的元素的选择器数组 成员是CSS选择器
  * @param {Object} toTransRules - 翻译规则对象
- *  ey - 未翻译的内容 | 也可以说是要替换的内容
+ *  Key - 未翻译的内容 | 也可以说是要替换的内容
  *  value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
  function Translate(CssSelectors, toTransRules) {
