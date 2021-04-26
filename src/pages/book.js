@@ -83,7 +83,7 @@ export function book () {
         // 移除文字
         remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-', '#'],
         // 替換文字
-        filter = [' ', '「', '」']
+        replace = [' ', '「', '」']
 
     for (let i = 0; i < sT1Length; i++) {
         searchText3 += `${sT1Array[i]}+`
@@ -112,7 +112,7 @@ export function book () {
             forLoop(remove)
 
             // 替換文字
-            forLoop(filter, '+')
+            forLoop(replace, '+')
         }
 
         /**
