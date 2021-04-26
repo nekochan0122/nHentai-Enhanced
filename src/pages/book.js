@@ -149,7 +149,7 @@ export function book () {
 
                 if (resultNum > 0 && perfect) {
                     debugConsole('完美搜尋結果')
-                    updateBtn(searchText)
+                    updateBtn(searchText, resultNum)
 
                 } else {
                     switch (serachTimes) {
@@ -176,6 +176,12 @@ export function book () {
                     }
                 }
 
+                /**
+                 * 更新按鈕
+                 * @param {*} searchText - 搜尋的內容
+                 * @param {*} resultNum - 搜尋結果數量
+                 * @param {*} j - 不必傳遞，變量用
+                 */
                 function updateBtn (searchText, resultNum, j = json.Book.Btns) {
                     const btnTextresultNum = resultNum === 0 ? j.Nothing : j.SerachRelatedBook
                     $('#serachRelatedBookBtn').css('cursor', 'pointer').attr('href', `/search/?q=${searchText}`).html(`<i class="fas fa-search"></i> ${btnTextresultNum} (<span>${resultNum}</span>)`)
