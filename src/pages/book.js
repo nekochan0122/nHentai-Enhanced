@@ -14,7 +14,8 @@ import {
     debugConsole,
     $H,
     tagsTranslator,
-    timeTranslator
+    timeTranslator,
+    translatePlus
 } from '../utils'
 
 /**
@@ -94,7 +95,7 @@ export function book () {
     /**
      * 搜尋相關本本
      * @param {string} searchText - 要搜尋的字符串
-     * @param {boolean} fix - 格式化文字
+     * @param {boolean} fix - 是否格式化文字
      */
     function search (searchText, fix = true) {
         if (serachTimes == 3) return
@@ -184,10 +185,7 @@ export function book () {
     }
 
     // 偵測頁數 & 按紐
-    const page = $('.thumb-container').length
-    if (page > 75) {
-        debugConsole(`總共頁數：：${page}，確定大於 75 `)
-
+    if ($('.thumb-container').length > 75) {
         // 顯示更多
         $H('#show-more-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowMoreImagesButton}</span>`)
 
@@ -195,23 +193,18 @@ export function book () {
         $H('#show-all-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowAllImagesButton}</span>`)
     }
 
-    // 更多類似的
-    $H('#related-container > h2', json.Book.MoreLikeThis)
-
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
-    // 留言
-    $H('#comment-post-container > h3', `<i class="fa fa-comments color-icon"></i> ${json.Book.PostAComment}`)
     if (login) {
         // 如果你詢問是否有翻譯，你將會死亡。
         $('#comment_form > textarea').attr('placeholder',`${json.Book.CommentFormPlaceHolder}`)
-        // 發送
-        $H('#comment_form > div > button', `<i class="fa fa-comment"></i> ${json.Book.Comment}`)
     } else {
-        // 登入 或 註冊 和其他基友一起討論。
         $H('#comment-post-container > div > p', `<a class="login-comment" href="/login/">${json.Book.NoLogin.Login}</a> ${json.Book.NoLogin.Or} <a class="login-comment" href="/register/">${json.Book.NoLogin.Register}</a> ${json.Book.NoLogin.ToPostAComment}`)
     }
+
+    // 翻譯
+    translatePlus(['i'], json.NewBook)
 
     // 時間
     $H('time', timeTranslator($('time').html()))
