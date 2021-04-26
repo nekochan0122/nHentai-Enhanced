@@ -9,8 +9,9 @@
         "Info": "資訊",
         "Sign in": "<i class='fa fa-sign-in-alt'></i> 登入",
         "Register": "<i class='fa fa-edit'></i> 註冊",
-        "Favorites": "<i class='fa fa-heart color-icon'></i> 最愛",
-        "Log out": "<i class='fa fa-sign-out-alt'></i> 登出"
+        "Favorites": "<i class='fa fa-heart color-icon'></i> 收藏",
+        "Log out": "<i class='fa fa-sign-out-alt'></i> 登出",
+        "Favorites search will be temporarily unavailable as we migrate our index": "收藏搜尋可能暫時無法使用，我們正在轉移索引數據。"
     },
     "Homepage": {
         "Popular Now": "<i class='fa fa-fire color-icon'></i> 當前熱門",
