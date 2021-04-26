@@ -176,8 +176,8 @@ export function book () {
                     }
                 }
 
-                function updateBtn (searchText, resultNum, json = json.Book.Btns) {
-                    const btnTextresultNum = resultNum === 0 ? json.Nothing : json.SerachRelatedBook
+                function updateBtn (searchText, resultNum, j = json.Book.Btns) {
+                    const btnTextresultNum = resultNum === 0 ? j.Nothing : j.SerachRelatedBook
                     $('#serachRelatedBookBtn').css('cursor', 'pointer').attr('href', `/search/?q=${searchText}`).html(`<i class="fas fa-search"></i> ${btnTextresultNum} (<span>${resultNum}</span>)`)
                 }
 
