@@ -244,8 +244,8 @@ function timeTranslator (time) {
  *  value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
 function TranslatePlus(IgnoreCssSelectors, toTransRules) {
-    const PageTransSelectors = GetPageTransSelectors(IgnoreCssSelectors, toTransRules);
-    Translate(PageTransSelectors, toTransRules);
+    const PageTransSelectors = GetPageTransSelectors(IgnoreCssSelectors, toTransRules)
+    Translate(PageTransSelectors, toTransRules)
 }
 
 /**
@@ -259,12 +259,12 @@ function TranslatePlus(IgnoreCssSelectors, toTransRules) {
  *  value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
  function Translate(CssSelectors, toTransRules) {
-    CssSelectors = _CssNthChildLoader(CssSelectors);
+    CssSelectors = _CssNthChildLoader(CssSelectors)
     for (const CssSelector of CssSelectors) {
         for (const Single of $(CssSelector)) {
-            const Tag = $(Single);
+            const Tag = $(Single)
             if (Tag.text().trim() in toTransRules) {
-                Tag.html(toTransRules[Tag.text().trim()]);
+                Tag.html(toTransRules[Tag.text().trim()])
             }
         }
     }
@@ -280,8 +280,8 @@ function TranslatePlus(IgnoreCssSelectors, toTransRules) {
  * @returns {Array} 未翻译内容 通过key在网页中查找到的CSS选择器数组
  */
 function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
-    let BodyClone = $('body').clone();
-    let PageTransSelectors = [];
+    let BodyClone = $('body').clone()
+    let PageTransSelectors = []
 
     // 合併固定過濾的元素
     IgnoreCssSelectors = [...IgnoreCssSelectors, ...['#messages', '.notyf', '.notyf-announcer', '.gallery', '.thumbs', '#comment-container']]
@@ -289,25 +289,25 @@ function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
     debugConsole('自動獲取 CSS 過濾的元素：' + IgnoreCssSelectors)
 
     for (const CssSelector of IgnoreCssSelectors) {
-        $(CssSelector, BodyClone).remove();
+        $(CssSelector, BodyClone).remove()
     }
 
     $('*', BodyClone).each(function () {
-        let Results = $('*', this);
+        let Results = $('*', this)
 
         if (Results.length == 0) {
-            const Text = this.textContent?.trim();
+            const Text = this.textContent?.trim()
 
             if (!Text) {
-                return;
+                return
             }
 
             if (Text in NativeTextFilters) {
-                PageTransSelectors.push(finder(this));
+                PageTransSelectors.push(finder(this))
             }
         }
-    });
-    return PageTransSelectors;
+    })
+    return PageTransSelectors
 }
 
 /**
@@ -316,30 +316,30 @@ function GetPageTransSelectors(IgnoreCssSelectors = [], NativeTextFilters) {
  * @returns 处理完毕的选择器数组
  */
 function _CssNthChildLoader(CssSelectors) {
-    let TargetSelectors = [];
-    let RecursionCount = 0;
-    let NewCssSelectors = CssSelectors.slice();
-    let i = 0;
+    let TargetSelectors = []
+    let RecursionCount = 0
+    let NewCssSelectors = CssSelectors.slice()
+    let i = 0
     for (const CssSelector of CssSelectors) {
-        let TestResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g);
-        TestResults = Array.from(TestResults);
+        let TestResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
+        TestResults = Array.from(TestResults)
         if (TestResults.length) {
             if (RecursionCount < TestResults.length) {
-                RecursionCount = TestResults.length;
+                RecursionCount = TestResults.length
             }
-            NewCssSelectors.splice(i, 1);
-            i--;
+            NewCssSelectors.splice(i, 1)
+            i--
 
-            TargetSelectors.push(CssSelector);
+            TargetSelectors.push(CssSelector)
         }
-        i++;
+        i++
     }
 
     if (!TargetSelectors.length) {
-        return CssSelectors;
+        return CssSelectors
     }
 
-    return NewCssSelectors.concat(_CssNthChildProcess(TargetSelectors, RecursionCount));
+    return NewCssSelectors.concat(_CssNthChildProcess(TargetSelectors, RecursionCount))
 }
 
 /**
@@ -349,26 +349,26 @@ function _CssNthChildLoader(CssSelectors) {
  * @returns
  */
 function _CssNthChildProcess(CssSelectors, RecursionCount) {
-    let i = 0;
-    let NewCssSelectors = CssSelectors.slice();
+    let i = 0
+    let NewCssSelectors = CssSelectors.slice()
     for (const CssSelector of CssSelectors) {
-        let MatchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g);
-        MatchResults = Array.from(MatchResults);
-        let [Start, End] = [+MatchResults[0][1], +MatchResults[0][2]];
-        NewCssSelectors.splice(i, 1);
-        i--;
+        let MatchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
+        MatchResults = Array.from(MatchResults)
+        let [Start, End] = [+MatchResults[0][1], +MatchResults[0][2]]
+        NewCssSelectors.splice(i, 1)
+        i--
         for (let a = 0; a < End - Start + 1; a++) {
             NewCssSelectors.push(
                 MatchResults[0].input.replace(`${Start}:${End}`, '' + (Start + a)) // only replace once
-            );
+            )
         }
-        i++;
+        i++
     }
-    RecursionCount--;
+    RecursionCount--
     if (!RecursionCount) {
-        return NewCssSelectors;
+        return NewCssSelectors
     } else {
-        return _CssNthChildProcess(NewCssSelectors, RecursionCount);
+        return _CssNthChildProcess(NewCssSelectors, RecursionCount)
     }
 }
 
