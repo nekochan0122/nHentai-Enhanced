@@ -87,19 +87,19 @@
             "ago": "前"
         }
     },
-    "newSpanPage": {
-        "Parodie": "同人:",
-        "Character":"角色:",
-        "Tag": "標籤:",
-        "Artist": "畫師:",
-        "Group":"群組:",
-        "Language": "語言:",
-        "Categorie": "分類:",
+    "NewSpanPage": {
+        "Parodie": "同人",
+        "Character":"角色",
+        "Tag": "標籤",
+        "Artist": "畫師",
+        "Group":"群組",
+        "Language": "語言",
+        "Categorie": "分類",
         "Recent": "最新",
-        "Popular": "熱門:",
+        "Popular:": "熱門:",
         "today": "今日",
         "week": "這週",
-        "allTime": "所有時間"
+        "all time": "所有時間"
     },
     "spanPage": {
         "tags": {
