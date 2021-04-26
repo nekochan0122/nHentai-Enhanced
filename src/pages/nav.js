@@ -33,37 +33,13 @@ export function nav (callback) {
         }
     })
 
-    // 左側
-
-    // for (let i = 1, len = Object.keys(json.MenuLeft).length; i <= len; i++) {
-    //     $H(`.menu.left li:nth-child(${i}) > a`, json.MenuLeft[Object.keys(json.MenuLeft).sort((a, b)　=>　a - b)[i - 1]])
-    //     // 隱藏 資訊
-    //     i == 7 ? $(`.menu.left li:nth-child(${i})`).hide() : null
-    // }
-
-    TranslatePlus(['#content'], json.MenuLeft)
+    // 翻譯選單
+    TranslatePlus(['#content', 'i'], json.Menu)
 
     // Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
 
-    // 右側
-    //  - 檢測是否有登入
-    if (Object.keys(n.options.user).length) {
-        // 最愛
-        $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-heart color-icon"></i> ${json.MenuRight2.Favroites}`)
-        // 登出
-        $H('.menu.right li:nth-child(3) > a', `<i class="fa fa-sign-out-alt"></i> ${json.MenuRight2.LogOut}`)
-
-        login = true // 已登入
-
-    } else {
-        // 登入
-        $H('.menu.right li:nth-child(1) > a', `<i class="fa fa-sign-in-alt"></i> ${json.MenuRight1.SignIn}`)
-        // 註冊
-        $H('.menu.right li:nth-child(2) > a', `<i class="fa fa-edit"></i> ${json.MenuRight1.Register}`)
-
-        login = false // 未登入
-
-    }
+    // 檢測是否有登入
+    login = Object.keys(n.options.user).length
 
     // 右側自訂選單
     $('.menu.right').prepend(`
