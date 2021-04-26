@@ -258,18 +258,18 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  *  value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
  function translate(cssSelectors, toTransRules) {
-    cssSelectors = _cssNthChildLoader(cssSelectors);
+    cssSelectors = _cssNthChildLoader(cssSelectors)
     for (const cssSelector of cssSelectors) {
         for (const single of $(cssSelector)) {
-            const tag = $(single);
+            const tag = $(single)
 
             if (tag.html().trim() in toTransRules) {
-                tag.html(toTransRules[tag.text().trim()]);
+                tag.html(toTransRules[tag.text().trim()])
             } else {
                 for (const node of tag[0].childNodes) {
                     if (node.nodeName == '#text') {
                         if (node.nodeValue.trim() in toTransRules) {
-                            node.data = toTransRules[node.nodeValue.trim()];
+                            node.data = toTransRules[node.nodeValue.trim()]
                         }
                     }
                 }
@@ -288,13 +288,13 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  * @returns {Array} 未翻译内容 通过key在网页中查找到的CSS选择器数组
  */
  function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
-    let bodyClone = $('body').clone();
-    let pageTransSelectors = []; // 合併固定過濾的元素
+    let bodyClone = $('body').clone()
+    let pageTransSelectors = [] // 合併固定過濾的元素
 
     ignoreCssSelectors = [
         ...ignoreCssSelectors,
         ...[
-            'script',
+            'script', //如果要移除这段代码，请保留这个
             '#messages',
             '.notyf',
             '.notyf-announcer',
@@ -302,38 +302,38 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
             '.thumbs',
             '#comment-container'
         ]
-    ];
+    ]
 
     for (const cssSelector of ignoreCssSelectors) {
-        $(cssSelector, bodyClone).remove();
+        $(cssSelector, bodyClone).remove()
     }
 
     $('*', bodyClone).each(function () {
-        let results = $('*', this);
+        let results = $('*', this)
         if (results.length == 0) {
-            let text = results.prevObject.text().trim();
+            let text = results.prevObject.text().trim()
 
             if (!text) {
-                return;
+                return
             }
 
             if (text in nativeTextFilters) {
-                pageTransSelectors.push(finder(results.prevObject[0]));
+                pageTransSelectors.push(finder(results.prevObject[0]))
             }
         } else {
-            let results = $(this);
+            let results = $(this)
             for (const element of results) {
                 for (const node of element.childNodes) {
                     if (node.nodeName == '#text') {
                         if (node.nodeValue.trim() in nativeTextFilters) {
-                            pageTransSelectors.push(finder(element));
+                            pageTransSelectors.push(finder(element))
                         }
                     }
                 }
             }
         }
-    });
-    return pageTransSelectors;
+    })
+    return pageTransSelectors
 }
 
 /**
