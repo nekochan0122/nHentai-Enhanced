@@ -11,6 +11,7 @@ import {
     scrollEventAjax,
     changeNumPosition,
     debugConsole,
+    tagsTranslator,
     translatePlus,
 } from '../utils'
 
