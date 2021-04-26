@@ -16,6 +16,19 @@
         "Favroites": "最愛",
         "LogOut": "登出"
     },
+    "Menu": {
+        "Random": "隨機",
+        "Tags": "標籤",
+        "Artists": "畫師",
+        "Characters": "角色",
+        "Parodies": "同人",
+        "Groups": "群組",
+        "Info": "資訊",
+        "Sign in": "登入",
+        "Register": "註冊",
+        "Favroites": "最愛",
+        "LogOut": "登出"
+    },
     "Homepage": {
         "PopularNow": "當前熱門",
         "NewUploads": "最新上傳"
