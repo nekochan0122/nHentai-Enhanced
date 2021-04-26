@@ -11,7 +11,7 @@ import {
 import {
     debugConsole,
     $H,
-    TranslatePlus,
+    translatePlus,
 } from '../utils'
 
 /**
@@ -34,7 +34,7 @@ export function nav (callback) {
     })
 
     // 翻譯選單
-    TranslatePlus(['#content', 'i'], json.Menu)
+    translatePlus(['#content', 'i'], json.Menu)
 
     // Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
 
