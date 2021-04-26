@@ -17,25 +17,17 @@ import {
  * nav 導航
  * @param {callback} callback
  */
-export function nav (callback) {
+export function nav (callback, nav = $('nav')) {
     debugConsole('偵測到導航欄')
 
+    // nav 樣式
+    nav.css({'position': 'sticky', 'top': '0', 'width': '100%', 'z-index': '999999'})
+
     // 滾動事件
-    $(window).scroll(() => {
-        // Sticky Navbar
-        $('nav').css({'position': 'static', 'top': '0', 'width': '100%', 'z-index': '999999'})
-        if ($(window).scrollTop() === 0) {
-            $('nav').css({'position': 'static'})
-        }
-        else if (pageYOffset >= $('nav')[0].offsetTop) {
-            $('nav').css({'position': 'fixed'})
-        }
-    })
+    $(window).scroll(() => pageYOffset > 150 ? nav.css({'position': 'fixed'}) : nav.css({'position': 'sticky'}))
 
     // 翻譯選單
     translatePlus(['#content', 'i'], json.Menu)
-
-    // Translate(['.menu.left li:nth-child(1:7) > a'], json.MenuLeft)
 
     // 檢測是否有登入
     login = Object.keys(n.options.user).length
