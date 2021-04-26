@@ -35,6 +35,11 @@
             "Pages": "頁數:",
             "Uploaded": "上傳時間:"
         },
+        "Btns": {
+            "Read": "單頁閱讀",
+            "BTdownload": "BT 下載",
+            "SerachRelatedBook": "搜尋相關本本"
+        },
         "ShowMoreImagesButton": "顯示更多",
         "ShowAllImagesButton": "顯示全部",
         "MoreLikeThis": "更多類似的",
