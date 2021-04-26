@@ -17,28 +17,11 @@
         "New Uploads": "<i class='fa fa-box-tissue color-icon'></i> 最新上傳"
     },
     "NewBook": {
-        "Parodies": "同人:",
-        "Characters":"角色:",
-        "Tags": "標籤:",
-        "Artists": "畫師:",
-        "Groups":"群組:",
-        "Languages": "語言:",
-        "Categories": "分類:",
-        "Pages": "頁數:",
-        "Uploaded": "上傳時間:",
-        "Read": "單頁閱讀",
-        "BTdownload": "BT 下載",
-        "SerachRelatedBook": "搜尋相關本本",
         "Show all": "顯示更多",
         "Show more": "顯示全部",
         "More Like This": "更多類似的",
         "Post a comment": "<i class='fa fa-comment'></i> 留言",
-        "CommentFormPlaceHolder": "如果你詢問是否有翻譯，你將會死亡。",
-        "Comment": "發送",
-        "Login": "登入",
-        "Or": "或",
-        "Register": "註冊",
-        "ToPostAComment": "和其他基友一起討論。"
+        "Comment": "發送"
     },
     "Book": {
         "TagsName": {
@@ -52,23 +35,12 @@
             "Pages": "頁數:",
             "Uploaded": "上傳時間:"
         },
-        "Btns": {
-            "Read": "單頁閱讀",
-            "BTdownload": "BT 下載",
-            "SerachRelatedBook": "搜尋相關本本"
-        },
         "ShowMoreImagesButton": "顯示更多",
         "ShowAllImagesButton": "顯示全部",
         "MoreLikeThis": "更多類似的",
         "PostAComment": "留言",
         "CommentFormPlaceHolder": "如果你詢問是否有翻譯，你將會死亡。",
         "Comment": "發送",
-        "NoLogin": {
-            "Login": "登入",
-            "Or": "或",
-            "Register": "註冊",
-            "ToPostAComment": "和其他基友一起討論。"
-        },
         "Time": {
             "years": "年",
             "year": "年",
