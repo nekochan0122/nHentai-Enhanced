@@ -1,21 +1,4 @@
 {
-    "MenuLeft": {
-        "Random": "隨機",
-        "Tags": "標籤",
-        "Artists": "畫師",
-        "Characters": "角色",
-        "Parodies": "同人",
-        "Groups": "群組",
-        "Info": "資訊"
-    },
-    "MenuRight1": {
-        "SignIn": "登入",
-        "Register": "註冊"
-    },
-    "MenuRight2": {
-        "Favroites": "最愛",
-        "LogOut": "登出"
-    },
     "Menu": {
         "Random": "隨機",
         "Tags": "標籤",
@@ -24,10 +7,10 @@
         "Parodies": "同人",
         "Groups": "群組",
         "Info": "資訊",
-        "Sign in": "登入",
-        "Register": "註冊",
+        "Sign in": "<i class='fa fa-sign-in-alt'></i> 登入",
+        "Register": "<i class='fa fa-edit'></i> 註冊",
         "Favorites": "<i class='fa fa-heart color-icon'></i> 最愛",
-        "Log out": "登出"
+        "Log out": "<i class='fa fa-sign-out-alt'></i> 登出"
     },
     "Homepage": {
         "PopularNow": "當前熱門",
