@@ -296,13 +296,13 @@ function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
         let results = $('*', this)
 
         if (results.length == 0) {
-            const Text = this.textContent?.trim()
+            const text = this.textContent?.trim()
 
-            if (!Text) {
+            if (!text) {
                 return
             }
 
-            if (Text in nativeTextFilters) {
+            if (text in nativeTextFilters) {
                 pageTransSelectors.push(finder(this))
             }
         }
