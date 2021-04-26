@@ -26,7 +26,7 @@
         "Info": "資訊",
         "Sign in": "登入",
         "Register": "註冊",
-        "Favorites": "最愛",
+        "Favorites": "<i class='fa fa-heart color-icon'></i> 最愛",
         "Log out": "登出"
     },
     "Homepage": {
