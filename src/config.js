@@ -30,8 +30,8 @@ export const $ = window.$,
     custom = {
         // 選單 - 鍵名：名稱, 鍵值：連結
         menu: [
-            { 中文: '/language/chinese/' },
-            { 日文: '/language/japanese/' },
             { 英文: '/language/english/' },
+            { 日文: '/language/japanese/' },
+            { 中文: '/language/chinese/' },
         ]
     }
