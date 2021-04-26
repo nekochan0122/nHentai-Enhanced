@@ -252,27 +252,18 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  * 通过CSS选择器获得元素内容作为翻译规则的键，再用键查找翻译规则对象中的值替换网页中的内容\
  * 流程（不准确）：CSS选择器 => 文本\
  * 也就是说是用CSS选择器选择网页元素内容，替换为目标值
- * @param {Array} translate - 要翻译的网页内容所对应的元素的选择器数组 成员是CSS选择器
+ * @param {Array} cssSelectors - 要翻译的网页内容所对应的元素的选择器数组 成员是CSS选择器
  * @param {Object} toTransRules - 翻译规则对象
  *  Key - 未翻译的内容 | 也可以说是要替换的内容
  *  value - 已翻译的内容 | 也可以说是将要作为替换的内容
  */
  function translate(cssSelectors, toTransRules) {
-    cssSelectors = _cssNthChildLoader(cssSelectors);
-    for (const cssSelector of cssSelectors) {
-        for (const single of $(cssSelector)) {
-            const tag = $(single);
-
-            if (tag.html().trim() in toTransRules) {
-                tag.html(toTransRules[tag.text().trim()]);
-            } else {
-                for (const node of tag[0].childNodes) {
-                    if (node.nodeName == '#text') {
-                        if (node.nodeValue.trim() in toTransRules) {
-                            node.data = toTransRules[node.nodeValue.trim()];
-                        }
-                    }
-                }
+    cssSelectors = _cssNthChildLoader(cssSelectors)
+    for (const CssSelector of cssSelectors) {
+        for (const Single of $(CssSelector)) {
+            const Tag = $(Single)
+            if (Tag.text().trim() in toTransRules) {
+                Tag.html(toTransRules[Tag.text().trim()])
             }
         }
     }
@@ -287,67 +278,49 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  *  key - 未翻译的内容 | 也可以说是被选中的网页元素的内容 ！！不需要值
  * @returns {Array} 未翻译内容 通过key在网页中查找到的CSS选择器数组
  */
- function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
-    let bodyClone = $('body').clone();
-    let pageTransSelectors = []; // 合併固定過濾的元素
+function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
+    let bodyClone = $('body').clone()
+    let pageTransSelectors = []
 
-    ignoreCssSelectors = [
-        ...ignoreCssSelectors,
-        ...[
-            'script',
-            '#messages',
-            '.notyf',
-            '.notyf-announcer',
-            '.gallery',
-            '.thumbs',
-            '#comment-container'
-        ]
-    ];
+    // 合併固定過濾的元素
+    ignoreCssSelectors = [...ignoreCssSelectors, ...['#messages', '.notyf', '.notyf-announcer', '.gallery', '.thumbs', '#comment-container']]
 
-    for (const cssSelector of ignoreCssSelectors) {
-        $(cssSelector, bodyClone).remove();
+    debugConsole('自動獲取 CSS 過濾的元素：' + ignoreCssSelectors)
+
+    for (const CssSelector of ignoreCssSelectors) {
+        $(CssSelector, bodyClone).remove()
     }
 
     $('*', bodyClone).each(function () {
-        let results = $('*', this);
+        let results = $('*', this)
+
         if (results.length == 0) {
-            let text = results.prevObject.text().trim();
+            const text = this.textContent?.trim()
 
             if (!text) {
-                return;
+                return
             }
 
             if (text in nativeTextFilters) {
-                pageTransSelectors.push(finder(results.prevObject[0]));
-            }
-        } else {
-            let results = $(this);
-            for (const element of results) {
-                for (const node of element.childNodes) {
-                    if (node.nodeName == '#text') {
-                        if (node.nodeValue.trim() in nativeTextFilters) {
-                            pageTransSelectors.push(finder(element));
-                        }
-                    }
-                }
+                pageTransSelectors.push(finder(this))
             }
         }
-    });
-    return pageTransSelectors;
+    })
+    return pageTransSelectors
 }
 
 /**
  * 内部函数，用于解析新增语法 nth-child(Start:End)
- * @param {Array} translate - 一个待处理的选择器数组
+ * @param {Array} cssSelectors - 一个待处理的选择器数组
  * @returns 处理完毕的选择器数组
  */
-function _cssNthChildLoader(translate) {
+function _cssNthChildLoader(cssSelectors) {
     let targetSelectors = []
     let recursionCount = 0
-    let newCssSelectors = translate.slice()
+    let newCssSelectors = cssSelectors.slice()
     let i = 0
-    for (const cssSelector of translate) {
-        let testResults = cssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
+    for (const CssSelector of cssSelectors) {
+        let testResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
         testResults = Array.from(testResults)
         if (testResults.length) {
             if (recursionCount < testResults.length) {
@@ -356,13 +329,13 @@ function _cssNthChildLoader(translate) {
             newCssSelectors.splice(i, 1)
             i--
 
-            targetSelectors.push(cssSelector)
+            targetSelectors.push(CssSelector)
         }
         i++
     }
 
     if (!targetSelectors.length) {
-        return translate
+        return cssSelectors
     }
 
     return newCssSelectors.concat(_cssNthChildProcess(targetSelectors, recursionCount))
@@ -370,15 +343,15 @@ function _cssNthChildLoader(translate) {
 
 /**
  * 内部函数：迭代处理CSS选择器新语法
- * @param {Array} translate - 未处理完的CSS选择器数组
+ * @param {Array} cssSelectors - 未处理完的CSS选择器数组
  * @param {Number} recursionCount - 迭代次数
  * @returns
  */
-function _cssNthChildProcess(translate, recursionCount) {
+function _cssNthChildProcess(cssSelectors, recursionCount) {
     let i = 0
-    let newCssSelectors = translate.slice()
-    for (const cssSelector of translate) {
-        let matchResults = cssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
+    let newCssSelectors = cssSelectors.slice()
+    for (const CssSelector of cssSelectors) {
+        let matchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
         matchResults = Array.from(matchResults)
         let [Start, End] = [+matchResults[0][1], +matchResults[0][2]]
         newCssSelectors.splice(i, 1)
