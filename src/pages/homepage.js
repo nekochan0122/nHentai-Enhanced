@@ -12,7 +12,7 @@ import {
     galleryBlank,
     changeNumPosition,
     debugConsole,
-    $H,
+    translatePlus,
 } from '../utils'
 
 /**
@@ -21,11 +21,8 @@ import {
 export function homepage () {
     debugConsole('偵測到首頁')
 
-    // 當前熱門
-    $H('#content .index-popular > h2', `<i class="fa fa-fire color-icon"></i> ${json.Homepage.PopularNow}`)
-
-    // 最新上傳
-    $H('#content .container:nth-child(3) > h2', `<i class="fa fa-box-tissue color-icon"></i> ${json.Homepage.NewUploads}`)
+    // 翻譯首頁容器
+    translatePlus(['i', 'nav'], json.Homepage)
 
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()

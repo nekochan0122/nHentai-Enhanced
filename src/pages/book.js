@@ -1,6 +1,6 @@
 import {
     $,
-    ajaxChahe,
+    ajaxCache,
 } from '../config.js'
 
 import {
@@ -14,7 +14,8 @@ import {
     debugConsole,
     $H,
     tagsTranslator,
-    timeTranslator
+    timeTranslator,
+    translatePlus
 } from '../utils'
 
 /**
@@ -82,7 +83,7 @@ export function book () {
         // 移除文字
         remove = ['Ch.', 'Ep.', '第', '話', '券', '前篇', '中篇', '後篇', '+', '-', '#'],
         // 替換文字
-        filter = [' ', '「', '」']
+        replace = [' ', '「', '」']
 
     for (let i = 0; i < sT1Length; i++) {
         searchText3 += `${sT1Array[i]}+`
@@ -91,10 +92,13 @@ export function book () {
     // 讀取搜尋結果數量並修改，第一次搜尋 searchText1
     search(searchText1)
 
+    // 搜尋相關本本 按鈕
+    $('#info > .buttons').append(`<a id="serachRelatedBookBtn" class="btn btn-secondary" href="javascript:;" style="cursor: wait;"><i class="fas fa-search"></i> ${json.Book.Btns.Searching}</a>`)
+
     /**
-     * 搜尋相關本本
+     * 搜尋相關本本 函式
      * @param {string} searchText - 要搜尋的字符串
-     * @param {boolean} fix - 格式化文字
+     * @param {boolean} fix - 是否格式化文字
      */
     function search (searchText, fix = true) {
         if (serachTimes == 3) return
@@ -111,7 +115,7 @@ export function book () {
             forLoop(remove)
 
             // 替換文字
-            forLoop(filter, '+')
+            forLoop(replace, '+')
         }
 
         /**
@@ -128,7 +132,7 @@ export function book () {
         $.ajax({
             type: 'GET',
             url: `/search/?q=${searchText}`,
-            cache: ajaxChahe,
+            cache: ajaxCache,
             dataType: 'html',
             success: data => {
                 debugConsole(`搜尋 ${searchText} 讀取成功`)
@@ -136,7 +140,7 @@ export function book () {
                 let newHtml = $('<div></div>'),
 
                     // 讀取搜尋結果數量
-                    resultNum = newHtml.html(data).find('#content > h1').text().replace('results', ''),
+                    resultNum = Number(newHtml.html(data).find('#content > h1').text().replace('results', '')),
 
                     // 搜尋結果是否含有 searchText2
                     perfect = /69696969/.test(data.replace(searchText2, '69696969'))
@@ -145,13 +149,13 @@ export function book () {
 
                 if (resultNum > 0 && perfect) {
                     debugConsole('完美搜尋結果')
-                    appendButton(searchText)
+                    updateBtn(searchText, resultNum)
 
                 } else {
                     switch (serachTimes) {
                         case 1 :
                             if ($('#info .title').length === 3) {
-                                search(searchText2)
+                                search(searchText2, resultNum)
                             } else {
                                 debugConsole('跳過搜尋 searchText2 ，搜尋 searchText3')
                                 search(searchText3, false)
@@ -160,20 +164,27 @@ export function book () {
                         case 2 :
                             if (resultNum > 0 && perfect) {
                                 debugConsole('完美搜尋結果')
-                                appendButton(searchText)
+                                updateBtn(searchText, resultNum)
                             } else {
                                 search(searchText3, false)
                             }
                             break
                         case 3 :
                             debugConsole('勉強搜尋結果')
-                            appendButton(searchText)
+                            updateBtn(searchText, resultNum)
                             break
                     }
                 }
 
-                function appendButton (searchText) {
-                    $('#info > .buttons').append(`<a href="/search/?q=${searchText}" class="btn btn-secondary"><i class="fas fa-search"></i> ${json.Book.Btns.SerachRelatedBook} (<span>${resultNum.replaceAll(' ', '')}</span>)</a>`)
+                /**
+                 * 更新按鈕
+                 * @param {*} searchText - 搜尋的內容
+                 * @param {*} resultNum - 搜尋結果數量
+                 * @param {*} j - 不必傳遞，變量用
+                 */
+                function updateBtn (searchText, resultNum, j = json.Book.Btns) {
+                    const btnTextresultNum = resultNum === 0 ? j.Nothing : j.SerachRelatedBook
+                    $('#serachRelatedBookBtn').css('cursor', 'pointer').attr('href', `/search/?q=${searchText}`).html(`<i class="fas fa-search"></i> ${btnTextresultNum} (<span>${resultNum}</span>)`)
                 }
 
             },
@@ -184,10 +195,7 @@ export function book () {
     }
 
     // 偵測頁數 & 按紐
-    const page = $('.thumb-container').length
-    if (page > 75) {
-        debugConsole(`總共頁數：：${page}，確定大於 75 `)
-
+    if ($('.thumb-container').length > 75) {
         // 顯示更多
         $H('#show-more-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowMoreImagesButton}</span>`)
 
@@ -195,23 +203,18 @@ export function book () {
         $H('#show-all-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowAllImagesButton}</span>`)
     }
 
-    // 更多類似的
-    $H('#related-container > h2', json.Book.MoreLikeThis)
-
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
-    // 留言
-    $H('#comment-post-container > h3', `<i class="fa fa-comments color-icon"></i> ${json.Book.PostAComment}`)
     if (login) {
         // 如果你詢問是否有翻譯，你將會死亡。
         $('#comment_form > textarea').attr('placeholder',`${json.Book.CommentFormPlaceHolder}`)
-        // 發送
-        $H('#comment_form > div > button', `<i class="fa fa-comment"></i> ${json.Book.Comment}`)
     } else {
-        // 登入 或 註冊 和其他基友一起討論。
         $H('#comment-post-container > div > p', `<a class="login-comment" href="/login/">${json.Book.NoLogin.Login}</a> ${json.Book.NoLogin.Or} <a class="login-comment" href="/register/">${json.Book.NoLogin.Register}</a> ${json.Book.NoLogin.ToPostAComment}`)
     }
+
+    // 翻譯
+    translatePlus(['i', 'nav'], json.NewBook)
 
     // 時間
     $H('time', timeTranslator($('time').html()))

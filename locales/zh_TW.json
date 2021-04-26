@@ -1,24 +1,27 @@
 {
-    "MenuLeft": {
+    "Menu": {
         "Random": "隨機",
         "Tags": "標籤",
         "Artists": "畫師",
         "Characters": "角色",
         "Parodies": "同人",
         "Groups": "群組",
-        "Info": "資訊"
-    },
-    "MenuRight1": {
-        "SignIn": "登入",
-        "Register": "註冊"
-    },
-    "MenuRight2": {
-        "Favroites": "最愛",
-        "LogOut": "登出"
+        "Info": "資訊",
+        "Sign in": "<i class='fa fa-sign-in-alt'></i> 登入",
+        "Register": "<i class='fa fa-edit'></i> 註冊",
+        "Favorites": "<i class='fa fa-heart color-icon'></i> 最愛",
+        "Log out": "<i class='fa fa-sign-out-alt'></i> 登出"
     },
     "Homepage": {
-        "PopularNow": "當前熱門",
-        "NewUploads": "最新上傳"
+        "Popular Now": "<i class='fa fa-fire color-icon'></i> 當前熱門",
+        "New Uploads": "<i class='fa fa-box-tissue color-icon'></i> 最新上傳"
+    },
+    "NewBook": {
+        "Show all": "顯示更多",
+        "Show more": "顯示全部",
+        "More Like This": "更多類似的",
+        "Post a comment": "<i class='fa fa-comment'></i> 留言",
+        "Comment": "發送"
     },
     "Book": {
         "TagsName": {
@@ -35,6 +38,8 @@
         "Btns": {
             "Read": "單頁閱讀",
             "BTdownload": "BT 下載",
+            "Searching": "搜尋中",
+            "Nothing": "找不到啦，幹",
             "SerachRelatedBook": "搜尋相關本本"
         },
         "ShowMoreImagesButton": "顯示更多",
@@ -67,23 +72,19 @@
             "ago": "前"
         }
     },
-    "spanPage": {
-        "tags": {
-            "Parodie": "同人:",
-            "Character":"角色:",
-            "Tag": "標籤:",
-            "Artist": "畫師:",
-            "Group":"群組:",
-            "Language": "語言:",
-            "Categorie": "分類:"
-        },
-        "sort": {
-            "Recent": "最新",
-            "Popular": "熱門:",
-            "today": "今日",
-            "week": "這週",
-            "allTime": "所有時間"
-        }
+    "NewSpanPage": {
+        "Parodie": "同人",
+        "Character":"角色",
+        "Tag": "標籤",
+        "Artist": "畫師",
+        "Group":"群組",
+        "Language": "語言",
+        "Categorie": "分類",
+        "Recent": "最新",
+        "Popular:": "熱門:",
+        "today": "今日",
+        "week": "這週",
+        "all time": "所有時間"
     },
     "Tags": {
         "abortion": "墮胎",
