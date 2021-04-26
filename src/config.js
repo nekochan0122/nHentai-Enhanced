@@ -7,7 +7,7 @@ export const $ = window.$,
     data = `//raw.githubusercontent.com/NekoChanTaiwan/nHentai-Enhanced/main/locales/${lang}.json?flush_cache=True`,
 
     // Ajax 快取控制
-    ajaxCache = false,
+    ajaxChahe = false,
 
     // Ajax 自動翻頁
     ajaxPage = true,

@@ -1,6 +1,6 @@
 'use strict'
 
-import { $, data, ajaxCache } from './config.js'
+import { $, data, ajaxChahe } from './config.js'
 import { json } from './variable.js'
 import { init } from './init'
 import { debugConsole } from './utils'
@@ -15,7 +15,7 @@ $(() => {
         $.ajax({
             type: 'GET',
             url: data,
-            cache: ajaxCache,
+            cache: ajaxChahe,
             dataType: 'json',
             success: data => {
                 debugConsole('JSON 讀取成功')
