@@ -19,6 +19,9 @@ import {
 export function readingBook () {
     debugConsole('偵測到閱讀本本中')
 
+    // 移除通知元素
+    $('.alert, .announcement').remove()
+
     ;/onePageMode=True/.test(location.href) && ajaxPage ? ajaxPageFunc() : debugConsole('自動翻頁 已關閉')
 
     function ajaxPageFunc () {
