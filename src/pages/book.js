@@ -25,7 +25,7 @@ export function book () {
     debugConsole('偵測到本本')
 
     // 移除通知元素
-     $('.alert, .announcement').remove()
+    $('.alert, .announcement').remove()
 
     const book_id = $('#gallery_id').hide().text().replace('#', '')
 
