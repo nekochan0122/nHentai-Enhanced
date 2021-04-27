@@ -259,11 +259,20 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  */
  function translate(cssSelectors, toTransRules) {
     cssSelectors = _cssNthChildLoader(cssSelectors)
-    for (const CssSelector of cssSelectors) {
-        for (const Single of $(CssSelector)) {
-            const Tag = $(Single)
-            if (Tag.text().trim() in toTransRules) {
-                Tag.html(toTransRules[Tag.text().trim()])
+    for (const cssSelector of cssSelectors) {
+        for (const Single of $(cssSelector)) {
+            const tag = $(Single)
+
+            if (tag.html().trim() in toTransRules) {
+                tag.html(toTransRules[tag.text().trim()])
+            } else {
+                for (const node of tag[0].childNodes) {
+                    if (node.nodeName == '#text') {
+                        if (node.nodeValue.trim() in toTransRules) {
+                            node.data = toTransRules[node.nodeValue.trim()]
+                        }
+                    }
+                }
             }
         }
     }
@@ -280,29 +289,47 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  */
 function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
     let bodyClone = $('body').clone()
-    let pageTransSelectors = []
+    let pageTransSelectors = [] 
 
-    // 合併固定過濾的元素
-    ignoreCssSelectors = [...ignoreCssSelectors, ...['#messages', '.notyf', '.notyf-announcer', '.gallery', '.thumbs', '#comment-container']]
+    ignoreCssSelectors = [
+        ...ignoreCssSelectors,
+        ...[
+            'script', //如果要移除这段代码，请保留这个
+            '#messages',
+            '.notyf',
+            '.notyf-announcer',
+            '.gallery',
+            '.thumbs',
+            '#comment-container'
+        ]
+    ]// 合併固定過濾的元素
 
-    debugConsole('自動獲取 CSS 過濾的元素：' + ignoreCssSelectors)
-
-    for (const CssSelector of ignoreCssSelectors) {
-        $(CssSelector, bodyClone).remove()
+    for (const cssSelector of ignoreCssSelectors) {
+        $(cssSelector, bodyClone).remove()
     }
 
     $('*', bodyClone).each(function () {
         let results = $('*', this)
-
         if (results.length == 0) {
-            const text = this.textContent?.trim()
+            let text = results.prevObject.text().trim()
 
             if (!text) {
                 return
             }
 
             if (text in nativeTextFilters) {
-                pageTransSelectors.push(finder(this))
+                pageTransSelectors.push(finder(results.prevObject[0]))
+            }
+        } else {
+            let results = $(this)
+            for (const element of results) {
+                for (const node of element.childNodes) {
+                    if (node.nodeName == '#text') {
+                        if (node.nodeValue.trim() in nativeTextFilters) {
+                            pageTransSelectors.push(finder(element))
+                        }
+                    }
+                }
             }
         }
     })
