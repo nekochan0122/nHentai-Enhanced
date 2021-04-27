@@ -197,15 +197,6 @@ export function book () {
         })
     }
 
-    // 偵測頁數 & 按紐
-    // if ($('.thumb-container').length > 75) {
-    //     // 顯示更多
-    //     $H('#show-more-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowMoreImagesButton}</span>`)
-
-    //     // 顯示全部
-    //     $H('#show-all-images-button', `<i class="fa fa-eye"></i> &nbsp; <span class="text">${json.Book.ShowAllImagesButton}</span>`)
-    // }
-
     // 將目前項目連結 改為新分頁開啟
     galleryBlank()
 
