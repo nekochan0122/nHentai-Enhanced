@@ -315,13 +315,13 @@ function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
 
             if (!text) return
 
-            text in nativeTextFilters ? pageTransSelectors.push(finder(results.prevObject[0])) : null
+            text in nativeTextFilters ? pageTransSelectors.push(finder(results.prevObject[0], { root: bodyClone[0] })) : null
 
         } else {
             for (const element of $(this)) {
                 for (const node of element.childNodes) {
                     if (node.nodeName === '#text' && node.nodeValue.trim() in nativeTextFilters) {
-                        pageTransSelectors.push(finder(element))
+                        pageTransSelectors.push(finder(element, { root: bodyClone[0] }))
                     }
                 }
             }
