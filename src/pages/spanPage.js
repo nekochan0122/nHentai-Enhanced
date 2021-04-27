@@ -21,6 +21,9 @@ import {
 export function spanPage () {
     debugConsole('偵測到 span 頁面')
 
+    // 移除通知元素
+    $('.alert, .announcement').remove()
+
     // 翻譯
     translatePlus(['nav'], json.NewSpanPage)
 
