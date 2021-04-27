@@ -265,12 +265,11 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
 
             if (tag.html().trim() in toTransRules) {
                 tag.html(toTransRules[tag.text().trim()])
+
             } else {
                 for (const node of tag[0].childNodes) {
-                    if (node.nodeName == '#text') {
-                        if (node.nodeValue.trim() in toTransRules) {
-                            node.data = toTransRules[node.nodeValue.trim()]
-                        }
+                    if (node.nodeName == '#text' && node.nodeValue.trim() in toTransRules) {
+                         node.data = toTransRules[node.nodeValue.trim()]
                     }
                 }
             }
@@ -289,8 +288,9 @@ function translatePlus(ignoreCssSelectors, toTransRules) {
  */
 function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
     let bodyClone = $('body').clone()
-    let pageTransSelectors = [] 
+    let pageTransSelectors = []
 
+    // 合併固定過濾的元素
     ignoreCssSelectors = [
         ...ignoreCssSelectors,
         ...[
@@ -302,7 +302,7 @@ function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
             '.thumbs',
             '#comment-container'
         ]
-    ]// 合併固定過濾的元素
+    ]
 
     for (const cssSelector of ignoreCssSelectors) {
         $(cssSelector, bodyClone).remove()
@@ -313,26 +313,22 @@ function getPageTransSelectors(ignoreCssSelectors = [], nativeTextFilters) {
         if (results.length == 0) {
             let text = results.prevObject.text().trim()
 
-            if (!text) {
-                return
-            }
+            if (!text) return
 
-            if (text in nativeTextFilters) {
-                pageTransSelectors.push(finder(results.prevObject[0]))
-            }
+            text in nativeTextFilters ? pageTransSelectors.push(finder(results.prevObject[0])) : null
+
         } else {
-            let results = $(this)
-            for (const element of results) {
+            for (const element of $(this)) {
                 for (const node of element.childNodes) {
-                    if (node.nodeName == '#text') {
-                        if (node.nodeValue.trim() in nativeTextFilters) {
-                            pageTransSelectors.push(finder(element))
-                        }
+                    if (node.nodeName === '#text' && node.nodeValue.trim() in nativeTextFilters) {
+                        pageTransSelectors.push(finder(element))
                     }
                 }
             }
         }
+
     })
+
     return pageTransSelectors
 }
 
@@ -346,13 +342,13 @@ function _cssNthChildLoader(cssSelectors) {
     let recursionCount = 0
     let newCssSelectors = cssSelectors.slice()
     let i = 0
+
     for (const CssSelector of cssSelectors) {
         let testResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
         testResults = Array.from(testResults)
         if (testResults.length) {
-            if (recursionCount < testResults.length) {
-                recursionCount = testResults.length
-            }
+            recursionCount = recursionCount < testResults.length ? testResults.length : recursionCount
+
             newCssSelectors.splice(i, 1)
             i--
 
@@ -361,9 +357,7 @@ function _cssNthChildLoader(cssSelectors) {
         i++
     }
 
-    if (!targetSelectors.length) {
-        return cssSelectors
-    }
+    if (!targetSelectors.length) return cssSelectors
 
     return newCssSelectors.concat(_cssNthChildProcess(targetSelectors, recursionCount))
 }
@@ -377,20 +371,23 @@ function _cssNthChildLoader(cssSelectors) {
 function _cssNthChildProcess(cssSelectors, recursionCount) {
     let i = 0
     let newCssSelectors = cssSelectors.slice()
+
     for (const CssSelector of cssSelectors) {
         let matchResults = CssSelector.matchAll(/nth\-child\((\d+):(\d+)\)/g)
         matchResults = Array.from(matchResults)
         let [Start, End] = [+matchResults[0][1], +matchResults[0][2]]
         newCssSelectors.splice(i, 1)
         i--
-        for (let a = 0; a < End - Start + 1; a++) {
+        for (let a = 0, max = End - Start + 1; a < max; a++) {
             newCssSelectors.push(
                 matchResults[0].input.replace(`${Start}:${End}`, '' + (Start + a)) // only replace once
             )
         }
         i++
     }
+
     recursionCount--
+
     if (!recursionCount) {
         return newCssSelectors
     } else {
