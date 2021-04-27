@@ -27,7 +27,7 @@ export function nav (callback, nav = $('nav')) {
     login = Object.keys(n.options.user).length
 
     // 通知 樣式
-    $('.alert, announcement').css({'max-width': '90rem', 'margin': '1rem auto'})
+    $('.alert, .announcement').css({'max-width': '90rem', 'margin': '1rem auto'})
 
     // 搜尋欄 樣式
     $('input[type=search]').attr({'autocomplete': 'off', 'placeholder': ''})
