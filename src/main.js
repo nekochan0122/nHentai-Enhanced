@@ -10,24 +10,24 @@ document.body.style.display = 'none'
 
 // 網頁讀取完畢
 $(() => {
-    // 獲取 JSON
-    const getJson = () => {
-        $.ajax({
-            type: 'GET',
-            url: data,
-            cache: ajaxCache,
-            dataType: 'json',
-            success: data => {
-                debugConsole('JSON 讀取成功')
-                json = data
-                init()
-            },
-            error: () => {
-                debugConsole('JSON 讀取失敗 3 秒後重新讀取')
+  // 獲取 JSON
+  const getJson = () => {
+    $.ajax({
+      type: 'GET',
+      url: data,
+      cache: ajaxCache,
+      dataType: 'json',
+      success: data => {
+        debugConsole('JSON 讀取成功')
+        json = data
+        init()
+      },
+      error: () => {
+        debugConsole('JSON 讀取失敗 3 秒後重新讀取')
 
-                setTimeout(() => getJson(), 3000)
-            }
-        })
-    }
-    getJson()
+        setTimeout(() => getJson(), 3000)
+      },
+    })
+  }
+  getJson()
 })
