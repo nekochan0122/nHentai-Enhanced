@@ -14,9 +14,9 @@ export const $ = window.$,
   hideBlackList = true,
   // Discord 聊天室
   enableWidgetBot = true,
-  // 開發模式
-  debug = true,
+  // 選單 - 名稱: '連結'
   custom = {
-    // 選單 - 鍵名：名稱, 鍵值：連結
     menu: [{ 英文: '/language/english/' }, { 日文: '/language/japanese/' }, { 中文: '/language/chinese/' }],
-  }
+  },
+  // 開發模式
+  debug = false

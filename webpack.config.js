@@ -31,6 +31,6 @@ module.exports = {
     }),
   ],
   optimization: {
-    // minimize: false, // for debug
+    minimize: true, // for debug
   },
 }
