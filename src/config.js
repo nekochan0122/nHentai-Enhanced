@@ -11,7 +11,7 @@ export const $ = window.$,
   // 在新分頁中開啟本本
   newTabBook = true,
   // 隱藏黑名單
-  hideBlackList = false,
+  hideBlackList = true,
   // Discord 聊天室
   enableWidgetBot = true,
   // 開發模式

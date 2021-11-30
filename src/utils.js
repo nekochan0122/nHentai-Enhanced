@@ -71,7 +71,7 @@ function ajaxNextPage(mode, selector = null) {
       galleryBlank()
 
       // 處理 黑名單
-      login ? n.install_blacklisting() : null
+      login ? _n_app.install_blacklisting() : null
 
       // 隱藏黑名單
       hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')

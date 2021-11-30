@@ -13,9 +13,9 @@ export function nav(callback, nav = $('nav')) {
   translatePlus(['#content', 'i'], json.Menu)
 
   // 檢測是否有登入
-  //   login = Object.keys(n.options.user).length
-  login = false // debug
-  console.log($('ul.menu.right > li.menu-sign-in > a'))
+  login = Object.keys(_n_app.options.user).length
+  // login = false // debug
+  // console.log(_n_app)
 
   // 通知 樣式
   $('.alert, .announcement').css({ 'max-width': '90rem', margin: '1rem auto' })
