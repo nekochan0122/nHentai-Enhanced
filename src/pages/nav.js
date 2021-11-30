@@ -35,7 +35,7 @@ export function nav(callback, nav = $('nav')) {
   // 右側自訂選單
   $('.menu.right').prepend(`
     <li class="desktop "><a target="_blank" href="https://github.com/NekoChanTaiwan/nHentai-downloader/releases/latest"><i class="fas fa-download"></i> &nbsp nHentai-downloader</a></li>
-    <li class="desktop "><a target="_blank" href="https://nekochantaiwan.github.io/HMX-11/"><i class="fab fa-discord"></i> &nbsp Discord - HMX-11</a></li>`)
+    <li class="desktop "><a target="_blank" href="https://nekochantaiwan.github.io/HMX-11/"><i class="fab fa-discord"></i> &nbsp  HMX-11</a></li>`)
 
   callback()
 
