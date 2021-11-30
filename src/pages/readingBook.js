@@ -1,5 +1,5 @@
-import { $, ajaxPage, ajaxCache } from '../config.js'
-import { notyf } from '../variable.js'
+import { $, ajaxPage, ajaxCache } from '../config'
+import { notyf } from '../variable'
 import { debugConsole, $H } from '../utils'
 
 /**

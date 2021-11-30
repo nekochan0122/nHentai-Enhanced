@@ -1,5 +1,5 @@
-import { $ } from '../config.js'
-import { json, currentPageNum } from '../variable.js'
+import { $ } from '../config'
+import { json, currentPageNum } from '../variable'
 import { scrollEventAjax, changeNumPosition, debugConsole, tagsTranslator, translatePlus } from '../utils'
 
 /**

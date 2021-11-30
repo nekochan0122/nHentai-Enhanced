@@ -1,7 +1,7 @@
 'use strict'
 
-import { $, data, ajaxCache } from './config.js'
-import { json } from './variable.js'
+import { $, data, ajaxCache } from './config'
+import { json } from './variable'
 import { init } from './init'
 import { debugConsole } from './utils'
 

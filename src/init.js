@@ -1,11 +1,6 @@
-import { $, hideBlackList, enableWidgetBot, custom } from './config.js'
-import { login, notyf } from './variable.js'
-import { book } from './pages/book'
-import { homepage } from './pages/homepage'
-import { nav } from './pages/nav'
-import { page } from './pages/page'
-import { readingBook } from './pages/readingBook'
-import { spanPage } from './pages/spanPage'
+import { $, enableWidgetBot, custom } from './config'
+import { notyf } from './variable'
+import { book, homepage, nav, page, readingBook, search, spanPage } from './pages'
 import { hideBlackListFunc, discordChatFunc, debugConsole } from './utils'
 
 /**
@@ -18,12 +13,14 @@ export function init() {
 
   // 導航欄
   if ($('nav[role="navigation"]')[0]) {
-    function ready(pages = {}) {
+    function ready() {
+      let pages = {}
+
       /**
        * 增加頁面
        * @param {string} pageName - 頁面名稱
-       * @param {boolean} condition - 判斷
-       * @param {funtion} func - 頁面函式
+       * @param {boolean} condition - 判斷該頁元素是否存在
+       * @param {funtion} func - 頁面回調函式
        */
       const addPage = (pageName, condition, func) => (pages[pageName] = { condition, func })
 
@@ -32,6 +29,7 @@ export function init() {
       addPage('頁面列表', $('.index-container')[0] && /net\/\?page=/.test(location.href), page)
       addPage('本本', $('#tags')[0], book)
       addPage('閱讀模式', $('#image-container')[0], readingBook)
+      addPage('搜尋頁面', $('#content .fa-search')[0], search)
       addPage('span 頁面', $('#content > h1 > span')[0], spanPage)
 
       // 循環偵測頁面
@@ -40,13 +38,12 @@ export function init() {
         if (pages[key].condition) {
           // 調用頁面函數
           pages[key].func()
-
           break
         }
       }
 
       // 隱藏黑名單
-      hideBlackList && login ? hideBlackListFunc() : debugConsole('隱藏黑名單 已關閉')
+      hideBlackListFunc()
 
       // Discord 聊天室
       enableWidgetBot ? discordChatFunc(custom.discordChat) : debugConsole('Discord 聊天室 已關閉')

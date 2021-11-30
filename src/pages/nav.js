@@ -1,6 +1,6 @@
-import { $, custom } from '../config.js'
-import { json, login } from '../variable.js'
-import { debugConsole, translatePlus } from '../utils'
+import { $, custom } from '../config'
+import { json, login } from '../variable'
+import { debugConsole, translatePlus } from '../utils/'
 
 /**
  * nav 導航

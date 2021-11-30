@@ -1,5 +1,5 @@
-import { $, ajaxCache } from '../config.js'
-import { json, login, notyf } from '../variable.js'
+import { $, ajaxCache } from '../config'
+import { json, login, notyf } from '../variable'
 import { galleryBlank, debugConsole, $H, tagsTranslator, timeTranslator, translatePlus } from '../utils'
 
 /**

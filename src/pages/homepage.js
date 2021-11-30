@@ -1,5 +1,5 @@
-import { ajaxPage } from '../config.js'
-import { json, currentPageNum } from '../variable.js'
+import { ajaxPage } from '../config'
+import { json, currentPageNum } from '../variable'
 import { scrollEventAjax, galleryBlank, changeNumPosition, debugConsole, translatePlus } from '../utils'
 
 /**
