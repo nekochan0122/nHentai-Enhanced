@@ -6,7 +6,7 @@
 
 ## Install
 
-[./dist/app.user.js](https://github.com/NekoChanTaiwan/nHentai-Enhanced/raw/main/install.user.js)
+[./install.user.js](https://github.com/NekoChanTaiwan/nHentai-Enhanced/raw/main/install.user.js)
 
 ## License
 
