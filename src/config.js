@@ -13,7 +13,7 @@ export const $ = window.$,
   // 隱藏黑名單
   hideBlackList = true,
   // Discord 聊天室
-  enableWidgetBot = true,
+  enableWidgetBot = false,
   // 選單 - 名稱: '連結'
   custom = {
     menu: [{ 英文: '/language/english/' }, { 日文: '/language/japanese/' }, { 中文: '/language/chinese/' }],
