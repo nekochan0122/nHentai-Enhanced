@@ -31,6 +31,7 @@ function ajaxNextPage(mode, selector = null) {
       break
     case 'page':
     case 'span':
+    case 'search':
       selector = '.index-container'
       break
   }
@@ -41,7 +42,7 @@ function ajaxNextPage(mode, selector = null) {
 
   $.ajax({
     type: 'GET',
-    url: `${location.href}/?page=${currentPageNum}`,
+    url: `${location.href}/${selector === 'search' ? `&` : `?`}${currentPageNum}`,
     cache: ajaxCache,
     dataType: 'html',
     success: data => {

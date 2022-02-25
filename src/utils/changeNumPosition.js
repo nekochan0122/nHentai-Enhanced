@@ -15,6 +15,10 @@ export function changeNumPosition(mode) {
       break
     case 'span':
       selector = '.container.index-container'
+      break
+    case 'search':
+      selector = '#content > div.container.index-container'
+      break
   }
 
   $('#content > section').insertBefore(selector)
