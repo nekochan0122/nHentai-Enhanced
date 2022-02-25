@@ -5,5 +5,6 @@ import { page } from './page'
 import { readingBook } from './readingBook'
 import { search } from './search'
 import { spanPage } from './spanPage'
+import { favorites } from './favorites'
 
-export { book, homepage, nav, page, readingBook, search, spanPage }
+export { book, homepage, nav, page, readingBook, search, spanPage, favorites }

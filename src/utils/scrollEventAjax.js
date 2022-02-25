@@ -34,19 +34,24 @@ function ajaxNextPage(mode, selector = null) {
     case 'search':
       selector = '.index-container'
       break
+    case 'favorites':
+      selector = '#favcontainer'
+      break
   }
 
   loadingPage = true
 
   debugConsole(`第${currentPageNum}頁 讀取中`)
 
+  const url = `${location.href}/${selector === 'search' ? `&` : `?`}page=${currentPageNum}`
+
   $.ajax({
     type: 'GET',
-    url: `${location.href}/${selector === 'search' ? `&` : `?`}${currentPageNum}`,
+    url: url,
     cache: ajaxCache,
     dataType: 'html',
     success: data => {
-      debugConsole(`第${currentPageNum}頁 讀取成功`)
+      debugConsole(`第${currentPageNum}頁 讀取成功, ${url}`)
 
       // 創建元素
       let newHtml = $('<div></div>')

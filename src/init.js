@@ -1,6 +1,5 @@
 import { $, enableWidgetBot, custom } from './config'
-import { notyf } from './variable'
-import { book, homepage, nav, page, readingBook, search, spanPage } from './pages'
+import { book, homepage, nav, page, readingBook, search, spanPage, favorites } from './pages'
 import { hideBlackListFunc, discordChatFunc, debugConsole } from './utils'
 
 /**
@@ -29,7 +28,8 @@ export function init() {
       addPage('頁面列表', $('.index-container')[0] && /net\/\?page=/.test(location.href), page)
       addPage('本本', $('#tags')[0], book)
       addPage('閱讀模式', $('#image-container')[0], readingBook)
-      addPage('搜尋頁面', $('#content .fa-search')[0], search)
+      addPage('搜尋頁面', $('#content .fa-search')[0] && location.pathname === '/search/', search)
+      addPage('最愛頁面', $('#favorites-search')[0] && location.pathname === '/favorites/', favorites)
       addPage('span 頁面', $('#content > h1 > span')[0], spanPage)
 
       // 循環偵測頁面

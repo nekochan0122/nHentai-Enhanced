@@ -19,6 +19,9 @@ export function changeNumPosition(mode) {
     case 'search':
       selector = '#content > div.container.index-container'
       break
+    case 'favorites':
+      selector = '#favcontainer'
+      break
   }
 
   $('#content > section').insertBefore(selector)
