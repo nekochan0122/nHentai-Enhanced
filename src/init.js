@@ -52,14 +52,14 @@ export function init() {
     // 確保在執行 ready function 之前，讀取登入狀態
     try {
       nav(ready)
-      notyf.success('nHentai-Enhanced 初始化成功')
+      debugConsole('nHentai-Enhanced 初始化成功')
     } catch (e) {
       debugConsole('初始化失敗：' + e)
-      notyf.error('nHentai-Enhanced 初始化失敗：' + e)
+      throw e
     }
   } else {
     debugConsole('nav 初始化失敗，找不到指定的元素：nav[role="navigation"]')
-    notyf.error('nHentai-Enhanced nav 初始化失敗')
+    debugConsole('nHentai-Enhanced nav 初始化失敗')
   }
 
   // 顯示 body
